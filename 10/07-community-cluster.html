@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>[COMMUNITY NAME] — 2026 Community Record</title>
+<meta name="description" content="[Community name] 2026 Community Record: residents, history, skills and government benefits.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="[COMMUNITY NAME] — 2026 Community Record">
+<meta property="og:description" content="A dated, living archive of our community.">
+<meta property="og:image" content="https://example.com/og-image.jpg">
+<meta property="og:url" content="https://example.com/community">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="[COMMUNITY NAME] — 2026 Community Record">
+<meta name="twitter:description" content="A dated, living archive of our community.">
+<meta name="twitter:image" content="https://example.com/og-image.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Noto+Sans+Bengali:wght@400;600&display=swap">
+<style>
+:root{--bg:#0b0a08;--bg2:#14120e;--ink:#f3ecdc;--mute:#a79f8c;--gold:#e5b049;--acid:#c6f432;--line:#2a261d;--s:14px;
+--bg-dark:#0b0a08}
+@media(min-width:768px){:root{--s:16px}}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.65 'Bricolage Grotesque','Noto Sans Bengali',sans-serif;overflow-x:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bn{font-family:'Noto Sans Bengali','Bricolage Grotesque',sans-serif}
+.small,.tag,label{font-size:var(--s)}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.05}
+h1{font-size:clamp(3rem,11vw,9rem);letter-spacing:-.02em}
+h2{font-size:clamp(2.2rem,6vw,4.5rem)}
+h3{font-size:1.6rem}
+section{padding:clamp(4rem,10vw,8rem) clamp(1.2rem,6vw,6rem);position:relative}
+.eyebrow{color:var(--gold);letter-spacing:.2em;text-transform:uppercase;font-size:var(--s);font-weight:600;margin-bottom:1rem}
+.wrap{max-width:1200px;margin:auto}
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--d,0)*90ms)}
+.rv.in{opacity:1;transform:none}
+/* placeholders: flat fields + big numerals */
+.ph{position:relative;overflow:hidden;background:var(--c,#2b2418);display:flex;align-items:flex-end;padding:1.2rem;color:rgba(255,255,255,.85);isolation:isolate}
+.ph::before{content:attr(data-n);position:absolute;right:-.05em;top:-.2em;font:700 clamp(8rem,22vw,18rem)/1 'Cormorant Garamond',serif;color:rgba(255,255,255,.07);z-index:-1}
+.ph::after{content:"";position:absolute;width:60%;aspect-ratio:1;left:-15%;bottom:-35%;background:rgba(255,255,255,.05);border-radius:50% 40% 60% 30%;z-index:-1;animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(30%,-12%) rotate(40deg)}}
+.ph span{font-size:var(--s);letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+/* hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hero .bgph{position:absolute;inset:0;z-index:-1;--c:#1d1810}
+.hero .bgph::before{font-size:60vw;right:-8vw;top:-10vw;animation:float 20s ease-in-out infinite alternate}
+@keyframes float{to{transform:translateY(8vh) rotate(-3deg)}}
+.hero h1 span{display:inline-block;opacity:0;transform:translateY(100%) rotate(6deg);animation:up 1.1s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*.12s + .2s)}
+.mask{overflow:hidden;display:block}
+@keyframes up{to{opacity:1;transform:none}}
+.year{display:inline-block;margin-top:1.5rem;font:italic 500 clamp(1.6rem,4vw,3rem) 'Cormorant Garamond',serif;color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:.2rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2rem;margin-top:4rem;max-width:900px}
+.stat b{display:block;font:700 clamp(2.8rem,6vw,4.5rem)/1 'Cormorant Garamond',serif;color:var(--acid)}
+.stat span{color:var(--mute);font-size:var(--s)}
+.scroll{position:absolute;bottom:1.5rem;left:50%;width:1px;height:50px;background:linear-gradient(var(--gold),transparent);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.2;transform:scaleY(.6)}}
+/* group photo */
+.photo{aspect-ratio:16/8;min-height:260px;--c:#3a2d17;transition:transform .8s}
+.photo:hover{transform:scale(1.01)}
+.cap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1rem;color:var(--mute);font-size:var(--s)}
+/* story */
+.two{display:grid;gap:3rem;grid-template-columns:1fr}
+@media(min-width:900px){.two{grid-template-columns:1.1fr .9fr;align-items:center}}
+.video{aspect-ratio:16/9;--c:#26301a;cursor:pointer;align-items:center;justify-content:center}
+.play{width:84px;height:84px;border-radius:50%;background:var(--acid);display:grid;place-items:center;transition:transform .4s;animation:ring 2.4s infinite}
+.video:hover .play{transform:scale(1.15)}
+.play::after{content:"";border-left:22px solid #111;border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(198,244,50,.5)}100%{box-shadow:0 0 0 30px rgba(198,244,50,0)}}
+.video span{position:absolute;left:1.2rem;bottom:1rem}
+.audio{margin-top:2rem;display:flex;align-items:center;gap:1rem;background:var(--bg2);border:1px solid var(--line);padding:1rem 1.2rem;border-radius:999px}
+.audio button{all:unset;cursor:pointer;width:44px;height:44px;border-radius:50%;background:var(--gold);color:#000;display:grid;place-items:center;flex:none}
+.bars{display:flex;gap:3px;align-items:center;height:30px;flex:1}
+.bars i{flex:1;background:var(--gold);opacity:.6;height:30%;border-radius:2px;animation:eq 1.2s ease-in-out infinite paused;animation-delay:calc(var(--k)*-.1s)}
+.audio.on .bars i{animation-play-state:running}
+@keyframes eq{50%{height:100%}}
+/* residents */
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));margin-top:3rem}
+.res{aspect-ratio:3/4;transition:transform .5s,filter .5s}
+.res:nth-child(3n){--c:#2d3a22}.res:nth-child(3n+1){--c:#4a2f1d}.res:nth-child(3n+2){--c:#2a2a3d}
+.res:nth-child(even){margin-top:2rem}
+.res:hover{transform:translateY(-10px) rotate(-1deg)}
+.res div{position:relative;z-index:1}
+.res b{display:block;font-size:1.1rem}
+/* skills */
+.chips{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2rem}
+.chip{border:1px solid var(--gold);color:var(--gold);padding:.5rem 1.1rem;border-radius:999px;font-size:var(--s);transition:.3s;animation:bob 5s ease-in-out infinite;animation-delay:calc(var(--k)*-.5s)}
+.chip:hover{background:var(--gold);color:#000}
+@keyframes bob{50%{transform:translateY(-6px)}}
+/* benefits */
+.cards{display:grid;gap:1px;background:var(--line);grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:3rem;border:1px solid var(--line)}
+.card{background:var(--bg);padding:2rem;transition:background .4s}
+.card:hover{background:var(--bg2)}
+.card em{font:italic 700 3rem/1 'Cormorant Garamond',serif;color:var(--acid)}
+.card p{color:var(--mute);margin-top:.6rem}
+.card .st{display:inline-block;margin-top:1rem;padding:.2rem .7rem;background:#222;border-radius:4px;font-size:var(--s)}
+/* archive */
+.tl{margin-top:3rem;border-left:1px solid var(--gold);padding-left:2rem;display:grid;gap:2.5rem}
+.yr{position:relative}
+.yr::before{content:"";position:absolute;left:calc(-2rem - 6px);top:.7rem;width:11px;height:11px;border-radius:50%;background:var(--gold)}
+.yr.future{opacity:.45}.yr.future::before{background:transparent;border:1px solid var(--gold)}
+.yr b{font:700 3rem/1 'Cormorant Garamond',serif}
+.yr .ph{margin-top:1rem;aspect-ratio:21/6;min-height:120px}
+/* member card */
+.member{max-width:420px;margin:3rem auto 0;aspect-ratio:1.6;background:linear-gradient(135deg,#2b2210,#0f0d08);border:1px solid var(--gold);border-radius:18px;padding:1.4rem;display:grid;grid-template-columns:1fr auto;gap:1rem;transform:perspective(900px) rotateY(-8deg);transition:transform .6s}
+.member:hover{transform:perspective(900px) rotateY(0)}
+.qr{width:84px;height:84px;background:repeating-conic-gradient(var(--ink) 0 25%,transparent 0 50%) 0/16px 16px;border:6px solid var(--ink);align-self:end}
+.member small{color:var(--gold);letter-spacing:.15em;font-size:var(--s)}
+footer{padding:4rem clamp(1.2rem,6vw,6rem);border-top:1px solid var(--line);color:var(--mute);display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+footer b{color:var(--ink);display:block}
+.dots{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:grid;gap:10px;z-index:9}
+.dots a{width:7px;height:7px;border-radius:50%;background:var(--mute);opacity:.5;transition:.3s}
+.dots a.on{background:var(--gold);opacity:1;transform:scale(1.7)}
+@media(max-width:600px){.dots{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav class="dots" aria-label="Sections"></nav>
+
+<section class="hero" id="top">
+  <div class="ph bgph" data-n="01"></div>
+  <div class="wrap">
+    <p class="eyebrow">Community Record · সম্প্রদায়ের নথি</p>
+    <h1 aria-label="[Community Name]"><span class="mask"><span style="--i:0">[COMMUNITY</span></span><span class="mask"><span style="--i:1">NAME]</span></span></h1>
+    <span class="year rv">2026 Community Record</span>
+    <div class="stats">
+      <div class="stat rv" style="--d:1"><b data-to="87">0</b><span>residents documented</span></div>
+      <div class="stat rv" style="--d:2"><b data-to="24">0</b><span>households</span></div>
+      <div class="stat rv" style="--d:3"><b data-to="12">0</b><span>skills mapped</span></div>
+      <div class="stat rv" style="--d:4"><b data-to="1">0</b><span>year archived</span></div>
+    </div>
+  </div>
+  <div class="scroll"></div>
+</section>
+
+<section id="photo">
+  <div class="wrap">
+    <p class="eyebrow rv">The Annual Photograph</p>
+    <h2 class="rv">Everyone, one frame.</h2>
+    <div class="ph photo rv" data-n="2026" style="margin-top:2.5rem"><span>Group photograph — replace with image</span></div>
+    <div class="cap rv"><span>Photographed: [DD Month 2026]</span><span>Location: [Place name]</span><span>Next photograph: 2027</span></div>
+  </div>
+</section>
+
+<section id="story" style="background:var(--bg2)">
+  <div class="wrap two">
+    <div>
+      <p class="eyebrow rv">Our History</p>
+      <h2 class="rv">Where we come from.</h2>
+      <p class="rv" style="margin-top:1.5rem;color:var(--mute)">[Write the community's story here: when it was founded, who arrived first, the festivals, the struggles and the pride. A few honest paragraphs in the residents' own words.]</p>
+      <div class="audio rv" id="aud">
+        <button aria-label="Play oral history">▶</button>
+        <div class="bars"></div>
+        <span class="small">Elder's voice · 02:14</span>
+      </div>
+    </div>
+    <div class="ph video rv" data-n="▶"><div class="play"></div><span>Video — community intro (replace)</span></div>
+  </div>
+</section>
+
+<section id="people">
+  <div class="wrap">
+    <p class="eyebrow rv">Residents</p>
+    <h2 class="rv">The people of [Community].</h2>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="skills" style="background:var(--bg2)">
+  <div class="wrap">
+    <p class="eyebrow rv">Skills &amp; Livelihoods</p>
+    <h2 class="rv">What we know how to do.</h2>
+    <div class="chips" id="chips"></div>
+  </div>
+</section>
+
+<section id="benefits">
+  <div class="wrap">
+    <p class="eyebrow rv">Government Benefits</p>
+    <h2 class="rv">What is available to us.</h2>
+    <p class="rv bn" style="margin-top:1rem;color:var(--mute)">আপনার এলাকার মানুষের কী সমস্যা? Counts below are families who identified the need.</p>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<section id="archive" style="background:var(--bg2)">
+  <div class="wrap">
+    <p class="eyebrow rv">Annual Archive</p>
+    <h2 class="rv">Five years, one history.</h2>
+    <div class="tl" id="tl"></div>
+    <div class="member rv">
+      <div><small>COMMUNITY MEMBER</small><h3 style="margin-top:.6rem">[Name]</h3><p class="small" style="color:var(--mute)">ID: KOL-024-087<br>First documented: 2026<br>Community: [Name]</p></div>
+      <div class="qr" title="QR → public profile"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div><b>Coordinator</b>[Name], Founder / Community Programme Coordinator</div>
+  <div><b>Contact</b>[+91 00000 00000]<br>[website.example]</div>
+  <div><b>Complaints</b>[Phone / email for complaints]<br>Records maintained by: [Organisation]</div>
+  <div><b>Started</b>[Month 2026]<br>No Aadhaar or bank details are ever published here.</div>
+</footer>
+
+<script>
+const $=s=>document.querySelector(s);
+// build content
+const names=['Resident One','Resident Two','Resident Three','Resident Four','Resident Five','Resident Six','Resident Seven','Resident Eight'];
+$('#grid').innerHTML=names.map((n,i)=>`<div class="ph res rv" style="--d:${i%4}" data-n="${i+1}"><div><b>${n}</b><span>[Skill · Age]</span></div></div>`).join('');
+$('#chips').innerHTML=['Tailoring','Cooking','Electrical work','Driving','Tutoring','Embroidery','Carpentry','Mobile repair','Nursing aid','Street vending','Music','Painting'].map((s,i)=>`<span class="chip rv" style="--k:${i}">${s}</span>`).join('');
+$('#cards').innerHTML=[['Ration','Food security card status','14'],['Health card','Swasthya Sathi enrolment','9'],['Pension','Old-age and widow benefits','6'],['Scholarship','Student support schemes','11'],['Housing','Awaas schemes','5'],['Certificates','Birth / death records','8']].map((c,i)=>`<div class="card rv" style="--d:${i%3}"><em>${c[2]}</em><h3>${c[0]}</h3><p>${c[1]}</p><span class="st">families to assist</span></div>`).join('');
+const yrs=[2026,2027,2028,2029,2030];
+$('#tl').innerHTML=yrs.map((y,i)=>`<div class="yr rv ${i?'future':''}"><b>${y}</b><p class="small" style="color:var(--mute)">${i?'Awaiting photograph':'87 residents documented'}</p><div class="ph" data-n="${String(i+1).padStart(2,'0')}" style="--c:${['#3a2d17','#232a33','#2d3a22','#3d2530','#33301a'][i]}"><span>${y} photograph</span></div></div>`).join('');
+$('.bars').innerHTML=Array.from({length:40},(_,k)=>`<i style="--k:${k}"></i>`).join('');
+$('#aud button').onclick=function(){const a=$('#aud');a.classList.toggle('on');this.textContent=a.classList.contains('on')?'❚❚':'▶'};
+// reveal
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+// count-up
+const co=new IntersectionObserver(e=>e.forEach(x=>{if(!x.isIntersecting)return;co.unobserve(x.target);const t=+x.target.dataset.to,s=performance.now();(function f(n){const p=Math.min((n-s)/1600,1);x.target.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s)}));
+document.querySelectorAll('[data-to]').forEach(el=>co.observe(el));
+// dot nav
+const secs=[...document.querySelectorAll('section')],dots=$('.dots');
+dots.innerHTML=secs.map(s=>`<a href="#${s.id}" aria-label="${s.id}"></a>`).join('');
+const so=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)[...dots.children].forEach((d,i)=>d.classList.toggle('on',secs[i]===x.target))}),{threshold:.5});
+secs.forEach(s=>so.observe(s));
+// arrow keys jump sections
+addEventListener('keydown',e=>{if(!['ArrowDown','ArrowUp'].includes(e.key))return;const y=scrollY+innerHeight/3;let i=secs.findIndex(s=>s.offsetTop+s.offsetHeight>y);i=Math.max(0,Math.min(secs.length-1,i+(e.key==='ArrowDown'?1:-1)));e.preventDefault();secs[i].scrollIntoView({behavior:'smooth'})});
+</script>
+</body>
+</html>

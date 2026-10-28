@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sealdah Local Network: Junction Map</title>
+<meta name="description" content="Eastern Railway local trains through Sealdah, with only the junctions that connect more than two directions marked.">
+<meta property="og:title" content="Sealdah Local Network: Junction Map">
+<meta property="og:description" content="Placeholder description for sharing.">
+<meta property="og:image" content="https://example.com/og-image.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sealdah Local Network: Junction Map">
+<meta name="twitter:description" content="Placeholder description for sharing.">
+<meta name="twitter:image" content="https://example.com/og-image.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&display=swap">
+<style>
+:root{--bg:#0b0d10;--ink:#efe8d8;--mute:#8d8a80;--gold:#e8b84b;--acid:#c6ff3d;--amber:#ff9f43;--sky:#7fd1ff;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 800px at 50% 40%,#161a20,var(--bg));color:var(--ink);
+ font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:14px;min-height:100vh}
+@media(min-width:768px){body{font-size:16px}}
+header{padding:20px 24px 0;max-width:1100px;margin:0 auto}
+h1{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:clamp(2rem,5vw,3.4rem);margin:0;line-height:1.05}
+header p{margin:8px 0 0;color:var(--mute);max-width:60ch;line-height:1.5}
+main{max-width:1100px;margin:0 auto;padding:8px 12px 24px;position:relative}
+svg{width:100%;height:auto;display:block}
+.edge{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+ animation:draw 2.2s cubic-bezier(.6,0,.2,1) forwards;animation-delay:var(--d)}
+@keyframes draw{to{stroke-dashoffset:0}}
+.halo{fill:none;stroke-width:2;transform-box:fill-box;transform-origin:center;animation:pulse 2.6s ease-out infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.jn{cursor:pointer;opacity:0;animation:pop .6s ease-out forwards;animation-delay:var(--d)}
+@keyframes pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+.jn,.jn *{transform-box:fill-box;transform-origin:center}
+.jn circle.core{transition:r .25s,fill .25s}
+.lbl{font-family:"Cormorant Garamond",serif;font-weight:700;fill:var(--ink);paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round}
+.end{font-family:"Bricolage Grotesque",sans-serif;fill:var(--mute);paint-order:stroke;stroke:var(--bg);stroke-width:4px}
+.train{fill:#fff}
+.panel{position:fixed;right:16px;top:16px;width:min(320px,calc(100% - 32px));background:rgba(15,18,22,.92);
+ border:1px solid #2a2f37;border-radius:14px;padding:14px 16px;backdrop-filter:blur(6px);transition:opacity .3s,transform .3s}
+.panel h2{font-family:"Cormorant Garamond",serif;font-size:1.5em;margin:0 0 4px;color:var(--gold)}
+.panel p{margin:0 0 6px;color:var(--mute);line-height:1.4}
+.panel ul{margin:0;padding-left:1.1em;line-height:1.55}
+.legend{left:16px;top:8px;display:flex;flex-direction:column;gap:6px}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:22px;height:4px;border-radius:2px;display:inline-block}
+footer{max-width:1100px;margin:0 auto;padding:0 24px 28px;color:var(--mute);line-height:1.5}
+@media(max-width:700px){.panel{position:static;margin:8px 4px 0;width:auto}.legend{position:static;flex-direction:row;flex-wrap:wrap;gap:6px 14px;padding:0 8px 8px}}
+@media(prefers-reduced-motion:reduce){.edge{animation:none;stroke-dashoffset:0}.halo{animation:none}.jn{animation:none;opacity:1}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Sealdah, and the eight places its locals fork</h1>
+  <p>Only stations where local trains continue in three or more directions are marked. Hover or tap a junction to see where it leads.</p>
+</header>
+<main>
+  <div class="legend" id="legend"></div>
+  <svg id="map" viewBox="0 0 1000 1000" role="img" aria-label="Schematic map of Eastern Railway local lines through Sealdah"></svg>
+  <div class="panel" id="panel"><h2>Sealdah</h2><p>Origin of both the north and south sections.</p></div>
+</main>
+<footer>Schematic, not to scale. Smaller stations between junctions are left out. Branch details and the Howrah-division stubs at Bandel are simplified, so check the current timetable before travelling.</footer>
+<script>
+const N={
+ sealdah:{n:"Sealdah",x:430,y:500,dx:-18,dy:34,a:"end"},
+ dumdum:{n:"Dum Dum Jn",x:430,y:400,dx:-18,dy:6,a:"end"},
+ naihati:{n:"Naihati Jn",x:340,y:240,dx:-18,dy:6,a:"end"},
+ ranaghat:{n:"Ranaghat Jn",x:520,y:105,dx:0,dy:-24,a:"middle"},
+ barasat:{n:"Barasat Jn",x:610,y:330,dx:-18,dy:-14,a:"end"},
+ bongaon:{n:"Bongaon",x:800,y:215,t:1,dx:16,dy:6,a:"start"},
+ hasnabad:{n:"Hasnabad",x:830,y:410,t:1,dx:16,dy:6,a:"start"},
+ shantipur:{n:"Shantipur",x:390,y:50,t:1,dx:0,dy:-14,a:"middle"},
+ krishnanagar:{n:"Krishnanagar, Lalgola",x:640,y:40,t:1,dx:0,dy:-14,a:"middle"},
+ bandel:{n:"Bandel Jn",x:230,y:140,dx:-18,dy:6,a:"end"},
+ howrah:{n:"Howrah",x:110,y:330,t:1,dx:0,dy:26,a:"middle"},
+ burdwan:{n:"Bardhaman",x:80,y:55,t:1,dx:0,dy:-14,a:"middle"},
+ katwa:{n:"Katwa",x:215,y:30,t:1,dx:0,dy:-14,a:"middle"},
+ ballygunge:{n:"Ballygunge Jn",x:440,y:610,dx:-18,dy:6,a:"end"},
+ sonarpur:{n:"Sonarpur Jn",x:500,y:730,dx:-18,dy:6,a:"end"},
+ lakshmi:{n:"Lakshmikantapur Jn",x:540,y:840,dx:-18,dy:6,a:"end"},
+ budge:{n:"Budge Budge",x:290,y:770,t:1,dx:0,dy:26,a:"middle"},
+ canning:{n:"Canning",x:680,y:770,t:1,dx:16,dy:6,a:"start"},
+ dharbour:{n:"Diamond Harbour",x:440,y:960,t:1,dx:0,dy:26,a:"middle"},
+ namkhana:{n:"Namkhana, Kakdwip",x:650,y:955,t:1,dx:0,dy:26,a:"middle"}
+};
+const LINES={
+ main:{name:"Sealdah Main, towards Ranaghat",c:"#e8b84b"},
+ bandel:{name:"Naihati to Bandel",c:"#ff9f43"},
+ bongaon:{name:"Barasat, Hasnabad and Bongaon branches",c:"#c6ff3d"},
+ south:{name:"Sealdah South section",c:"#7fd1ff"}};
+const E=[
+ ["main","sealdah","dumdum"],["main","dumdum","naihati",[360,340]],["main","naihati","ranaghat",[380,130]],["main","ranaghat","krishnanagar"],
+ ["bandel","naihati","bandel"],["bandel","bandel","howrah",[150,230]],["bandel","bandel","burdwan"],["bandel","bandel","katwa"],
+ ["bongaon","dumdum","barasat"],["bongaon","barasat","bongaon",[720,250]],["bongaon","bongaon","ranaghat",[690,130]],
+ ["bongaon","barasat","hasnabad"],["bongaon","ranaghat","shantipur"],
+ ["south","sealdah","ballygunge"],["south","ballygunge","sonarpur"],["south","ballygunge","budge",[340,680]],
+ ["south","sonarpur","lakshmi"],["south","sonarpur","canning"],["south","lakshmi","dharbour"],["south","lakshmi","namkhana"]
+];
+const deg={},nb={};
+E.forEach(([l,a,b])=>{(nb[a]??=new Set()).add(b);(nb[b]??=new Set()).add(a)});
+Object.keys(N).forEach(k=>deg[k]=nb[k]?nb[k].size:0);
+const junctions=Object.keys(N).filter(k=>deg[k]>2);   // more than two connected directions
+
+const NS="http://www.w3.org/2000/svg",svg=document.getElementById("map");
+const mk=(t,a={},p=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
+const gE=mk("g"),gT=mk("g"),gJ=mk("g"),gL=mk("g");
+E.forEach(([l,a,b,c],i)=>{
+ const A=N[a],B=N[b],d=c?`M${A.x} ${A.y}Q${c[0]} ${c[1]} ${B.x} ${B.y}`:`M${A.x} ${A.y}L${B.x} ${B.y}`;
+ const p=mk("path",{d,id:"e"+i,class:"edge",stroke:LINES[l].c,opacity:.85},gE);
+ const len=Math.ceil(p.getTotalLength());p.style.setProperty("--len",len);p.style.setProperty("--d",(i*.12)+"s");
+ const n=len>260?2:1;
+ for(let k=0;k<n;k++){
+  const c=mk("circle",{r:4,class:"train",opacity:0},gT);
+  const m=mk("animateMotion",{dur:(5+len/90)+"s",begin:(3+k*2.5+i*.3)+"s",repeatCount:"indefinite",keyPoints:k%2?"1;0":"0;1",keyTimes:"0;1",calcMode:"linear"},c);
+  mk("mpath",{href:"#e"+i},m);
+  mk("animate",{attributeName:"opacity",values:"0;1;1;0",keyTimes:"0;.08;.92;1",dur:(5+len/90)+"s",begin:(3+k*2.5+i*.3)+"s",repeatCount:"indefinite"},c);
+ }
+});
+const panel=document.getElementById("panel");
+function show(k){
+ const names=[...nb[k]].map(x=>N[x].n);
+ panel.innerHTML=`<h2>${N[k].n}</h2><p>${k==="sealdah"?"Origin of both the north and south sections.":`Locals continue in ${names.length} directions:`}</p><ul>${k==="sealdah"?names.map(n=>`<li>${n}</li>`).join(""):names.map(n=>`<li>${n}</li>`).join("")}</ul>`}
+Object.keys(N).forEach((k,i)=>{
+ const o=N[k];
+ const lab=mk("text",{x:o.x+o.dx,y:o.y+o.dy,"text-anchor":o.a,class:o.t?"end":"lbl","data-t":o.t?1:0},gL);lab.textContent=o.n;
+ if(!(junctions.includes(k)||k==="sealdah"))return;
+ const g=mk("g",{class:"jn",tabindex:0},gJ),col=k==="sealdah"?"#fff":"#e8b84b";
+ g.style.setProperty("--d",(1.2+i*.15)+"s");
+ mk("circle",{cx:o.x,cy:o.y,r:k==="sealdah"?13:10,class:"halo",stroke:col},g);
+ mk("circle",{cx:o.x,cy:o.y,r:k==="sealdah"?13:10,class:"core",fill:"#0b0d10",stroke:col,"stroke-width":4},g);
+ mk("circle",{cx:o.x,cy:o.y,r:4,fill:col},g);
+ ["mouseenter","focus","click"].forEach(ev=>g.addEventListener(ev,()=>show(k)));
+});
+// legend
+document.getElementById("legend").innerHTML=Object.values(LINES).map(l=>`<span><i style="background:${l.c}"></i>${l.name}</span>`).join("");
+// keep text readable: 16px+ on tablet/desktop, 14px on mobile, whatever the SVG scale
+function fit(){
+ const s=svg.getBoundingClientRect().width/1000,big=innerWidth>=768;
+ gL.querySelectorAll("text").forEach(t=>{
+  const px=t.dataset.t==="1"?(big?16:14):(big?20:15);
+  t.style.fontSize=(px/s)+"px";t.style.strokeWidth=(4/s)+"px";
+ });
+}
+addEventListener("resize",fit);fit();document.fonts&&document.fonts.ready.then(fit);
+</script>
+</body>
+</html>

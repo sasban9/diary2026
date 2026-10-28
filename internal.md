@@ -1,3 +1,22 @@
+OCT26 MON
+
+
+OCT25 SUN
+https://www.8090.ai/blog/what-is-a-software-factory-
+
+OCT16 FRI
+https://newmoneymatrix.org/about-us/
+Practical systems for creator growth. New Money Matrix helps beginners in India understand YouTube earning, faceless channels and automation through clear systems they can actually follow—without hype, jargon or guesswork.
+OCT11 SUN
+https://chatcut.io
+ChatCut · AI Video Editor | Edit Videos with Prompts | ChatCut is a web-based AI video editor. You tell it what you want — edit this talking head, add motion graphics, write me a script, find background music
+OCT06 TUE
+https://www.kickstarter.com/profile/3dprinteracademy/created
+https://3dprinteracademy.com/blogs/news-1/3d-printable-modular-pinball-machine-3d-printer-academy-pinball-machine-2-0
+3D Printable Modular Pinball Machine - 3D Printer Academy Pinball Machine 2.0
+https://www.youtube.com/watch?v=ojNTQRW-SXM Ronda Rousey: I Kept This A Secret My Entire Career! WWE Is A Mess!
+
+===
 SEP03 THU
 https://skald.in/padmashri/ - Padma consultant
 https://www.swadeshonline.com/product/family-scene-kalighat-painting-9309257

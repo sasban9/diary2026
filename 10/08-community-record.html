@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Every Community Deserves a Record — Kolkata Community Record</title>
+<meta name="description" content="A digital and physical record of Kolkata's under-documented communities — one household, one person and one year at a time.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Every Community Deserves a Record.">
+<meta property="og:description" content="A persistent Community Record and Benefits Navigation system for Kolkata's under-documented communities.">
+<meta property="og:image" content="https://example.com/og-image.jpg">
+<meta property="og:url" content="https://example.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Every Community Deserves a Record.">
+<meta name="twitter:description" content="One community, one household, one year at a time.">
+<meta name="twitter:image" content="https://example.com/og-image.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&display=swap">
+<style>
+:root{--bg:#0b0a08;--bg2:#14120e;--ink:#f3ecdc;--mute:#a79f8c;--gold:#e5b049;--acid:#c6f432;--line:#2a261d;--s:14px}
+@media(min-width:768px){:root{--s:16px}}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.7 'Bricolage Grotesque',sans-serif;overflow-x:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.05}
+h1{font-size:clamp(3rem,10vw,8rem);letter-spacing:-.02em}
+h2{font-size:clamp(2.2rem,5.5vw,4.2rem);margin-bottom:1rem}
+h3{font-size:1.7rem;margin-bottom:.4rem}
+h4{font-size:var(--s);letter-spacing:.18em;text-transform:uppercase;color:var(--acid);margin-bottom:.4rem}
+section{padding:clamp(4rem,9vw,7.5rem) clamp(1.2rem,6vw,6rem);position:relative;overflow:hidden}
+.alt{background:var(--bg2)}
+.wrap{max-width:1150px;margin:auto}
+.eyebrow{color:var(--gold);letter-spacing:.2em;text-transform:uppercase;font-size:var(--s);font-weight:600;margin-bottom:1rem}
+.lead{font-size:clamp(1.15rem,2.2vw,1.55rem);color:var(--mute);max-width:46ch;margin-top:1rem}
+p+p{margin-top:1rem}
+.mute{color:var(--mute)}.small{font-size:var(--s)}
+.q{font:italic 500 clamp(1.5rem,3.2vw,2.4rem)/1.25 'Cormorant Garamond',serif;color:var(--gold);border-left:2px solid var(--gold);padding-left:1.2rem;margin:1.5rem 0}
+.q.big{color:var(--ink)}
+.rv{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--d,0)*90ms)}
+.rv.in{opacity:1;transform:none}
+/* placeholders */
+.ph{position:relative;overflow:hidden;background:var(--c,#2b2418);display:flex;align-items:flex-end;padding:1rem;isolation:isolate;color:rgba(255,255,255,.85)}
+.ph::before{content:attr(data-n);position:absolute;right:-.05em;top:-.2em;font:700 clamp(6rem,18vw,14rem)/1 'Cormorant Garamond',serif;color:rgba(255,255,255,.07);z-index:-1}
+.ph::after{content:"";position:absolute;width:60%;aspect-ratio:1;left:-15%;bottom:-35%;background:rgba(255,255,255,.05);border-radius:50% 40% 60% 30%;z-index:-1;animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(30%,-12%) rotate(40deg)}}
+.ph span{font-size:var(--s);letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+/* hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.hero .bg{position:absolute;inset:0;z-index:-1;--c:#1d1810;padding:0}
+.hero .bg::before{font-size:70vw;animation:float 20s ease-in-out infinite alternate}
+@keyframes float{to{transform:translateY(8vh) rotate(-3deg)}}
+.mask{display:block;overflow:hidden}
+.mask span{display:inline-block;transform:translateY(105%);animation:up 1.1s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*.15s + .2s)}
+@keyframes up{to{transform:none}}
+.scroll{position:absolute;bottom:1.5rem;left:50%;width:1px;height:50px;background:linear-gradient(var(--gold),transparent);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.2;transform:scaleY(.6)}}
+/* layout helpers */
+.two{display:grid;gap:3rem;grid-template-columns:1fr}
+@media(min-width:900px){.two{grid-template-columns:1fr 1fr;align-items:center}}
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+.chip{border:1px solid var(--gold);color:var(--gold);padding:.4rem 1rem;border-radius:999px;font-size:var(--s);transition:.3s}
+.chip:hover{background:var(--gold);color:#000;transform:translateY(-3px)}
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2.5rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:var(--bg);padding:1.8rem;transition:background .4s}
+.alt .card{background:var(--bg2)}
+.card:hover{background:#1c1913}
+.card em{font:italic 700 3.4rem/1 'Cormorant Garamond',serif;color:var(--acid);display:block}
+.big-n{font:700 clamp(2.6rem,6vw,4.5rem)/1 'Cormorant Garamond',serif;color:var(--acid)}
+.note{margin-top:2rem;padding:1.2rem 1.4rem;border:1px dashed var(--gold);color:var(--mute);border-radius:6px}
+.note b{color:var(--gold)}
+/* year cards */
+.yc{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:2.5rem}
+.yc .ph{min-height:280px;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:.3rem}
+.yc .ph b{font:700 3rem/1 'Cormorant Garamond',serif;color:var(--ink)}
+.yc .ph:hover{transform:translateY(-8px)}.yc .ph{transition:transform .5s}
+.arrow{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:2rem;font:700 clamp(1.6rem,4vw,2.8rem) 'Cormorant Garamond',serif;color:var(--gold)}
+.huge{font:italic 700 clamp(3.5rem,12vw,10rem)/1 'Cormorant Garamond',serif;color:var(--ink);margin:2rem 0 .5rem}
+/* lists */
+ul.l{list-style:none;padding:0;margin-top:1.2rem;display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+ul.l li{padding:.5rem 0 .5rem 1.6rem;border-bottom:1px solid var(--line);position:relative}
+ul.l li::before{content:"";position:absolute;left:0;top:1.2em;width:.7rem;height:1px;background:var(--gold)}
+/* ids */
+.idbox{background:var(--bg);border:1px solid var(--gold);padding:1.6rem;border-radius:14px;font-variant-numeric:tabular-nums}
+.idbox div{display:flex;justify-content:space-between;gap:1rem;padding:.45rem 0;border-bottom:1px solid var(--line)}
+.idbox div:last-child{border:0}.idbox b{color:var(--acid)}
+/* flow */
+.flow{display:flex;flex-wrap:wrap;gap:.6rem;margin:2rem 0}
+.flow span{padding:.7rem 1.4rem;border:1px solid var(--acid);color:var(--acid);border-radius:999px;font-weight:600;transition:.3s}
+.flow span:hover{background:var(--acid);color:#000}
+table{width:100%;border-collapse:collapse;margin-top:1.5rem}
+td,th{text-align:left;padding:1rem;border-bottom:1px solid var(--line)}
+th{color:var(--gold);font-size:var(--s);letter-spacing:.12em;text-transform:uppercase}
+.st{display:inline-block;padding:.15rem .8rem;border-radius:99px;background:#26231a;font-size:var(--s)}
+.s-g{color:var(--acid)}.s-r{color:#ff8a6b}.s-y{color:var(--gold)}
+/* skills */
+.sk{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:2rem}
+.sk div{padding:1.2rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;transition:.4s}
+.sk div:hover{border-color:var(--acid);transform:translateY(-6px)}
+.alt .sk div{background:var(--bg)}
+/* timelines */
+.tl{border-left:1px solid var(--gold);padding-left:2rem;margin-top:2.5rem;display:grid;gap:1.6rem}
+.tl>div{position:relative}
+.tl>div::before{content:"";position:absolute;left:calc(-2rem - 5px);top:.9rem;width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.tl b{font:700 2.2rem/1 'Cormorant Garamond',serif;color:var(--gold);margin-right:.8rem}
+/* layers */
+.layers{display:grid;gap:.6rem;margin-top:2rem;max-width:520px}
+.layers div{padding:1rem 1.4rem;background:var(--bg);border:1px solid var(--line);border-radius:8px;font-weight:600;transition:.4s}
+.layers div:hover{transform:translateX(12px);border-color:var(--gold)}
+.layers i{display:block;text-align:center;color:var(--gold);font-style:normal;line-height:1}
+/* price */
+.price{font:700 clamp(5rem,16vw,12rem)/.9 'Cormorant Garamond',serif;color:var(--acid)}
+.plus{display:grid;gap:.2rem;margin-top:1.5rem}
+.plus b{font-size:1.2rem}.plus i{font-style:normal;color:var(--gold)}
+/* steps */
+.steps{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.2rem;margin-top:2rem}
+.steps div{font:700 clamp(2rem,5vw,3.6rem) 'Cormorant Garamond',serif}
+.steps i{font-style:normal;color:var(--gold);font-size:1.8rem}
+/* vision */
+.vis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem;margin-top:2rem}
+.vis div{padding:1rem;border:1px solid var(--line);border-radius:8px;transition:.4s}
+.vis div:hover{background:var(--gold);color:#000}
+.vis b{display:block;font:700 1.8rem/1 'Cormorant Garamond',serif;color:var(--gold)}
+.vis div:hover b{color:#000}
+.vis div .bar{height:4px;background:var(--acid);margin-top:.5rem;border-radius:2px;transform-origin:left;transform:scaleX(0);transition:transform 1.4s .3s}
+.vis.in div .bar{transform:scaleX(1)}
+/* mock community page */
+.mock{border:1px solid var(--gold);border-radius:16px;overflow:hidden;background:var(--bg);box-shadow:0 30px 80px rgba(229,176,73,.12)}
+.mock .top{display:flex;gap:6px;padding:.7rem 1rem;background:#1c1913}
+.mock .top i{width:10px;height:10px;border-radius:50%;background:#444}
+.mock .in{padding:1.4rem}
+.mock .ph{height:150px;margin:1rem 0}
+/* buttons */
+.btns{display:flex;flex-wrap:wrap;gap:1rem;margin:2rem 0}
+.btn{padding:1rem 2rem;border-radius:999px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-weight:600;transition:.3s}
+.btn.p{background:var(--acid);border-color:var(--acid);color:#000}
+.btn:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(229,176,73,.25)}
+.dots{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:grid;gap:10px;z-index:9}
+.dots a{width:7px;height:7px;border-radius:50%;background:var(--mute);opacity:.5;transition:.3s}
+.dots a.on{background:var(--gold);opacity:1;transform:scale(1.7)}
+@media(max-width:600px){.dots{display:none}}
+footer{padding:3rem clamp(1.2rem,6vw,6rem);text-align:center;border-top:1px solid var(--line)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.mask span{transform:none}}
+</style>
+</head>
+<body>
+<nav class="dots"></nav>
+
+<section class="hero" id="top">
+<div class="ph bg" data-n="KOL"></div>
+<div class="wrap">
+<p class="eyebrow">Kolkata Community Record</p>
+<h1><span class="mask"><span style="--i:0">Every Community</span></span><span class="mask"><span style="--i:1">Deserves a Record.</span></span></h1>
+<p class="lead rv">We are building a digital and physical record of Kolkata's under-documented communities — one household, one person and one year at a time.</p>
+<div class="btns rv"><a class="btn p" href="#join">Join the pilot</a><a class="btn" href="#how">Learn how it works</a></div>
+</div><div class="scroll"></div>
+</section>
+
+<section class="alt" id="why">
+<div class="wrap two">
+<div>
+<p class="eyebrow rv">Why</p>
+<h2 class="rv">Millions of people. Very little record.</h2>
+<p class="rv lead">Millions of people live and work in communities that have very little organized documentation of their history, skills, families, achievements and access to government services.</p>
+<p class="rv serif" style="font-size:2.4rem;color:var(--gold);margin-top:1.5rem">We want to change that.</p>
+</div>
+<div class="ph rv" data-n="?" style="min-height:360px;--c:#2a2a3d"><span>Image / video placeholder — community street</span></div>
+</div>
+</section>
+
+<section id="identity">
+<div class="wrap">
+<p class="eyebrow rv">Identity</p>
+<h2 class="rv">What if your community had a permanent identity?</h2>
+<p class="rv lead">Every participating community receives its own <b style="color:var(--ink)">Community Record</b>. A unique community ID connects:</p>
+<ul class="l rv"><li>The community</li><li>Households</li><li>Residents</li><li>Annual photographs</li><li>Community history</li><li>Skills and occupations</li><li>Government-benefit access</li><li>Community events</li><li>Applications and assistance</li><li>Participation over time</li></ul>
+<p class="rv" style="margin-top:2.5rem">Instead of simply saying:</p>
+<div class="q rv big">"We live here."</div>
+<p class="rv">there is a structured record showing:</p>
+<div class="q rv">"This community was documented here in 2026, and its history continues year after year."</div>
+</div>
+</section>
+
+<section class="alt" id="years">
+<div class="wrap">
+<p class="eyebrow rv">Every Year</p>
+<h2 class="rv">Your Community. Your Record. Every Year.</h2>
+<p class="rv lead">Every year, we create a dated community photograph and update the community record.</p>
+<div class="yc">
+<div class="ph rv" data-n="26" style="--c:#3a2d17"><b>2026</b><span>📸 Community photograph</span><span>100 households</span><span>287 residents documented</span></div>
+<div class="ph rv" data-n="27" style="--c:#232a33;--d:1"><b>2027</b><span>📸 Community photograph</span><span>104 households</span><span>301 residents documented</span></div>
+<div class="ph rv" data-n="28" style="--c:#2d3a22;--d:2"><b>2028</b><span>📸 Community photograph</span><span>109 households</span><span>316 residents documented</span></div>
+</div>
+<p class="rv" style="margin-top:2.5rem">Over time, the community develops its own visual and documentary history.</p>
+<div class="arrow rv"><span>2026</span>→<span>2027</span>→<span>2028</span>→<span>2029</span>→<span>2030</span></div>
+<p class="rv" style="margin-top:2rem">A simple message emerges:</p>
+<div class="huge rv">"We were here."</div>
+<p class="note rv small"><b>Note:</b> The photograph documents participation and presence on a particular date; it is not, by itself, legal proof of residence.</p>
+</div>
+</section>
+
+<section id="household">
+<div class="wrap two">
+<div>
+<p class="eyebrow rv">Households</p>
+<h2 class="rv">Every Household Gets a Record</h2>
+<p class="rv mute">A household can have a structured profile containing information such as:</p>
+<ul class="l rv" style="grid-template-columns:1fr 1fr"><li>Household members</li><li>Occupations</li><li>Education</li><li>Skills</li><li>Children</li><li>Senior citizens</li><li>Government benefits received</li><li>Potentially relevant benefits</li><li>Year first documented</li><li>Participation history</li></ul>
+<p class="note rv small"><b>Private by design.</b> Sensitive documents remain private. Public pages should never expose Aadhaar numbers, bank details, or other sensitive personal information.</p>
+</div>
+<div class="ph rv" data-n="HH" style="min-height:420px;--c:#4a2f1d"><span>Sample household record — image placeholder</span></div>
+</div>
+</section>
+
+<section class="alt" id="person">
+<div class="wrap two">
+<div>
+<p class="eyebrow rv">Individuals</p>
+<h2 class="rv">Every Person Can Have a Community Identity</h2>
+<p class="rv mute">Each participating resident can receive a unique Community ID.</p>
+<div class="idbox rv" style="margin-top:1.5rem"><div><span>Community</span><b>KOL-024</b></div><div><span>Resident</span><b>KOL-024-087</b></div><div><span>First documented</span><b>2026</b></div></div>
+</div>
+<div>
+<p class="rv mute">The record can accumulate over time:</p>
+<ul class="l rv" style="grid-template-columns:1fr"><li>Years of participation</li><li>Annual community photographs</li><li>Skills</li><li>Training</li><li>Community activities</li><li>Government benefits accessed</li><li>Other verified milestones</li></ul>
+<p class="rv" style="margin-top:1.5rem">The goal is not to create another government ID.</p>
+<p class="rv serif" style="font-size:1.9rem;color:var(--gold)">It is to create a longitudinal community record.</p>
+</div>
+</div>
+</section>
+
+<section id="how">
+<div class="wrap">
+<p class="eyebrow rv">Benefits Navigation</p>
+<h2 class="rv">We Don't Just Document People. We Help Them Access What Already Exists.</h2>
+<p class="rv lead">Many families may be eligible for government schemes and services but may not know:</p>
+<ul class="l rv"><li>What they are eligible for</li><li>Where to apply</li><li>What documents they need</li><li>How to complete the process</li><li>Whether their application has progressed</li></ul>
+<p class="rv" style="margin-top:2rem">Our model is:</p>
+<div class="flow rv"><span>Document</span><span>Identify</span><span>Verify</span><span>Assist</span><span>Track</span></div>
+<p class="rv small mute">For example:</p>
+<table class="rv"><tr><th>Benefit / Service</th><th>Status</th></tr>
+<tr><td>Ration</td><td><span class="st s-g">Receiving</span></td></tr>
+<tr><td>Health coverage</td><td><span class="st s-r">Not enrolled</span></td></tr>
+<tr><td>Pension</td><td><span class="st s-y">Potentially eligible</span></td></tr>
+<tr><td>Housing assistance</td><td><span class="st">Needs verification</span></td></tr>
+<tr><td>Scholarship</td><td><span class="st s-y">Potentially eligible</span></td></tr></table>
+<p class="rv">The objective is simple:</p>
+<h2 class="rv" style="color:var(--acid)">Help families access benefits they are already entitled to.</h2>
+</div>
+</section>
+
+<section class="alt" id="skills">
+<div class="wrap">
+<p class="eyebrow rv">Skills &amp; Economy</p>
+<h2 class="rv">A Community Is More Than a List of Names</h2>
+<p class="rv lead">We also document the economic strengths of the community.</p>
+<h4 class="rv" style="margin-top:2rem">People &amp; Skills</h4>
+<div class="sk" id="sk"></div>
+<p class="rv" style="margin-top:2.5rem">This changes the way a community is represented. Not simply:</p>
+<div class="q rv big" style="color:var(--mute)">"People living in temporary housing."</div>
+<p class="rv">But:</p>
+<div class="q rv">"A community of people with skills, occupations, businesses, families and histories."</div>
+</div>
+</section>
+
+<section id="history">
+<div class="wrap two">
+<div>
+<p class="eyebrow rv">History</p>
+<h2 class="rv">Build the History of the Community</h2>
+<p class="rv mute">Each community can develop a timeline.</p>
+<div class="tl rv"><div><b>2014</b>Community established</div><div><b>2020</b>COVID relief distribution</div><div><b>2023</b>New water connection</div><div><b>2026</b>First community documentation</div><div><b>2026</b>First annual community photograph</div></div>
+<p class="rv" style="margin-top:2rem">Ten years later, the community could have a genuine historical archive.</p>
+</div>
+<div class="ph rv" data-n="14" style="min-height:460px;--c:#33301a"><span>Archive photograph / video placeholder</span></div>
+</div>
+</section>
+
+<section class="alt" id="layers">
+<div class="wrap two">
+<div>
+<p class="eyebrow rv">Physical + Digital</p>
+<h2 class="rv">We don't want the community's history to exist only on a website.</h2>
+<p class="rv mute">The record can exist across multiple layers:</p>
+<div class="layers rv"><div>Physical community register</div><i>↓</i><div>Annual community record</div><i>↓</i><div>Dated photographs</div><i>↓</i><div>Digital community page</div><i>↓</i><div>Secure document archive</div><i>↓</i><div>Annual updates</div></div>
+</div>
+<div>
+<p class="rv">Communities can also receive printed records and photographs.</p>
+<p class="rv q big">Because a website can disappear.</p>
+<p class="rv serif" style="font-size:2rem;color:var(--gold)">A community's history shouldn't disappear with it.</p>
+<div class="ph rv" data-n="📖" style="min-height:240px;margin-top:2rem;--c:#3d2530"><span>Printed register photo placeholder</span></div>
+</div>
+</div>
+</section>
+
+<section id="cost">
+<div class="wrap two">
+<div>
+<p class="eyebrow rv">Membership</p>
+<h2 class="rv">What Does Membership Cost?</h2>
+<div class="price rv">₹100</div>
+<p class="rv serif" style="font-size:2.2rem;color:var(--gold)">per year</p>
+<p class="rv mute" style="margin-top:1rem">The contribution helps maintain the community record and the services around it.</p>
+</div>
+<div>
+<p class="rv">For participating families, the value is not simply a webpage. It is:</p>
+<div class="plus rv"><b>Community documentation</b><i>+</i><b>Household record</b><i>+</i><b>Benefits navigation</b><i>+</i><b>Annual community archive</b><i>+</i><b>Participation history</b></div>
+<p class="rv small mute" style="margin-top:1.5rem">The exact services and pricing can evolve as the programme grows.</p>
+</div>
+</div>
+</section>
+
+<section class="alt" id="participation">
+<div class="wrap two">
+<div>
+<p class="eyebrow rv">Participation</p>
+<h2 class="rv">Your Contribution Can Become a Record of Participation</h2>
+<p class="rv mute">Membership continuity can be recorded factually. For example:</p>
+<div class="idbox rv" style="margin-top:1.5rem"><div><span>Member since</span><b>2026</b></div><div><span>Payments</span><b>47 / 48 months</b></div><div><span>Current status</span><b>Active</b></div></div>
+</div>
+<div>
+<p class="rv">Over several years, someone could build a record showing consistent participation — a longitudinal socioeconomic participation record.</p>
+<p class="note rv small"><b>Not a credit score.</b> This does not claim that someone is creditworthy, and should not be represented as something banks or government agencies automatically recognize. It simply records participation and continuity.</p>
+</div>
+</div>
+</section>
+
+<section id="reps">
+<div class="wrap two">
+<div>
+<p class="eyebrow rv">Representatives</p>
+<h2 class="rv">Communities Need Representatives</h2>
+<p class="rv lead">Every community can have a local representative. Representatives help us:</p>
+<ul class="l rv" style="grid-template-columns:1fr"><li>Understand the community</li><li>Identify families</li><li>Maintain records</li><li>Organize annual documentation</li><li>Identify common problems</li><li>Help residents navigate services</li><li>Keep the information updated</li></ul>
+<p class="rv q">Representatives are not political agents. They are community coordinators.</p>
+</div>
+<div class="ph rv" data-n="REP" style="min-height:440px;--c:#2a2a3d"><span>Representative portrait placeholder</span></div>
+</div>
+</section>
+
+<section class="alt" id="start">
+<div class="wrap">
+<p class="eyebrow rv">Start Small</p>
+<h2 class="rv">Start With One Community</h2>
+<p class="rv lead">We don't want to begin by trying to document all of Kolkata. We start with one community. We document:</p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+<div class="card rv"><div class="big-n">100</div>families</div><div class="card rv" style="--d:1"><h3>Every</h3>household</div><div class="card rv" style="--d:2"><h3>Every</h3>participating resident</div><div class="card rv" style="--d:3"><h3>The</h3>community's skills</div><div class="card rv" style="--d:4"><h3>Its</h3>history</div><div class="card rv" style="--d:5"><h3>Its</h3>needs</div><div class="card rv" style="--d:6"><h3>Its first</h3>annual photograph</div></div>
+<p class="rv" style="margin-top:2rem">Then we repeat the process.</p>
+<div class="steps rv"><div>1 Community</div><i>→</i><div>10 Communities</div><i>→</i><div>100 Communities</div><i>→</i><div style="color:var(--acid)">1,000 Communities</div></div>
+<p class="rv mute" style="margin-top:2rem;max-width:60ch">The ambition is to build a structured community record for thousands of under-documented communities across Kolkata and eventually beyond.</p>
+</div>
+</section>
+
+<section id="sample">
+<div class="wrap two">
+<div>
+<p class="eyebrow rv">See the end product</p>
+<h2 class="rv">One illustrative Kolkata community page.</h2>
+<p class="rv mute">Showing the actual end product sells the idea better than explaining the system. This is a fictional, illustrative example.</p>
+</div>
+<div class="mock rv"><div class="top"><i></i><i></i><i></i></div><div class="in">
+<p class="eyebrow">KOL-024 · Illustrative</p><h3>[Community Name] — 2026 Community Record</h3>
+<div class="ph" data-n="26" style="--c:#3a2d17"><span>Annual photograph</span></div>
+<p class="small mute">100 households · 287 residents · 8 skill groups · 6 benefit categories · First documented 2026</p></div></div>
+</div>
+</section>
+
+<section class="alt" id="build">
+<div class="wrap">
+<p class="eyebrow rv">What We Are Building</p>
+<h2 class="rv">Not a directory. Not an NGO site. Not a consultancy. Not a credit score.</h2>
+<p class="rv lead">It is a combination of:</p>
+<div class="grid" id="pillars"></div>
+</div>
+</section>
+
+<section id="vision">
+<div class="wrap">
+<p class="eyebrow rv">The Long-Term Vision</p>
+<h2 class="rv">Imagine looking at a community in 2036.</h2>
+<p class="rv lead">You can see:</p>
+<div class="vis rv" id="vis"></div>
+<p class="rv" style="margin-top:2rem">And alongside it:</p>
+<div class="chips rv"><span class="chip">11 annual photographs</span><span class="chip">Hundreds of household records</span><span class="chip">Thousands of documented people</span><span class="chip">Skills and occupations</span><span class="chip">Community milestones</span><span class="chip">Government services accessed</span><span class="chip">People who joined</span><span class="chip">People who moved away</span><span class="chip">New families who arrived</span><span class="chip">Children who grew up</span><span class="chip">Businesses that started</span><span class="chip">A decade of history</span></div>
+<div class="huge rv" style="font-size:clamp(2.4rem,6vw,5rem);margin-top:3rem">A community that was once barely documented now has a story.</div>
+</div>
+</section>
+
+<section class="alt" id="principle">
+<div class="wrap">
+<p class="eyebrow rv">Our Principle</p>
+<h2 class="rv" style="font-size:clamp(3rem,9vw,7rem)">Document people with dignity.</h2>
+<p class="rv lead">We do not want to define people by poverty. We want to document their:</p>
+<div class="steps rv" style="color:var(--gold)"><div>Identity.</div><div>Presence.</div><div>Skills.</div><div>Work.</div><div>Families.</div><div>Achievements.</div><div>Participation.</div><div>History.</div></div>
+<p class="rv" style="margin-top:2rem">And help them navigate the public services available to them.</p>
+</div>
+</section>
+
+<section id="promises">
+<div class="wrap">
+<p class="eyebrow rv">Three Promises</p>
+<h2 class="rv">What you can count on.</h2>
+<div class="grid">
+<div class="card rv"><em>1</em><h3>"We will document your community."</h3><p class="mute">The annual photograph + household/resident records are the tangible hook.</p></div>
+<div class="card rv" style="--d:1"><em>2</em><h3>"We will help you find the government support you may be missing."</h3><p class="mute">The recurring practical value.</p></div>
+<div class="card rv" style="--d:2"><em>3</em><h3>"We will build your community's history over time."</h3><p class="mute">The long-term emotional and strategic value.</p></div>
+</div>
+</div>
+</section>
+
+<section class="alt" id="join">
+<div class="wrap" style="text-align:center">
+<p class="eyebrow rv">Start Your Community Record</p>
+<h2 class="rv" style="font-size:clamp(2.6rem,7vw,5.5rem)">Is your community ready to be documented?</h2>
+<p class="rv lead" style="margin:1rem auto">Register your community</p>
+<div class="btns rv" style="justify-content:center"><a class="btn p" href="#">Join the pilot</a><a class="btn" href="#">Become a Community Representative</a><a class="btn" href="#how">Learn how it works</a></div>
+<div class="serif rv" style="font-size:clamp(1.6rem,3.5vw,2.4rem);color:var(--gold);margin-top:3rem;line-height:1.4">One community at a time.<br>One household at a time.<br>One year at a time.</div>
+<h2 class="rv" style="margin-top:2rem">Building a record of the communities that make Kolkata.</h2>
+</div>
+</section>
+<footer class="small mute">© 2026 Kolkata Community Record · [contact placeholder]</footer>
+
+<script>
+const $=s=>document.querySelector(s);
+$('#sk').innerHTML=[['7','Tailors'],['3','Electricians'],['2','Plumbers'],['11','Drivers'],['24','Domestic workers'],['5','Food businesses'],['8','Artisans'],['63','Students']].map((a,i)=>`<div class="rv" style="--d:${i%4}"><div class="big-n" style="background:none;border:0;padding:0">${a[0]}</div>${a[1]}</div>`).join('');
+$('#pillars').innerHTML=[['Community Identity','A persistent identity for each participating community.'],['Household Records','Structured records of participating families.'],['Individual Participation','A longitudinal record for participating residents.'],['Community History','Annual photographs, events and milestones.'],['Benefits Navigation','Helping families identify and access relevant government services.'],['Skills & Economic Activity','Making the capabilities of communities visible.'],['Physical + Digital Archiving',"Ensuring the record doesn't depend entirely on a website."]].map((p,i)=>`<div class="card rv" style="--d:${i%3}"><em>0${i+1}</em><h3>${p[0]}</h3><p class="mute">${p[1]}</p></div>`).join('');
+const hh=[100,104,109,113,118,121,126,129,131,134,137];
+$('#vis').innerHTML=hh.map((h,i)=>`<div><b>${2026+i}</b>${h} households<div class="bar" style="width:${(h-90)/47*100}%"></div></div>`).join('');
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+const secs=[...document.querySelectorAll('section')],dots=$('.dots');
+dots.innerHTML=secs.map(s=>`<a href="#${s.id}" aria-label="${s.id}"></a>`).join('');
+const so=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)[...dots.children].forEach((d,i)=>d.classList.toggle('on',secs[i]===x.target))}),{threshold:.4});
+secs.forEach(s=>so.observe(s));
+addEventListener('keydown',e=>{if(!['ArrowDown','ArrowUp'].includes(e.key))return;const y=scrollY+innerHeight/3;let i=secs.findIndex(s=>s.offsetTop+s.offsetHeight>y);i=Math.max(0,Math.min(secs.length-1,i+(e.key==='ArrowDown'?1:-1)));e.preventDefault();secs[i].scrollIntoView({behavior:'smooth'})});
+</script>
+</body>
+</html>
