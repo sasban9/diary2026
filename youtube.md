@@ -1,5 +1,7 @@
 OCT23 Fri
 https://www.youtube.com/@FossilVideos/videos
+https://www.youtube.com/@subahwadhwani/videos
+https://www.youtube.com/@Gribnax-s4j/videos
 
 OCT13 Tue
 https://www.youtube.com/@AndyMath/videos
