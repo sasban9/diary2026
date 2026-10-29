@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Football Donation Board</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#0b1220;--card:#141d33;--line:#26335a;--tx:#eef2ff;--mut:#9aa7cf;--acc:#22d3a0;--hot:#ff5d73;--gold:#ffc83d;--dark:#05080f}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f6ff;--card:#fff;--line:#cfd8f5;--tx:#0d1530;--mut:#51608f;--dark:#222b47}}
+html{color-scheme:dark light;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+header{text-align:center;padding:18px 12px 6px}
+h1{margin:0;font-size:clamp(20px,4vw,30px);letter-spacing:.5px}
+nav{display:flex;gap:6px;justify-content:center;padding:10px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+nav button{font:inherit;font-size:15px;font-weight:600;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--mut);cursor:pointer;transition:.25s}
+nav button.on{background:var(--acc);color:#04251c;border-color:var(--acc);transform:translateY(-2px)}
+main{max-width:760px;margin:0 auto;padding:8px 12px 40px}
+.tab{display:none;animation:in .4s ease}.tab.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.qrbox{display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 0}
+#qr{background:#fff;padding:16px;border-radius:18px;box-shadow:0 0 0 4px var(--acc),0 20px 50px #0006;animation:pulse 3s ease-in-out infinite}
+#qr img,#qr canvas{display:block;max-width:100%}
+@keyframes pulse{50%{box-shadow:0 0 0 8px var(--acc),0 20px 60px #22d3a055}}
+.qrbox input{width:100%;max-width:420px;font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--tx)}
+.mut{color:var(--mut);font-size:15px;text-align:center}
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:separate;border-spacing:5px;min-width:340px}
+th{font-size:13px;text-transform:uppercase;letter-spacing:.4px;padding:6px 2px;top:calc(58px + env(safe-area-inset-top,0px));background:var(--bg);z-index:3}
+th small{display:block;color:var(--mut);font-size:13px;text-transform:none;letter-spacing:0}
+.bar{height:5px;border-radius:4px;background:var(--line);margin-top:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc);transition:width .5s}
+td button{width:100%;font:inherit;font-size:16px;font-weight:700;padding:11px 0;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--tx);cursor:pointer;transition:transform .15s,background .3s}
+td button:hover:not(:disabled){transform:scale(1.08);background:var(--acc);color:#04251c}
+td button:disabled{background:var(--dark);color:#3a4468;border-color:var(--dark);cursor:not-allowed;animation:pop .45s}
+@keyframes pop{40%{transform:scale(.8)}}
+.top{display:flex;justify-content:space-between;align-items:center;margin:6px 0 10px;gap:10px}
+.rematch{font:inherit;font-weight:800;letter-spacing:1px;padding:10px 18px;border-radius:10px;border:0;background:var(--hot);color:#fff;cursor:pointer}
+ul{list-style:none;padding:0;margin:0}
+li{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;margin-bottom:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;animation:in .4s ease}
+li b{font-size:17px}li span{color:var(--mut);font-size:15px}li em{font-style:normal;color:var(--gold);font-weight:800;font-size:18px;white-space:nowrap}
+.modal,.win{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:#000a;z-index:20;padding:16px}
+.modal.on,.win.on{display:flex}
+.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;width:100%;max-width:360px;animation:in .3s ease}
+.box h2{margin:0 0 4px}.box input{width:100%;font:inherit;padding:12px;margin:12px 0;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--tx)}
+.row{display:flex;gap:8px}.row button{flex:1;font:inherit;font-weight:700;padding:12px;border-radius:10px;border:0;cursor:pointer}
+.ok{background:var(--acc);color:#04251c}.no{background:var(--line);color:var(--tx)}
+.win{flex-direction:column;gap:22px;background:#000c;z-index:30;text-align:center}
+.win h2{font-size:clamp(30px,8vw,64px);margin:0;color:var(--gold);animation:pulse2 1s infinite alternate}
+@keyframes pulse2{to{transform:scale(1.07)}}
+#big{font:inherit;font-weight:900;letter-spacing:2px;font-size:18px;padding:14px 26px;border-radius:14px;border:0;background:var(--hot);color:#fff;cursor:pointer;transition:all .8s cubic-bezier(.2,1.4,.4,1);opacity:.0}
+#big.big{opacity:1;font-size:clamp(28px,8vw,56px);padding:28px 48px}
+#cf{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
+</style>
+</head>
+<body>
+<!-- <header><h1>⚽ Football Donation Board</h1></header> -->
+<nav><button class="on" data-t="t1">QR Code</button><button data-t="t2">Board</button><button data-t="t3">Donations</button></nav>
+<main>
+<section class="tab on" id="t1"><div class="qrbox"><div id="qrx" style="background: url(https://sasban.online/sas-upi.jpg) 50% 50% no-repeat; height: 370px;width: 380px;background-size: 130%;"></div>
+<input id="qrtext" placeholder="Text or link for QR code" aria-label="QR content">
+<div class="mut">Scan to donate, then pick a number on the Board tab.</div></div></section>
+<section class="tab" id="t2"><div class="top"><div class="mut" id="total"></div><button class="rematch" id="rm">REMATCH</button></div>
+<div class="wrap"><table><thead><tr id="head"></tr></thead><tbody id="body"></tbody></table></div></section>
+<section class="tab" id="t3"><div class="top"><div class="mut" id="sum"></div></div><ul id="list"></ul></section>
+</main>
+<div class="modal" id="modal"><div class="box"><h2 id="mamt"></h2><div class="mut" id="mfor"></div>
+<input id="mname" placeholder="Donor name" maxlength="40" autocomplete="off">
+<div class="row"><button class="no" id="mc">Cancel</button><button class="ok" id="ms">Submit</button></div></div></div>
+<div class="win" id="win"><h2 id="wt"></h2><button id="big">REMATCH</button></div>
+<canvas id="cf"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const P=["Ronaldo","Messi","Neymar","Mbappé","Yamal"],R=20,KEY="fdb_v1";
+let mem={entries:[],qr:"",winner:null};
+const load=()=>{try{const s=localStorage.getItem(KEY);return s?Object.assign({entries:[],qr:"",winner:null},JSON.parse(s)):mem}catch(e){return mem}};
+const save=()=>{mem=S;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+let S=load();
+const $=id=>document.getElementById(id);
+const val=(r,c)=>21+5*r+(r%2?4-c:c);
+const taken=(r,c)=>S.entries.find(e=>e.r===r&&e.c===c);
+const esc=s=>s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+
+// tabs
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("nav button,.tab").forEach(x=>x.classList.remove("on"));
+ b.classList.add("on");$(b.dataset.t).classList.add("on")});
+
+// QR
+function drawQR(){const t=S.qr||location.href;$("qr").innerHTML="";
+ try{new QRCode($("qr"),{text:t,width:240,height:240})}catch(e){$("qr").textContent="QR unavailable"}}
+$("qrtext").value=S.qr;$("qrtext").placeholder="Text or link (default: this page)";
+$("qrtext").oninput=e=>{S.qr=e.target.value.trim();save();drawQR()};
+
+// board
+function render(){
+ $("head").innerHTML=P.map((p,c)=>{const n=S.entries.filter(e=>e.c===c).length;
+  return `<th>${p}<small>${n}/${R}</small><div class="bar"><i style="width:${n/R*100}%"></i></div></th>`}).join("");
+ let h="";for(let r=0;r<R;r++){h+="<tr>";for(let c=0;c<5;c++){const t=taken(r,c);
+  h+=`<td><button data-r="${r}" data-c="${c}" ${t||S.winner!==null?"disabled":""}>${val(r,c)}</button></td>`}h+="</tr>"}
+ $("body").innerHTML=h;
+ const tot=S.entries.reduce((a,e)=>a+e.amt,0);
+ $("total").textContent=`Total raised: ${tot.toLocaleString("en-IN")}`;
+ $("sum").textContent=`${S.entries.length} donations · total ${tot.toLocaleString("en-IN")}`;
+ const l=[...S.entries].sort((a,b)=>b.ts-a.ts);
+ $("list").innerHTML=l.length?l.map(e=>`<li><div><b>${esc(e.name)}</b><br><span>${P[e.c]} · ${new Date(e.ts).toLocaleString()}</span></div><em>${e.amt}</em></li>`).join(""):'<div class="mut">No donations yet.</div>';
+}
+let cur=null;
+$("body").onclick=e=>{const b=e.target.closest("button");if(!b||b.disabled)return;
+ cur={r:+b.dataset.r,c:+b.dataset.c};
+ $("mamt").textContent="Donation: "+val(cur.r,cur.c);$("mfor").textContent="Team "+P[cur.c];
+ $("mname").value="";$("modal").classList.add("on");setTimeout(()=>$("mname").focus(),50)};
+$("mc").onclick=()=>$("modal").classList.remove("on");
+function submit(){const name=$("mname").value.trim();if(!name){$("mname").focus();return}
+ if(!cur||taken(cur.r,cur.c))return;
+ S.entries.push({r:cur.r,c:cur.c,name,amt:val(cur.r,cur.c),ts:Date.now()});
+ const full=S.entries.filter(e=>e.c===cur.c).length===R;
+ if(full&&S.winner===null)S.winner=cur.c;
+ save();$("modal").classList.remove("on");render();
+ if(full&&S.winner===cur.c)celebrate(true)}
+$("ms").onclick=submit;
+$("mname").onkeydown=e=>{if(e.key==="Enter")submit();if(e.key==="Escape")$("mc").onclick()};
+
+// rematch
+let armed=0;
+$("rm").onclick=()=>{if(!armed){$("rm").textContent="SURE? TAP AGAIN";armed=setTimeout(()=>{armed=0;$("rm").textContent="REMATCH"},3000);return}reset()};
+$("big").onclick=reset;
+function reset(){clearTimeout(armed);armed=0;S={entries:[],qr:S.qr,winner:null};save();
+ try{localStorage.removeItem(KEY)}catch(e){};save();
+ $("win").classList.remove("on");$("big").classList.remove("big");$("rm").textContent="REMATCH";render()}
+
+// confetti
+const cv=$("cf"),cx=cv.getContext("2d");let parts=[],raf=0;
+function size(){cv.width=innerWidth;cv.height=innerHeight}addEventListener("resize",size);size();
+function burst(){const cols=["#ffc83d","#22d3a0","#ff5d73","#6aa6ff","#c78bff"];
+ for(let i=0;i<160;i++)parts.push({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.5,vx:(Math.random()-.5)*4,vy:2+Math.random()*5,w:6+Math.random()*7,h:4+Math.random()*6,a:Math.random()*6,va:(Math.random()-.5)*.3,c:cols[i%5]})}
+function tick(){cx.clearRect(0,0,cv.width,cv.height);
+ parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=p.va;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cx.restore()});
+ parts=parts.filter(p=>p.y<cv.height+20);
+ if(parts.length)raf=requestAnimationFrame(tick);else cx.clearRect(0,0,cv.width,cv.height)}
+function celebrate(anim){$("wt").textContent="🏆 "+P[S.winner].toUpperCase()+" WINS!";
+ $("win").classList.add("on");
+ if(anim){burst();setTimeout(burst,900);setTimeout(burst,1800);cancelAnimationFrame(raf);tick();
+  setTimeout(()=>$("big").classList.add("big"),3000)}
+ else $("big").classList.add("big")}
+
+drawQR();render();
+if(S.winner!==null)celebrate(false);
+</script>
+</body>
+</html>
