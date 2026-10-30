@@ -25,13 +25,18 @@ main{max-width:760px;margin:0 auto;padding:8px 12px 40px}
 @keyframes pulse{50%{box-shadow:0 0 0 8px var(--acc),0 20px 60px #22d3a055}}
 .qrbox input{width:100%;max-width:420px;font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--tx)}
 .mut{color:var(--mut);font-size:15px;text-align:center}
-.wrap{overflow-x:auto}
-table{width:100%;border-collapse:separate;border-spacing:5px;min-width:340px}
-th{font-size:13px;text-transform:uppercase;letter-spacing:.4px;padding:6px 2px;top:calc(58px + env(safe-area-inset-top,0px));background:var(--bg);z-index:3}
-th small{display:block;color:var(--mut);font-size:13px;text-transform:none;letter-spacing:0}
+.wrap{overflow:visible}
+table{width:100%;border-collapse:separate;border-spacing:5px;min-width:0}
+th{padding:6px 2px;position:sticky;top:calc(var(--nh,62px) + env(safe-area-inset-top,0px));background:var(--bg);z-index:3}
+th small{display:block;color:var(--mut);font-size:14px;margin-top:2px}
+.av{border-radius:50%;display:inline-block;vertical-align:middle;object-fit:cover}
+.phb{background:none;border:0;padding:0;cursor:pointer;transition:transform .2s}.phb:hover{transform:scale(1.15) rotate(-4deg)}
+th .av{animation:bob 2.6s ease-in-out infinite}th:nth-child(2n) .av{animation-delay:-1.3s}
+@keyframes bob{50%{transform:translateY(-4px)}}
 .bar{height:5px;border-radius:4px;background:var(--line);margin-top:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc);transition:width .5s}
 td button{width:100%;font:inherit;font-size:16px;font-weight:700;padding:11px 0;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--tx);cursor:pointer;transition:transform .15s,background .3s}
-td button:hover:not(:disabled){transform:scale(1.08);background:var(--acc);color:#04251c}
+td button{border-bottom:3px solid var(--pc)}
+td button:hover:not(:disabled){transform:scale(1.08);background:var(--pc);color:#fff}
 td button:disabled{background:var(--dark);color:#3a4468;border-color:var(--dark);cursor:not-allowed;animation:pop .45s}
 @keyframes pop{40%{transform:scale(.8)}}
 .top{display:flex;justify-content:space-between;align-items:center;margin:6px 0 10px;gap:10px}
@@ -51,15 +56,16 @@ li b{font-size:17px}li span{color:var(--mut);font-size:15px}li em{font-style:nor
 #big{font:inherit;font-weight:900;letter-spacing:2px;font-size:18px;padding:14px 26px;border-radius:14px;border:0;background:var(--hot);color:#fff;cursor:pointer;transition:all .8s cubic-bezier(.2,1.4,.4,1);opacity:.0}
 #big.big{opacity:1;font-size:clamp(28px,8vw,56px);padding:28px 48px}
 #cf{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
+@media (min-width:768px){nav button,.mut,li span,th small,.rematch,.row button{font-size:16px}}
 </style>
 </head>
 <body>
-<!-- <header><h1>⚽ Football Donation Board</h1></header> -->
 <nav><button class="on" data-t="t1">QR Code</button><button data-t="t2">Board</button><button data-t="t3">Donations</button></nav>
 <main>
-<section class="tab on" id="t1"><div class="qrbox"><div id="qrx" style="background: url(https://sasban.online/sas-upi.jpg) 50% 50% no-repeat; height: 370px;width: 380px;background-size: 130%;"></div>
+<section class="tab on" id="t1"><div class="qrbox"><div id="qr"></div>
 <input id="qrtext" placeholder="Text or link for QR code" aria-label="QR content">
-<div class="mut">Scan to donate, then pick a number on the Board tab.</div></div></section>
+<div class="mut">Scan to donate, then pick a number on the Board tab.</div>
+<div class="mut">Tap a player to use a real photo</div><div id="ph" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center"></div><input type="file" id="file" accept="image/*" hidden></div></section>
 <section class="tab" id="t2"><div class="top"><div class="mut" id="total"></div><button class="rematch" id="rm">REMATCH</button></div>
 <div class="wrap"><table><thead><tr id="head"></tr></thead><tbody id="body"></tbody></table></div></section>
 <section class="tab" id="t3"><div class="top"><div class="mut" id="sum"></div></div><ul id="list"></ul></section>
@@ -72,12 +78,37 @@ li b{font-size:17px}li span{color:var(--mut);font-size:15px}li em{font-style:nor
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const P=["Ronaldo","Messi","Neymar","Mbappé","Yamal"],R=20,KEY="fdb_v1";
-let mem={entries:[],qr:"",winner:null};
-const load=()=>{try{const s=localStorage.getItem(KEY);return s?Object.assign({entries:[],qr:"",winner:null},JSON.parse(s)):mem}catch(e){return mem}};
+let mem={entries:[],qr:"",winner:null,photos:{}};
+const load=()=>{try{const s=localStorage.getItem(KEY);return s?Object.assign({entries:[],qr:"",winner:null,photos:{}},JSON.parse(s)):mem}catch(e){return mem}};
 const save=()=>{mem=S;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 let S=load();
 const $=id=>document.getElementById(id);
 const val=(r,c)=>21+5*r+(r%2?4-c:c);
+const FL=[
+'<rect width="30" height="20" fill="#d62828"/><rect width="12" height="20" fill="#0a7d36"/><circle cx="12" cy="10" r="4" fill="#ffd400"/>',
+'<rect width="30" height="20" fill="#74c0f0"/><rect y="6.7" width="30" height="6.6" fill="#fff"/><circle cx="15" cy="10" r="2" fill="#f6b40e"/>',
+'<rect width="30" height="20" fill="#0a8f3c"/><path d="M15 2 28 10 15 18 2 10Z" fill="#ffdf00"/><circle cx="15" cy="10" r="4" fill="#1d3f9a"/>',
+'<rect width="10" height="20" fill="#1d3f9a"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#e03a3e"/>',
+'<rect width="30" height="20" fill="#c60b1e"/><rect y="5" width="30" height="10" fill="#ffc400"/>'];
+const CAP='M19 25 Q18 10 32 11 Q46 10 45 25 Q42 16 32 17 Q22 16 19 25Z';
+const STR='<rect x="14" y="40" width="7" height="26" fill="#fff"/><rect x="28.5" y="40" width="7" height="26" fill="#fff"/><rect x="43" y="40" width="7" height="26" fill="#fff"/>';
+const A=[
+{pc:"#d62828",k:"#c8102e",tc:"#fff",n:7,skin:"#e8b48a",hair:`<path d="${CAP}" fill="#2a1a12"/>`},
+{pc:"#4aa8e0",k:"#74c0f0",tc:"#fff",n:10,skin:"#efc29c",st:STR,hair:`<path d="${CAP}" fill="#6b4a2b"/><path d="M20 28 Q22 42 32 41 Q42 42 44 28 Q40 35 32 35 Q24 35 20 28Z" fill="#6b4a2b"/>`},
+{pc:"#f2c200",k:"#ffdf00",tc:"#0a7d36",n:10,skin:"#c98d62",hair:`<path d="${CAP}" fill="#f2d36b"/><ellipse cx="32" cy="9.5" rx="6" ry="4.5" fill="#f2d36b"/>`},
+{pc:"#1d3f9a",k:"#1d3f9a",tc:"#fff",n:10,skin:"#8a5a3c",hair:`<path d="${CAP}" fill="#111"/>`},
+{pc:"#c60b1e",k:"#c60b1e",tc:"#ffc400",n:19,skin:"#a8704a",hair:`<path d="${CAP}" fill="#1a120d"/><g fill="#1a120d"><circle cx="22" cy="14" r="4"/><circle cx="32" cy="10" r="4.5"/><circle cx="42" cy="14" r="4"/><circle cx="19" cy="22" r="3.5"/><circle cx="45" cy="22" r="3.5"/></g>`}];
+function av(c,s){const a=A[c],ph=S.photos&&S.photos[c];
+ if(ph)return `<img class="av" src="${ph}" width="${s}" height="${s}" alt="${P[c]}" style="border:3px solid ${a.pc}">`;
+ return `<svg class="av" viewBox="0 0 64 64" width="${s}" height="${s}" role="img" aria-label="${P[c]}"><defs><clipPath id="cp${c}"><circle cx="32" cy="32" r="31"/></clipPath><clipPath id="sh${c}"><path d="M6 66 Q8 44 32 42 Q56 44 58 66Z"/></clipPath></defs><g clip-path="url(#cp${c})"><rect width="64" height="64" fill="#1b2745"/><g clip-path="url(#sh${c})"><rect y="40" width="64" height="26" fill="${a.k}"/>${a.st||""}</g><rect x="27" y="36" width="10" height="9" fill="${a.skin}"/><circle cx="32" cy="26" r="13" fill="${a.skin}"/>${a.hair}<circle cx="27" cy="26" r="1.6" fill="#111"/><circle cx="37" cy="26" r="1.6" fill="#111"/><path d="M28 32 Q32 35 36 32" stroke="#111" fill="none" stroke-width="1.3"/><text x="32" y="60" text-anchor="middle" font-size="13" font-weight="800" fill="${a.tc}" stroke="#0008" stroke-width=".7" paint-order="stroke" font-family="system-ui,sans-serif">${a.n}</text></g><circle cx="32" cy="32" r="30.5" fill="none" stroke="${a.pc}" stroke-width="2.5"/><svg x="40" y="1" width="23" height="15.3" viewBox="0 0 30 20">${FL[c]}</svg><rect x="40" y="1" width="23" height="15.3" fill="none" stroke="#fff" stroke-width="1"/></svg>`}
+let pc=0;
+function drawPh(){$("ph").innerHTML=P.map((p,c)=>`<button class="phb" data-c="${c}" aria-label="${p}">${av(c,56)}</button>`).join("")+'<button class="no" id="phr" style="font:inherit;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;background:var(--line);color:var(--tx)">Reset</button>'}
+document.addEventListener("click",e=>{const b=e.target.closest(".phb");if(b){pc=+b.dataset.c;$("file").click()}if(e.target.id==="phr"){S.photos={};save();drawPh();render()}});
+document.addEventListener("change",e=>{if(e.target.id!=="file"||!e.target.files[0])return;
+ const im=new Image();im.onload=()=>{const z=128,k=document.createElement("canvas");k.width=k.height=z;const m=Math.min(im.width,im.height);
+  k.getContext("2d").drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,z,z);
+  S.photos=S.photos||{};S.photos[pc]=k.toDataURL("image/jpeg",.8);save();drawPh();render();URL.revokeObjectURL(im.src)};
+ im.src=URL.createObjectURL(e.target.files[0]);e.target.value=""});
 const taken=(r,c)=>S.entries.find(e=>e.r===r&&e.c===c);
 const esc=s=>s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 
@@ -95,20 +126,20 @@ $("qrtext").oninput=e=>{S.qr=e.target.value.trim();save();drawQR()};
 // board
 function render(){
  $("head").innerHTML=P.map((p,c)=>{const n=S.entries.filter(e=>e.c===c).length;
-  return `<th>${p}<small>${n}/${R}</small><div class="bar"><i style="width:${n/R*100}%"></i></div></th>`}).join("");
+  return `<th>${av(c,48)}<small>${n}/${R}</small><div class="bar"><i style="width:${n/R*100}%"></i></div></th>`}).join("");
  let h="";for(let r=0;r<R;r++){h+="<tr>";for(let c=0;c<5;c++){const t=taken(r,c);
-  h+=`<td><button data-r="${r}" data-c="${c}" ${t||S.winner!==null?"disabled":""}>${val(r,c)}</button></td>`}h+="</tr>"}
+  h+=`<td><button style="--pc:${A[c].pc}" data-r="${r}" data-c="${c}" ${t||S.winner!==null?"disabled":""}>${val(r,c)}</button></td>`}h+="</tr>"}
  $("body").innerHTML=h;
  const tot=S.entries.reduce((a,e)=>a+e.amt,0);
  $("total").textContent=`Total raised: ${tot.toLocaleString("en-IN")}`;
  $("sum").textContent=`${S.entries.length} donations · total ${tot.toLocaleString("en-IN")}`;
  const l=[...S.entries].sort((a,b)=>b.ts-a.ts);
- $("list").innerHTML=l.length?l.map(e=>`<li><div><b>${esc(e.name)}</b><br><span>${P[e.c]} · ${new Date(e.ts).toLocaleString()}</span></div><em>${e.amt}</em></li>`).join(""):'<div class="mut">No donations yet.</div>';
+ $("list").innerHTML=l.length?l.map(e=>`<li><div style="display:flex;gap:10px;align-items:center">${av(e.c,44)}<div><b>${esc(e.name)}</b><br><span>${new Date(e.ts).toLocaleString()}</span></div></div><em>${e.amt}</em></li>`).join(""):'<div class="mut">No donations yet.</div>';
 }
 let cur=null;
 $("body").onclick=e=>{const b=e.target.closest("button");if(!b||b.disabled)return;
  cur={r:+b.dataset.r,c:+b.dataset.c};
- $("mamt").textContent="Donation: "+val(cur.r,cur.c);$("mfor").textContent="Team "+P[cur.c];
+ $("mamt").textContent="Donation: "+val(cur.r,cur.c);$("mfor").innerHTML=av(cur.c,80);
  $("mname").value="";$("modal").classList.add("on");setTimeout(()=>$("mname").focus(),50)};
 $("mc").onclick=()=>$("modal").classList.remove("on");
 function submit(){const name=$("mname").value.trim();if(!name){$("mname").focus();return}
@@ -125,7 +156,7 @@ $("mname").onkeydown=e=>{if(e.key==="Enter")submit();if(e.key==="Escape")$("mc")
 let armed=0;
 $("rm").onclick=()=>{if(!armed){$("rm").textContent="SURE? TAP AGAIN";armed=setTimeout(()=>{armed=0;$("rm").textContent="REMATCH"},3000);return}reset()};
 $("big").onclick=reset;
-function reset(){clearTimeout(armed);armed=0;S={entries:[],qr:S.qr,winner:null};save();
+function reset(){clearTimeout(armed);armed=0;S={entries:[],qr:S.qr,winner:null,photos:S.photos||{}};save();
  try{localStorage.removeItem(KEY)}catch(e){};save();
  $("win").classList.remove("on");$("big").classList.remove("big");$("rm").textContent="REMATCH";render()}
 
@@ -138,13 +169,14 @@ function tick(){cx.clearRect(0,0,cv.width,cv.height);
  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=p.va;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cx.restore()});
  parts=parts.filter(p=>p.y<cv.height+20);
  if(parts.length)raf=requestAnimationFrame(tick);else cx.clearRect(0,0,cv.width,cv.height)}
-function celebrate(anim){$("wt").textContent="🏆 "+P[S.winner].toUpperCase()+" WINS!";
+function celebrate(anim){$("wt").innerHTML="🏆<br>"+av(S.winner,150)+"<br>🏆";
  $("win").classList.add("on");
  if(anim){burst();setTimeout(burst,900);setTimeout(burst,1800);cancelAnimationFrame(raf);tick();
   setTimeout(()=>$("big").classList.add("big"),3000)}
  else $("big").classList.add("big")}
 
-drawQR();render();
+const setNh=()=>document.documentElement.style.setProperty("--nh",document.querySelector("nav").offsetHeight+"px");setNh();addEventListener("resize",setNh);
+drawQR();drawPh();render();
 if(S.winner!==null)celebrate(false);
 </script>
 </body>
