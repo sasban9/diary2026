@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aarav did everything right — The AI Age Community</title>
+<meta name="description" content="A story about unlearning the Industrial Age. 1,000 seats. ₹1 Crore on the line.">
+<meta property="og:title" content="Aarav did everything right">
+<meta property="og:description" content="1,000 seats. ₹1,000 to join. ₹10,000 back if you leave after 365 days.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://example.com/og-image.jpg">
+<meta property="og:url" content="https://example.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Aarav did everything right">
+<meta name="twitter:description" content="1,000 seats. ₹1,000 to join. ₹10,000 back if you leave after 365 days.">
+<meta name="twitter:image" content="https://example.com/og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0c;--fg:#f2ede4;--mute:#a39e94;--gold:#e8b44c;--acid:#c6ff3d;--min:14px;--disp:'Cormorant Garamond',Georgia,serif;--sans:'Bricolage Grotesque',system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(min-width:768px){:root{--min:16px}}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--sans)}
+#stage{position:fixed;inset:0;overflow:hidden}
+.gear{position:absolute;color:#fff;opacity:.07;animation:spin 70s linear infinite;transition:opacity 2s}
+.g1{width:60vmax;right:-20vmax;top:-18vmax}.g2{width:40vmax;left:-14vmax;bottom:-16vmax;animation-direction:reverse}
+body.free .gear{opacity:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.glow{position:absolute;width:45vmax;height:45vmax;border-radius:50%;background:var(--gold);filter:blur(110px);opacity:.14;top:30%;left:30%;animation:drift 16s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(10vmax,-6vmax)}}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:6vh 7vw;visibility:hidden;pointer-events:none;isolation:isolate}
+.slide.on{visibility:visible;pointer-events:auto}
+.slide>*{opacity:0;transform:translateY(36px);filter:blur(8px)}
+.slide.on>*{animation:in .9s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i,0)*.15s + .15s)}
+.slide.out>*{animation:out .4s ease forwards}
+@keyframes in{to{opacity:1;transform:none;filter:none}}
+@keyframes out{from{opacity:1}to{opacity:0;transform:translateY(-28px);filter:blur(6px)}}
+h2{font-family:var(--disp);font-weight:700;line-height:.98;letter-spacing:-.02em;font-size:clamp(2.4rem,7vw,6rem)}
+.gold{color:var(--gold);font-style:italic}
+p{font-size:max(var(--min),clamp(1rem,1.7vw,1.5rem));color:var(--mute);line-height:1.5;max-width:48ch;margin-top:2.4vh}
+.shimmer{background:linear-gradient(100deg,var(--gold) 30%,#fff 50%,var(--gold) 70%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 3.5s linear infinite}
+@keyframes sh{to{background-position:-250% 0}}
+.split{flex-direction:row;align-items:center;gap:5vw}.split>.t{flex:1.1}.rev{flex-direction:row-reverse}
+.split>svg{flex:.9;max-height:60vh;min-width:0}
+@media(max-width:700px){.split,.rev{flex-direction:column;gap:2vh;justify-content:center}.split>svg{max-height:28vh}}
+/* IMAGE SLOTS: put <img src="..."> inside any .ph (it fills the shape), or set .ph{background:url()} */
+.ph{position:relative;flex:.9;height:62vh;background:var(--c,#3a2f1a);display:grid;place-items:center;clip-path:polygon(0 4%,8% 0,20% 5%,34% 1%,50% 6%,66% 0,82% 5%,100% 1%,98% 30%,100% 55%,97% 78%,100% 100%,80% 96%,60% 100%,40% 95%,20% 100%,0 97%,3% 70%,0 40%);width:100%;overflow:hidden}
+.ph i{font-family:var(--disp);font-style:normal;font-size:clamp(8rem,22vw,20rem);color:rgba(255,255,255,.12);line-height:1}
+.ph small{position:absolute;bottom:8%;font-size:max(var(--min),.9rem);color:rgba(255,255,255,.5)}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+@media(max-width:700px){.ph{height:26vh;flex:none}}
+.bg{position:absolute;inset:0;z-index:-1;background:linear-gradient(120deg,rgba(90,60,20,.45),rgba(10,10,12,.2))}
+.draw{font-family:var(--disp);font-weight:700;font-size:170px;fill:transparent;stroke:var(--gold);stroke-width:2;stroke-dasharray:700;stroke-dashoffset:700}
+.slide.on .draw{animation:dr 2.6s ease forwards .5s,fl 1s ease forwards 2.8s}
+@keyframes dr{to{stroke-dashoffset:0}}@keyframes fl{to{fill:var(--gold)}}
+.ln{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900}
+.slide.on .ln{animation:dr 3s ease forwards .6s}
+.steps{list-style:none;padding:0;margin-top:3vh;display:grid;gap:1.4vh}
+.steps li{font-size:max(var(--min),clamp(1.1rem,2.4vw,2rem));font-weight:700;opacity:0;position:relative;width:fit-content}
+.slide.on .steps li{animation:in .7s forwards;animation-delay:calc(var(--j)*.4s + .8s)}
+.steps li::after{content:"";position:absolute;left:0;top:55%;height:3px;width:0;background:var(--gold)}
+.slide.on .steps li::after{animation:st .6s forwards;animation-delay:calc(var(--j)*.4s + 4.2s)}
+@keyframes st{to{width:100%}}
+.vs{display:flex;align-items:baseline;gap:2vw;flex-wrap:wrap;margin-top:2vh}
+.vs b{font-family:var(--disp);font-size:clamp(3rem,11vw,9rem);line-height:1}.vs .a{color:var(--mute);text-decoration:line-through;text-decoration-color:var(--gold)}.vs .b{color:var(--acid)}
+.vs span{font-size:clamp(1.5rem,4vw,3rem);color:var(--gold)}
+.chorus{display:flex;gap:2.4vw;margin-top:4vh;flex-wrap:wrap}
+.bub{position:relative;background:#17171b;border:2px solid #2e2c27;border-radius:22px 22px 22px 4px;padding:1.1rem 1.5rem;animation:fl2 4s ease-in-out infinite alternate;animation-delay:calc(var(--j)*.6s)}
+.bub b{display:block;font-family:var(--disp);font-size:max(var(--min),clamp(1.3rem,2.6vw,2.2rem));color:var(--fg)}
+.bub span{font-size:max(var(--min),1rem);color:var(--gold)}
+@keyframes fl2{to{transform:translateY(-10px) rotate(-1deg)}}
+.smoke{fill:#777;opacity:0;animation:sm 4s linear infinite}
+@keyframes sm{0%{opacity:.6;transform:translateY(0) scale(.6)}100%{opacity:0;transform:translateY(-90px) scale(2)}}
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:3vw;margin-top:4vh}
+@media(max-width:700px){.doors{grid-template-columns:1fr}}
+.door{padding:1.4rem;border-radius:16px;border:2px solid #2e2c27}
+.door b{font-family:var(--disp);font-size:clamp(1.6rem,3.4vw,2.8rem);display:block}
+.door span{font-size:max(var(--min),1.05rem);color:var(--mute)}
+.door.y{border-color:var(--acid);animation:pl 2s infinite}.door.y b{color:var(--acid)}
+@keyframes pl{50%{box-shadow:0 0 40px rgba(198,255,61,.25)}}
+#dots{display:grid;grid-template-columns:repeat(50,1fr);gap:3px;margin-top:4vh;max-width:min(86vw,900px)}
+#dots i{aspect-ratio:1;border-radius:50%;background:#2a2a2e;transition:background .3s,transform .3s}
+#dots i.f{background:var(--gold);transform:scale(1.15)}#dots i.f:nth-child(7n){background:var(--acid)}
+#dots i.me{background:#fff!important;transform:scale(2.2);box-shadow:0 0 12px #fff}
+.row{display:flex;gap:4vw;flex-wrap:wrap;margin-top:3vh}
+.stat{border-left:2px solid var(--acid);padding-left:1.2rem}
+.stat b{display:block;font-family:var(--disp);font-size:clamp(2.4rem,5.4vw,4.6rem);line-height:1}
+.stat span{font-size:max(var(--min),1rem);color:var(--mute)}
+.flow{display:flex;align-items:center;gap:1.2vw;flex-wrap:wrap;margin-top:4vh}
+.node{padding:.9rem 1.4rem;border:2px solid var(--gold);border-radius:100px;font-weight:700;font-size:max(var(--min),clamp(1rem,1.8vw,1.5rem))}
+.node.a{border-color:var(--acid);color:var(--acid)}
+.arr{color:var(--acid);font-size:max(var(--min),1.6rem);animation:nu 1.2s ease-in-out infinite}
+@keyframes nu{50%{transform:translateX(8px)}}
+.chap{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vw;margin-top:3vh}
+@media(max-width:700px){.chap{grid-template-columns:1fr 1fr}}
+.chap div{border-top:3px solid var(--gold);padding-top:.7rem}
+.chap b{font-family:var(--disp);font-size:max(var(--min),clamp(1.4rem,2.6vw,2.2rem));display:block}
+.chap span{font-size:max(var(--min),1rem);color:var(--mute);line-height:1.4;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:3vh}
+.chips span{border:1px solid var(--gold);border-radius:100px;padding:.45rem 1rem;font-size:max(var(--min),1rem)}
+.btn{display:inline-block;margin-top:3vh;padding:1.1rem 2.2rem;background:var(--acid);color:var(--bg);font:700 max(var(--min),1.1rem) var(--sans);border-radius:100px;text-decoration:none;width:fit-content;animation:bp 2s infinite}
+@keyframes bp{0%{box-shadow:0 0 0 0 rgba(198,255,61,.5)}50%{box-shadow:0 0 0 18px rgba(198,255,61,0)}}
+#nav{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;gap:9px;z-index:5}
+#nav button{width:9px;height:9px;border-radius:50%;border:0;background:#55524b;cursor:pointer;padding:0;transition:.3s}
+#nav button.on{background:var(--gold);width:26px;border-radius:6px}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important}}
+</style>
+</head>
+<body>
+<div id="stage">
+<svg class="gear g1" viewBox="0 0 200 200"><circle cx="100" cy="100" r="78" fill="none" stroke="currentColor" stroke-width="26" stroke-dasharray="22 14"/><circle cx="100" cy="100" r="58" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="100" cy="100" r="14" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+<svg class="gear g2" viewBox="0 0 200 200"><circle cx="100" cy="100" r="78" fill="none" stroke="currentColor" stroke-width="26" stroke-dasharray="22 14"/><circle cx="100" cy="100" r="58" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+<div class="glow"></div>
+
+<!-- 1 -->
+<section class="slide on split">
+<div class="t"><svg viewBox="0 0 700 190" style="width:100%;max-width:640px;--i:0" aria-label="Aarav"><text class="draw" x="0" y="150">Aarav.</text></svg>
+<p style="--i:3">24. First in his family at a good college. He did everything he was told, and did it well.</p></div>
+<div class="ph" style="--i:2;--c:#3a2f1a"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQia2cPLKW8jSN9fkYuuBz9GGjbxvBmFAuBmrAIXojdjpdhrmQNTpxjwPU&s=10" alt=""></div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+<h2 style="--i:0;font-size:clamp(2.8rem,9vw,8rem)">So why does he feel <span class="gold shimmer">stuck?</span></h2>
+<p style="--i:2;font-size:max(var(--min),clamp(1.2rem,2.4vw,2rem));color:var(--fg)">Stay with him. The answer is on the last slide.</p>
+</section>
+
+<!-- 3 -->
+<section class="slide split">
+<div class="t"><h2 style="--i:0">The script he was handed.</h2>
+<ul class="steps" style="--i:1"><li style="--j:0">Study hard.</li><li style="--j:1">Get the degree.</li><li style="--j:2">Get the job.</li><li style="--j:3">Stay loyal.</li><li style="--j:4">Retire at 60.</li></ul></div>
+<svg viewBox="0 0 400 300" style="--i:2"><path class="ln" stroke="#e8b44c" stroke-width="5" d="M20 280H100V220H180V160H260V100H340V40"/><circle r="9" fill="#c6ff3d"><animateMotion dur="5s" begin="1s" fill="freeze" path="M20 280H100V220H180V160H260V100H340V40"/></circle></svg>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+<div class="bg"></div><!-- Full-bleed image: replace .bg with <img> -->
+<h2 style="--i:0">Year three.</h2>
+<div class="vs" style="--i:1"><b class="a">1 week</b><span>became</span><b class="b">1 hour</b></div>
+<p style="--i:2">A new tool did what his whole team did in a week. Nobody said it out loud. Everybody felt it.</p>
+<svg viewBox="0 0 600 60" style="--i:3;width:min(600px,90%);margin-top:3vh"><path class="ln" stroke="#c6ff3d" stroke-width="4" d="M0 30L90 30L110 8L140 52L170 20L200 38L600 38"/></svg>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+<h2 style="--i:0">Everyone had advice.</h2>
+<div class="chorus" style="--i:1">
+<div class="bub" style="--j:0"><b>Don't take risks.</b><span>Family</span></div>
+<div class="bub" style="--j:1"><b>Stick to the syllabus.</b><span>School</span></div>
+<div class="bub" style="--j:2"><b>Be grateful you have a job.</b><span>Office</span></div>
+</div>
+<p style="--i:2">Well meant. Every word of it. And every word of it written for a different century.</p>
+</section>
+
+<!-- 6 -->
+<section class="slide split rev">
+<div class="t"><h2 style="--i:0">The system wasn't built to free him.</h2><p style="--i:1">It was built to run factories: be on time, be obedient, be interchangeable. It was never designed for a world where machines can think.</p></div>
+<svg viewBox="0 0 300 220" style="--i:2"><g fill="#2a2a2e" stroke="#e8b44c" stroke-width="3"><rect x="20" y="110" width="260" height="95"/><rect x="50" y="50" width="30" height="60"/><rect x="120" y="70" width="30" height="40"/><path d="M180 110V80L220 100V80L260 100V110"/></g><g class="sk"><circle class="smoke" cx="65" cy="44" r="12"/><circle class="smoke" cx="65" cy="44" r="12" style="animation-delay:1.3s"/><circle class="smoke" cx="135" cy="64" r="12" style="animation-delay:2.4s"/></g></svg>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+<h2 style="--i:0">Two doors.</h2>
+<div class="doors" style="--i:1">
+<div class="door"><b>Stay inside the machine</b><span>Safe. Slow. Replaceable.</span></div>
+<div class="door y"><b>Unlearn it</b><span>Uncertain. Fast. Yours.</span></div>
+</div>
+<p style="--i:2">Aarav stood there a long time. Then he walked through the second one.</p>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+<h2 style="--i:0">Alone, an underdog.<br><span class="gold">Together, a force.</span></h2>
+<div id="dots" style="--i:1"></div>
+<p style="--i:2">1,000 seats. One of them is yours.</p>
+</section>
+
+<!-- 9 -->
+<section class="slide split">
+<div class="t"><h2 style="--i:0">The deal.</h2>
+<div class="row" style="--i:1">
+<div class="stat"><b data-n="1000" data-pre="₹">0</b><span>to join</span></div>
+<div class="stat"><b data-n="365">0</b><span>days to decide</span></div>
+<div class="stat"><b data-n="10000" data-pre="₹">0</b><span>back if you leave</span></div>
+</div>
+<p style="--i:2">1,000 seats × ₹10,000 = <b style="color:var(--acid)">₹1 Crore</b> of my own money on the line. If everyone leaves, I pay every rupee.</p></div>
+<div class="ph" style="--i:3;--c:#2b3320"><img src="https://sasban.online/img/sasban/20240728.jpg" alt=""></div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+<h2 style="--i:0">Fair question: how do <span class="gold">I</span> earn?</h2>
+<p style="--i:1">From the discussions we have over the next year, broadcast to a much bigger audience. You get the front-row seat. I get conversations worth sharing.</p>
+<div class="flow" style="--i:2"><span class="node">Our discussions</span><span class="arr">→</span><span class="node">Broadcast</span><span class="arr">→</span><span class="node">Bigger audience</span><span class="arr">→</span><span class="node a">My income</span></div>
+<p style="--i:3">Your ₹1,000 isn't the business. The conversations are. Prefer to stay off-air? That's your call.</p>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+<h2 style="--i:0">What he did with 365 days.</h2>
+<div class="chap" style="--i:1">
+<div><b>Unlearn</b><span>Drop the beliefs that no longer pay.</span></div>
+<div><b>Rebuild</b><span>Learn AI-age skills in weekly live discussions.</span></div>
+<div><b>Build</b><span>Ship something real with peers who push.</span></div>
+<div><b>Show</b><span>Share the work publicly. Let it find you.</span></div></div>
+<div class="chips" style="--i:2"><span>Working with AI</span><span>Building and shipping</span><span>Earning beyond a salary</span><span>Thinking clearly</span><span>Being heard</span><span>Learning how to learn</span></div>
+</section>
+
+<!-- 12 -->
+<section class="slide split rev">
+<div class="t"><h2 style="--i:0;font-size:clamp(3rem,10vw,8.5rem)">They <span class="gold shimmer">compound.</span></h2>
+<p style="--i:1">That's the answer. Skills, an audience, things they own. Each grows on top of the last, and nobody gets there alone. Aarav's story ends here. Yours starts at seat number...</p>
+<a class="btn" style="--i:2" href="#join">Claim your seat — ₹1,000</a></div>
+<svg viewBox="0 0 400 300" style="--i:3"><path class="ln" stroke="#c6ff3d" stroke-width="6" d="M10 285C120 280 220 250 280 170S360 40 392 10"/><circle r="10" fill="#fff"><animateMotion dur="3s" begin="0.6s" fill="freeze" path="M10 285C120 280 220 250 280 170S360 40 392 10"/></circle></svg>
+</section>
+</div>
+<nav id="nav" aria-label="Slides"></nav>
+
+<script>
+const S=[...document.querySelectorAll('.slide')],nav=document.getElementById('nav'),dots=document.getElementById('dots');
+let cur=0,busy=false;
+S.forEach((_,i)=>{const b=document.createElement('button');b.setAttribute('aria-label','Slide '+(i+1));b.onclick=()=>go(i);nav.appendChild(b)});
+for(let i=0;i<1000;i++)dots.appendChild(document.createElement('i'));
+dots.children[517].classList.add('me');
+function count(el,to,pre,d){const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/d),e=1-Math.pow(1-p,3);el.textContent=pre+Math.round(to*e).toLocaleString('en-IN');if(p<1)requestAnimationFrame(f)})(t0)}
+function enter(i){
+ const s=S[i];
+ s.querySelectorAll('[data-n]').forEach(e=>count(e,+e.dataset.n,e.dataset.pre||'',1600));
+ if(s.contains(dots)){const d=dots.children;for(let k=0;k<d.length;k++)d[k].classList.remove('f');let k=0;const t=setInterval(()=>{for(let n=0;n<14&&k<d.length;n++)d[k++].classList.add('f');if(k>=d.length||cur!==i)clearInterval(t)},16)}
+ document.body.classList.toggle('free',i===S.length-1);
+}
+function go(n){
+ if(n<0||n>=S.length||n===cur||busy)return;busy=true;
+ const o=S[cur];o.classList.add('out');
+ setTimeout(()=>{o.classList.remove('on','out');cur=n;S[n].classList.add('on');enter(n);paint();busy=false},420)
+}
+function paint(){[...nav.children].forEach((b,i)=>b.classList.toggle('on',i===cur))}
+addEventListener('keydown',e=>{
+ if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(cur+1)}
+ if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}
+});
+let sx=0;addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)go(cur+(d<0?1:-1))});
+paint();
+</script>
+</body>
+</html>
