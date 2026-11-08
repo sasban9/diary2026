@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Safety in AI World · 1.1 What AI Is</title>
+<meta name="description" content="Module 1, Lesson 1: What AI Is. Safety in AI World.">
+<meta property="og:title" content="Safety in AI World · 1.1 What AI Is">
+<meta property="og:description" content="Is the thing you’re chatting with thinking, or just guessing the next word?">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://example.com/og-image.jpg">
+<meta property="og:url" content="https://example.com/safety-in-ai-world/1-1">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Safety in AI World · 1.1 What AI Is">
+<meta name="twitter:description" content="Is the thing you’re chatting with thinking, or just guessing the next word?">
+<meta name="twitter:image" content="https://example.com/og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600&family=Cormorant+Garamond:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;box-sizing:border-box}
+:root{--bg:#09090c;--ink:#f4eee1;--mut:#a39b8c;--gold:#e8b04a;--acid:#c6f432;--min:16px;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(max-width:700px){:root{--min:14px}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font:400 max(var(--min),clamp(1rem,1.7vw,1.5rem))/1.5 'Bricolage Grotesque',system-ui,sans-serif}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+.s{position:fixed;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(14px,2.6vh,28px);padding:calc(8vh + env(safe-area-inset-top,0px)) 7vw calc(8vh + env(safe-area-inset-bottom,0px));opacity:0;visibility:hidden;transform:translateX(calc(var(--d,1)*-5vw));transition:opacity .5s,transform .6s,visibility 0s .6s;overflow-y:auto;scrollbar-width:none}
+.s.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+h1,h2{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.02;letter-spacing:-.01em}
+h1{font-size:clamp(2.3rem,6.6vw,6.2rem);max-width:15em}
+h2{font-size:clamp(2rem,5.2vw,4.8rem);max-width:16em}
+em{font-style:italic;color:var(--gold)}
+.a em{color:var(--acid)}
+.k{font-size:var(--min);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.a .k{color:var(--acid)}
+.sub{color:var(--mut);max-width:34em}
+.mut{color:var(--mut)}
+.s:not(.on):not(.out) [data-a]{opacity:0}
+.s.on [data-a]{animation:up .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.14s + .2s)}
+[data-a=l]{--x:-70px;--y:0px}[data-a=r]{--x:70px;--y:0px}[data-a=z]{--sc:.92}
+@keyframes up{from{opacity:0;transform:translate(var(--x,0),var(--y,34px)) scale(var(--sc,1));filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+.cur{display:inline-block;width:3px;height:.9em;background:var(--gold);vertical-align:-.1em;margin-left:6px;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+@keyframes fl{to{transform:translateY(-9px)}}
+.drift span{position:absolute;left:var(--l);top:var(--t);font-family:'Cormorant Garamond',serif;font-size:max(var(--min),var(--fs));color:#ffffff12;animation:dr 9s ease-in-out infinite alternate;animation-delay:var(--dl,0s)}
+@keyframes dr{to{transform:translate(30px,-40px) rotate(4deg)}}
+.duo,.lanes,.pair,.row{display:grid;gap:clamp(12px,2vw,28px)}
+.duo{grid-template-columns:1fr 1.3fr}.lanes{grid-template-columns:1fr 1.25fr}.pair{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr 1fr;align-items:center;gap:4vw}
+@media(max-width:800px){.duo,.lanes,.pair,.row{grid-template-columns:1fr}}
+.card{border:1px solid #ffffff22;border-radius:18px;padding:clamp(16px,2.4vw,32px);background:#ffffff08;backdrop-filter:blur(6px)}
+.card b,.lane b{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3vw,2.8rem);display:block;margin-bottom:.3em}
+code{display:block;font:500 var(--min)/1.9 ui-monospace,Menlo,monospace;color:var(--mut);overflow:hidden;white-space:nowrap}
+.s.on code{animation:rv 1.2s steps(26) both}
+code:nth-of-type(1){animation-delay:.9s!important}code:nth-of-type(2){animation-delay:1.7s!important}code:nth-of-type(3){animation-delay:2.5s!important}
+@keyframes rv{from{max-width:0}to{max-width:100%}}
+.dots{position:relative;height:clamp(110px,18vh,180px)}
+.dots i{position:absolute;left:50%;top:50%;width:12px;height:12px;border-radius:50%;transform:translate(var(--sx),var(--sy));transition:transform 1.6s cubic-bezier(.2,.8,.2,1)}
+.dots.go i{transform:translate(var(--tx),var(--ty))}
+.sent{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,6vw,5.4rem);font-weight:600;line-height:1.1}
+.blank{color:var(--gold);border-bottom:3px solid var(--gold);min-width:2ch;display:inline-block;transition:.4s}
+.blank.f{color:var(--acid);border-color:var(--acid);transform:scale(1.06)}
+.bars{display:grid;gap:10px;max-width:640px;min-height:140px}
+.r{display:grid;grid-template-columns:6.5em 1fr 3.8em;gap:12px;align-items:center;font-size:var(--min)}
+.r u{display:block;height:14px;background:#ffffff14;border-radius:9px;overflow:hidden}
+.r b{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--acid));transition:width 1.3s cubic-bezier(.2,.8,.2,1)}
+.bars.go b{width:var(--w)}
+.r .p{text-align:right;color:var(--mut)}
+.lane{padding:clamp(16px,2.4vw,32px);border-left:3px solid var(--mut)}
+.lane.g{border-color:var(--gold);background:linear-gradient(90deg,#e8b04a14,transparent)}
+.chips,.take{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.chips i,.take i{font-style:normal;font-size:var(--min);border:1px solid var(--gold);color:var(--gold);padding:5px 16px;border-radius:99px;animation:fl 3s ease-in-out infinite alternate}
+.take i{border-color:var(--acid);color:var(--acid);padding:8px 20px}
+.chips i:nth-child(2),.take i:nth-child(2){animation-delay:-.8s}.chips i:nth-child(3),.take i:nth-child(3){animation-delay:-1.6s}.chips i:nth-child(4){animation-delay:-2.2s}
+.ghost{position:absolute;right:5vw;bottom:2vh;font-family:'Cormorant Garamond',serif;font-size:clamp(10rem,30vw,24rem);color:#ffffff08;line-height:1;pointer-events:none;animation:fl 8s ease-in-out infinite alternate}
+.kb{max-width:540px;border-radius:20px;background:#ffffff0d;border:1px solid #ffffff1f;padding:20px}
+.typed{font-size:max(var(--min),1.7rem);margin-bottom:14px}
+.sugg{display:flex;gap:8px}
+.sugg i{flex:1;text-align:center;font-style:normal;font-size:var(--min);padding:10px;border-radius:12px;background:#ffffff10;animation:pk 6s infinite}
+.sugg i:nth-child(2){animation-delay:2s}.sugg i:nth-child(3){animation-delay:4s}
+@keyframes pk{0%,28%{background:var(--gold);color:#000}33%,100%{background:#ffffff10;color:var(--ink)}}
+.orbit{position:relative;height:min(56vmin,440px);--r:min(24vmin,190px)}
+.orbit::before{content:'';position:absolute;left:50%;top:50%;width:calc(var(--r)*2);aspect-ratio:1;transform:translate(-50%,-50%);border:1px dashed #ffffff22;border-radius:50%}
+.orbit>span{position:absolute;left:50%;top:50%;font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,2.6vw,2.2rem);padding:6px 18px;border:1px solid var(--acid);color:var(--acid);border-radius:99px;background:#09090cbb;animation:orb 16s linear infinite;animation-delay:calc(var(--k)*-4s)}
+.core{position:absolute;left:50%;top:50%;width:14vmin;max-width:110px;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(var(--acid),transparent 70%);animation:pl 2.4s ease-in-out infinite alternate}
+@keyframes orb{from{transform:translate(-50%,-50%) rotate(0) translateX(var(--r)) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg) translateX(var(--r)) rotate(-360deg)}}
+@keyframes pl{to{transform:translate(-50%,-50%) scale(1.3);opacity:.6}}
+#nz{width:100%;max-width:640px;aspect-ratio:8/5;image-rendering:pixelated;border-radius:16px;border:1px solid #ffffff22}
+.w small{font-size:var(--min);color:var(--mut);letter-spacing:.15em;text-transform:uppercase;display:block;margin-bottom:8px}
+.wf{display:flex;align-items:center;gap:3px;height:clamp(70px,14vh,120px)}
+.wf i{flex:1;height:calc(var(--h)*100%);background:var(--ink);border-radius:3px;animation:wv var(--du) ease-in-out infinite alternate}
+.w.g .wf i{background:var(--acid)}
+@keyframes wv{to{transform:scaleY(.25)}}
+.steps{list-style:none;display:grid;gap:clamp(10px,2vh,22px);max-width:780px;padding:0}
+.steps li{display:flex;gap:20px;align-items:baseline}
+.steps b{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,8vw,6rem);line-height:.9;color:var(--acid);min-width:1.1ch}
+#tag{position:fixed;z-index:5;left:max(4vw,14px);top:calc(14px + env(safe-area-inset-top,0px));font-size:var(--min);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+#dots{position:fixed;z-index:5;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:8px}
+#dots i{width:6px;height:6px;border-radius:4px;background:#ffffff33;transition:.4s;cursor:pointer}
+#dots i.on{background:var(--gold);width:22px}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div id="tag"></div><div id="dots"></div>
+
+<section class="s" id="s1" data-tag="1.1a · What AI Is">
+<div class="drift" aria-hidden="true"><span style="--l:6%;--t:10%;--fs:5rem">next</span><span style="--l:70%;--t:18%;--fs:7rem;--dl:-3s">word</span><span style="--l:48%;--t:72%;--fs:6rem;--dl:-5s">?</span><span style="--l:12%;--t:68%;--fs:4rem;--dl:-2s">guess</span><span style="--l:82%;--t:62%;--fs:4rem;--dl:-6s">the</span></div>
+<p class="k" data-a>Module 1 · Lesson 1</p>
+<h1 data-a="z">Is the thing you’re chatting with <em>thinking</em>, or just guessing the <em>next word</em>?<span class="cur"></span></h1>
+<p class="sub" data-a>Hold that thought. We’ll answer it before this lesson ends.</p>
+</section>
+
+<section class="s" id="s2" data-tag="1.1a · The big idea">
+<h2 data-a>Old software follows <em>rules</em>. AI learns from <em>examples</em>.</h2>
+<div class="duo">
+<div class="card" data-a="l"><b>Rules</b><code>IF “prize” THEN spam</code><code>IF “free” THEN spam</code><code>IF … a million more rules</code></div>
+<div class="card" data-a="r"><b>Examples</b><div class="dots" id="dots2"></div><p class="sub">Shown millions of samples, it finds the patterns by itself.</p></div>
+</div>
+</section>
+
+<section class="s" id="s3" data-tag="1.1a · Next-word guessing">
+<p class="k" data-a>What a chatbot does, in one move</p>
+<div class="sent" data-a="z"><span id="sent"></span><span class="blank" id="blank">___</span></div>
+<div class="bars" id="bars" data-a></div>
+<p class="sub" data-a>It scores every possible next word and picks one. Repeat, and you get a paragraph.</p>
+</section>
+
+<section class="s" id="s4" data-tag="1.1a · Chatbots &amp; assistants">
+<h2 data-a>A chatbot <span class="mut">talks.</span> An assistant <em>talks and acts.</em></h2>
+<div class="lanes">
+<div class="lane" data-a="l"><b>Chatbot</b><p>You type, it writes back. Think ChatGPT, Claude, Gemini.</p></div>
+<div class="lane g" data-a="r"><b>Assistant</b><p>It can also search, set reminders, book and send. Think Siri, Alexa, Google Assistant.</p><div class="chips"><i>set alarm</i><i>search</i><i>book</i><i>send</i></div></div>
+</div>
+<p class="sub" data-a>The line is blurring: chatbots are now getting tools too.</p>
+</section>
+
+<section class="s" id="s5" data-tag="1.1a · Real-world example">
+<div class="ghost" aria-hidden="true">Aa</div>
+<p class="k" data-a>Real-world example</p>
+<h2 data-a>Your phone keyboard already <em>does this.</em></h2>
+<div class="kb" data-a="l"><div class="typed">See you at the<span class="cur"></span></div><div class="sugg"><i>station</i><i>party</i><i>airport</i></div></div>
+<p class="sub" data-a>Same trick, now trained on a huge slice of the internet. Next: AI that draws, films and speaks.</p>
+</section>
+
+<section class="s a" id="s6" data-tag="1.1b · Image, video &amp; voice AI" data-c="a">
+<div class="row">
+<div><p class="k" data-a>Part B</p><h2 data-a="z">Not just words. <em>Pictures, video, voices.</em></h2></div>
+<div class="orbit" data-a="r"><div class="core"></div><span style="--k:0">Image</span><span style="--k:1">Video</span><span style="--k:2">Voice</span><span style="--k:3">Music</span></div>
+</div>
+</section>
+
+<section class="s a" id="s7" data-tag="1.1b · How image AI works" data-c="a">
+<div class="row">
+<canvas id="nz" width="160" height="100" data-a="l"></canvas>
+<div><p class="k" data-a id="stp">Step 0 / 50</p><h2 data-a>It starts from <em>static</em> and sharpens it.</h2><p class="sub" data-a>Step by step, noise is nudged toward what your words describe: “a sunset over green hills.”</p></div>
+</div>
+</section>
+
+<section class="s a" id="s8" data-tag="1.1b · Voice &amp; video" data-c="a">
+<h2 data-a>A few seconds of audio can be enough to <em>copy a voice.</em></h2>
+<div class="pair">
+<div class="w" data-a="l"><small>Real voice</small><div class="wf" id="w1"></div></div>
+<div class="w g" data-a="r"><small>AI clone</small><div class="wf" id="w2"></div></div>
+</div>
+<p class="sub" data-a>Video AI does the same with faces. Module 3 shows how scammers use both.</p>
+</section>
+
+<section class="s a" id="s9" data-tag="1.1b · Hands-on activity" data-c="a">
+<p class="k" data-a>Hands-on · 3 minutes</p>
+<h2 data-a>Catch the <em>guess.</em></h2>
+<ol class="steps">
+<li data-a="l"><b>1</b><span>Ask any chatbot: “Are you thinking?” Copy its answer.</span></li>
+<li data-a="l"><b>2</b><span>Ask again, same words. What changed?</span></li>
+<li data-a="l"><b>3</b><span>Ask an image tool for “a clock showing 7:20.” Zoom in on the hands.</span></li>
+</ol>
+<p class="sub" data-a>Different answers to the same prompt? That’s sampling: a fresh guess each time.</p>
+</section>
+
+<section class="s a" id="s10" data-tag="1.1 · The answer" data-c="a">
+<p class="k" data-a>Back to our question</p>
+<h2 data-a="z">Guessing the next word, trained so well it can look like <em>thinking.</em></h2>
+<div class="take" data-a><i>A pattern machine</i><i>Words, pictures, voices</i><i>Fluent is not the same as true</i></div>
+<p class="sub" data-a>Next: 1.2 How AI Produces Answers</p>
+</section>
+
+<script>
+const S=[...document.querySelectorAll('.s')],dots=document.getElementById('dots'),tag=document.getElementById('tag');
+let cur=-1,clean=null,gx=0;
+const COL={g:[232,176,74],a:[198,244,50]};
+S.forEach((s,i)=>{const d=document.createElement('i');d.onclick=()=>go(i);dots.appendChild(d);s.querySelectorAll('[data-a]').forEach((e,j)=>e.style.setProperty('--i',j))});
+['w1','w2'].forEach((id,n)=>{window._h=window._h||Array.from({length:44},()=>[(.2+Math.random()*.8).toFixed(2),(.5+Math.random()*.9).toFixed(2)]);document.getElementById(id).innerHTML=window._h.map(([h,d])=>`<i style="--h:${h};--du:${d}s;animation-delay:${n*.08}s"></i>`).join('')});
+
+const inits={
+s2(s){const box=s.querySelector('#dots2');box.classList.remove('go');box.innerHTML='';
+ for(let i=0;i<36;i++){const d=document.createElement('i'),a=i%2;d.style.cssText=`--sx:${(Math.random()-.5)*200}px;--sy:${(Math.random()-.5)*120}px;--tx:${(a?-1:1)*(30+Math.random()*50)}px;--ty:${(Math.random()-.5)*70}px;background:${a?'var(--gold)':'var(--acid)'}`;box.appendChild(d)}
+ const t=setTimeout(()=>box.classList.add('go'),1000);return()=>clearTimeout(t)},
+s3(s){const seq=[['The cat sat on the',[['mat',58],['sofa',21],['floor',12],['moon',1]]],['Good morning, how are',[['you',91],['things',5],['they',3],['elephants',0.1]]]];
+ const sent=s.querySelector('#sent'),blank=s.querySelector('#blank'),bars=s.querySelector('#bars');let T=[];const at=(f,ms)=>T.push(setTimeout(f,ms));
+ (function run(k){const[txt,o]=seq[k%2];sent.textContent=txt+' ';blank.textContent='___';blank.classList.remove('f');
+  bars.innerHTML=o.map(([w,p])=>`<div class="r"><span>${w}</span><u><b style="--w:${p}%"></b></u><span class="p">${p}%</span></div>`).join('');
+  at(()=>bars.classList.add('go'),500);at(()=>{blank.textContent=o[0][0];blank.classList.add('f')},2800);at(()=>{bars.classList.remove('go');run(k+1)},5600)})(0);
+ return()=>{T.forEach(clearTimeout);bars.classList.remove('go')}},
+s7(s){const c=s.querySelector('#nz'),x=c.getContext('2d'),w=160,h=100,tg=document.createElement('canvas');tg.width=w;tg.height=h;const g=tg.getContext('2d');
+ const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#2a1b4d');gr.addColorStop(.55,'#e8803a');gr.addColorStop(1,'#f6c761');g.fillStyle=gr;g.fillRect(0,0,w,h);
+ g.fillStyle='#fff3c4';g.beginPath();g.arc(112,52,15,0,7);g.fill();
+ g.fillStyle='#1d3b2a';g.beginPath();g.moveTo(0,100);g.lineTo(0,70);g.quadraticCurveTo(40,48,85,72);g.quadraticCurveTo(125,90,160,66);g.lineTo(160,100);g.fill();
+ g.fillStyle='#10261a';g.beginPath();g.moveTo(0,100);g.lineTo(0,86);g.quadraticCurveTo(60,70,160,90);g.lineTo(160,100);g.fill();
+ const T=g.getImageData(0,0,w,h).data,im=x.createImageData(w,h),D=im.data,st=s.querySelector('#stp'),t0=performance.now();let raf;
+ (function f(n){const e=((n-t0)/1000)%8,p=Math.min(1,e/5),q=p*p*(3-2*p);st.textContent='Step '+Math.round(q*50)+' / 50';
+  for(let i=0;i<D.length;i+=4){for(let j=0;j<3;j++)D[i+j]=T[i+j]*q+Math.random()*255*(1-q);D[i+3]=255}
+  x.putImageData(im,0,0);raf=requestAnimationFrame(f)})(t0);
+ return()=>cancelAnimationFrame(raf)}
+};
+
+function go(n){n=Math.max(0,Math.min(S.length-1,n));if(n===cur)return;const dir=n>cur?1:-1;
+ if(cur>=0){const o=S[cur];o.style.setProperty('--d',dir);o.classList.remove('on');o.classList.add('out');setTimeout(()=>o.classList.remove('out'),650)}
+ if(clean){clean();clean=null}
+ cur=n;const s=S[n];s.classList.remove('out');s.classList.add('on');gx=dir*7;
+ [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===n));tag.textContent=s.dataset.tag;
+ tc=COL[s.dataset.c]||COL.g;const f=inits[s.id];if(f)clean=f(s)||null}
+addEventListener('keydown',e=>{const k=e.key;
+ if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(k)){e.preventDefault();go(cur+1)}
+ else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(k)){e.preventDefault();go(cur-1)}
+ else if(k==='Home')go(0);else if(k==='End')go(S.length-1)});
+let tx=0;addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(cur+(d<0?1:-1))});
+
+/* persistent background canvas: particles react to every slide change */
+const bg=document.getElementById('bg'),cx=bg.getContext('2d');let W,H,P=[],col=[...COL.g],tc=COL.g;
+function rs(){W=bg.width=innerWidth;H=bg.height=innerHeight;P=Array.from({length:Math.min(80,W/16|0)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}))}
+addEventListener('resize',rs);rs();
+(function draw(t){for(let i=0;i<3;i++)col[i]+=(tc[i]-col[i])*.04;gx*=.95;
+ const c=col.map(Math.round).join(',');cx.clearRect(0,0,W,H);
+ const g=cx.createRadialGradient(W*.72,H*.3+Math.sin(t/2500)*40,0,W*.72,H*.3,Math.max(W,H)*.6);g.addColorStop(0,`rgba(${c},.14)`);g.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=g;cx.fillRect(0,0,W,H);
+ P.forEach(p=>{p.x+=p.vx-gx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;cx.fillStyle=`rgba(${c},.5)`;cx.fillRect(p.x,p.y,2,2)});
+ for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=dx*dx+dy*dy;if(d<14000){cx.strokeStyle=`rgba(${c},${.16*(1-d/14000)})`;cx.beginPath();cx.moveTo(P[i].x,P[i].y);cx.lineTo(P[j].x,P[j].y);cx.stroke()}}
+ requestAnimationFrame(draw)})(0);
+go(0);
+</script>
+</body>
+</html>
