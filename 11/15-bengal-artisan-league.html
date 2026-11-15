@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bengal Artisan League · Live Index</title>
+<meta name="description" content="Year-round Artisan Valuation Index for the Bengal Artisan League.">
+<meta property="og:title" content="Bengal Artisan League · Live Index">
+<meta property="og:description" content="Placeholder description">
+<meta property="og:image" content="https://example.com/og.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bengal Artisan League · Live Index">
+<meta name="twitter:description" content="Placeholder description">
+<meta name="twitter:image" content="https://example.com/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0a08;--card:#15130f;--line:#2a261d;--tx:#f3ecdc;--mut:#a79d86;--gold:#e6b04b;--amb:#d9822b;--acid:#b8e04a;--red:#e0674a;
+--xs:.82rem;--sm:.9rem;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(min-width:768px){:root{--xs:1rem;--sm:1rem}}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#0b0a08}}
+*{box-sizing:border-box;margin:0}
+html{font-size:16px;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--tx);font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.45;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:-20%;background:radial-gradient(circle at 20% 10%,#e6b04b22,transparent 40%),radial-gradient(circle at 85% 80%,#b8e04a14,transparent 40%);animation:drift 18s ease-in-out infinite alternate;z-index:-1}
+@keyframes drift{to{transform:translate(4%,3%) scale(1.1)}}
+.wrap{max-width:1300px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,6vw,4.2rem);line-height:1;font-weight:700}
+h1 em{color:var(--gold)}
+.sub{color:var(--mut);font-size:var(--sm);margin-top:8px}
+.live{display:inline-flex;gap:8px;align-items:center;font-size:var(--xs);color:var(--acid);letter-spacing:.08em;text-transform:uppercase}
+.live i{width:9px;height:9px;border-radius:50%;background:var(--acid);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #b8e04a88}100%{box-shadow:0 0 0 12px #b8e04a00}}
+.ctl{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;min-width:min(100%,380px)}
+.ctl label{font-size:var(--xs);color:var(--mut);display:flex;justify-content:space-between}
+.ctl b{color:var(--gold)}
+input[type=range]{width:100%;accent-color:var(--gold);margin-top:8px}
+.grid{display:grid;gap:14px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;opacity:0;transform:translateY(24px);animation:up .7s cubic-bezier(.2,.8,.2,1) forwards;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.card:hover{border-color:var(--gold);transform:translateY(-3px)}
+@keyframes up{to{opacity:1;transform:none}}
+.card::after{content:"";position:absolute;top:0;left:-100%;width:60%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:scan 5s linear infinite}
+@keyframes scan{to{left:140%}}
+.lab{font-size:var(--xs);color:var(--mut);text-transform:uppercase;letter-spacing:.07em}
+.val{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,2.9rem);font-weight:700;color:var(--tx);margin:4px 0}
+.d{font-size:var(--xs)}.up{color:var(--acid)}.dn{color:var(--red)}
+.main{grid-template-columns:1fr;margin-bottom:14px}
+@media(min-width:900px){.main{grid-template-columns:1.6fr 1fr}.row3{grid-template-columns:1fr 1fr 1fr}}
+h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;margin-bottom:10px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tabs button{background:none;border:1px solid var(--line);color:var(--mut);border-radius:99px;padding:6px 14px;font:inherit;font-size:var(--xs);cursor:pointer;transition:.25s}
+.tabs button.on,.tabs button:hover{background:var(--gold);color:#17120a;border-color:var(--gold)}
+svg{width:100%;height:auto;display:block}
+.line{stroke-dasharray:2000;stroke-dashoffset:2000;animation:draw 2.4s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+svg text{font-size:13px;fill:var(--mut);font-family:inherit}
+@media(min-width:768px){svg text{font-size:16px}}
+.bar{display:grid;grid-template-columns:minmax(90px,1.2fr) 3fr auto;gap:10px;align-items:center;margin:9px 0;font-size:var(--sm)}
+.track{height:12px;background:#ffffff0d;border-radius:9px;overflow:hidden}
+.fill{height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,var(--amb),var(--gold));transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.fill.g{background:linear-gradient(90deg,#6c9a1f,var(--acid))}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:var(--sm);min-width:640px}
+th{color:var(--mut);font-weight:400;text-align:left;font-size:var(--xs);padding:8px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap}
+th:hover{color:var(--gold)}
+td{padding:10px 8px;border-bottom:1px solid #ffffff0a;white-space:nowrap}
+tr{transition:background .25s}tbody tr:hover{background:#e6b04b12}
+.rk{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold)}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;background:#ffffff10;font-size:var(--xs)}
+.feed{list-style:none;padding:0;max-height:330px;overflow:hidden}
+.feed li{padding:9px 0;border-bottom:1px solid #ffffff0a;font-size:var(--sm);animation:slide .6s ease}
+@keyframes slide{from{opacity:0;transform:translateX(-30px)}}
+.feed small{color:var(--mut);font-size:var(--xs);display:block}
+.row3{grid-template-columns:1fr}
+.split{display:flex;height:22px;border-radius:12px;overflow:hidden;margin:10px 0}
+.split div{transition:width 1s}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div>
+  <div class="live"><i></i>Season live · all 12 months</div>
+  <h1>Bengal Artisan <em>League</em></h1>
+  <p class="sub">Artisan Valuation Index · year-round tracking · hypothetical data for design purposes</p>
+ </div>
+ <div class="ctl"><label><span>Season month</span><b id="mlab"></b></label><input id="mo" type="range" min="1" max="12" value="11"></div>
+</header>
+
+<section class="grid kpis" id="kpis"></section>
+
+<section class="grid main">
+ <div class="card" style="animation-delay:.5s">
+  <h2>Economic footprint trend</h2>
+  <div class="tabs" id="tabs"></div>
+  <svg id="chart" viewBox="0 0 700 320"></svg>
+ </div>
+ <div class="card" style="animation-delay:.6s">
+  <h2>Footprint breakdown</h2>
+  <div id="brk"></div>
+  <h2 style="margin-top:18px">Verified vs projected</h2>
+  <div class="split"><div id="sv" style="background:var(--acid)"></div><div id="sp" style="background:var(--amb)"></div></div>
+  <p class="sub" id="vptxt"></p>
+ </div>
+</section>
+
+<section class="card" style="animation-delay:.7s;margin-bottom:14px">
+ <h2>Artisan Valuation Index · leaderboard</h2>
+ <p class="sub" style="margin:-4px 0 10px">Tap a column header to sort</p>
+ <div class="tw"><table><thead><tr id="th"></tr></thead><tbody id="tb"></tbody></table></div>
+</section>
+
+<section class="grid row3">
+ <div class="card" style="animation-delay:.8s"><h2>Team standings</h2><div id="teams"></div></div>
+ <div class="card" style="animation-delay:.9s"><h2>Craft clusters</h2><div id="clusters"></div></div>
+ <div class="card" style="animation-delay:1s"><h2>Live activity</h2><ul class="feed" id="feed"></ul></div>
+</section>
+</div>
+
+<script>
+const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let s=7;const rnd=()=>(s=(s*9301+49297)%233280)/233280;
+const A=[["Master Sculptor","Krishnanagar","Clay"],["Kantha Master","Birbhum","Textile"],["Dokra Caster","Bankura","Metal"],["Patachitra Artist","Medinipur","Scroll"],["Terracotta Master","Bishnupur","Clay"],["Shola Artisan","Bardhaman","Pith"],["Baluchari Weaver","Bishnupur","Textile"],["Mask Maker","Purulia","Wood"],["Conch Carver","Kolkata","Shell"],["Madur Weaver","Medinipur","Fibre"]];
+const T=["Tigers of Kolkata","Hooghly Hawks","Terracotta Titans","Padma Panthers","Dokra Dynamos"];
+const CAT=["Artwork sales","Studio commissions","Apprentice work","Workshops","Exhibitions & licensing","Tourism & visits","Merchandise"];
+const SH=[.27,.36,.14,.05,.09,.05,.04];
+const art=A.map((a,i)=>{const base=30+rnd()*110-i*5,g=.1+rnd()*.28;
+ const mon=[];for(let m=0;m<12;m++){mon.push(base*(1+g*(m/12))*(1+(rnd()-.5)*.08)/12)}
+ return{n:a[0],c:a[1],cr:a[2],team:T[i%5],g,base,mon,ap:2+Math.floor(rnd()*14),sup:8+Math.floor(rnd()*60),avg:.4+rnd()*3.2,com:6+Math.floor(rnd()*30),intl:20+Math.floor(rnd()*75),ver:.55+rnd()*.35}});
+const cur=()=>+mo.value-1;
+const L=v=>v>=100?(v/100).toFixed(2)+' Cr':v.toFixed(1)+' L';
+const sumTo=(a,m)=>a.mon.slice(0,m+1).reduce((x,y)=>x+y,0);
+const fp=a=>a.base*(1+a.g*((cur()+1)/12));
+const ytd=a=>sumTo(a,cur());
+let metric='fp',sortK='fp',dir=-1;
+function count(el,to,fmt){const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1100),e=1-Math.pow(1-p,3);el.textContent=fmt(to*e);if(p<1)requestAnimationFrame(f)})(t0)}
+function kpis(){const tot=art.reduce((x,a)=>x+fp(a),0),y=art.reduce((x,a)=>x+ytd(a),0);
+ const sup=art.reduce((x,a)=>x+a.sup,0),ap=art.reduce((x,a)=>x+a.ap,0),com=art.reduce((x,a)=>x+a.com,0);
+ const gr=art.reduce((x,a)=>x+a.g,0)/art.length*100,avg=art.reduce((x,a)=>x+a.avg,0)/art.length;
+ const ver=art.reduce((x,a)=>x+a.ver,0)/art.length*100,intl=art.reduce((x,a)=>x+a.intl,0)/art.length;
+ const k=[["Total economic footprint",tot,v=>'₹'+L(v),"▲ "+(gr/2).toFixed(1)+"% vs last month"],
+ ["Footprint year-to-date",y,v=>'₹'+L(v),"through "+M[cur()]],
+ ["Avg 3-yr growth",gr,v=>v.toFixed(1)+'%',"▲ across "+art.length+" masters"],
+ ["People economically supported",sup,v=>Math.round(v).toLocaleString(),"incl. "+ap+" apprentices"],
+ ["Avg artwork transaction",avg,v=>'₹'+v.toFixed(2)+' L',com+" active commissions"],
+ ["International & institutional demand",intl,v=>Math.round(v)+'/100',"verified pipeline "+ver.toFixed(0)+"%"]];
+ kpis_.innerHTML=k.map((x,i)=>`<div class="card" style="animation-delay:${i*.08}s"><div class="lab">${x[0]}</div><div class="val" data-i="${i}">0</div><div class="d up">${x[3]}</div></div>`).join('');
+ kpis_.querySelectorAll('.val').forEach(el=>{const x=k[+el.dataset.i];count(el,x[1],x[2])})}
+const kpis_=document.getElementById('kpis');
+function chart(){const svg=document.getElementById('chart');const W=700,H=320,P=46;let ser;
+ const pick={fp:a=>a.mon,sup:a=>a.mon.map((v,i)=>a.sup*(.7+i/40)/art.length*10),com:a=>a.mon.map((v,i)=>a.com*(.6+i/30)/12)}[metric];
+ ser=Array.from({length:12},(_,m)=>art.reduce((x,a)=>x+pick(a)[m],0));
+ const mx=Math.max(...ser)*1.1,X=i=>P+i*(W-P-14)/11,Y=v=>H-P-(v/mx)*(H-P-16);
+ const pts=ser.map((v,i)=>[X(i),Y(v)]);const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+ let g='';for(let i=0;i<=4;i++){const v=mx*i/4,y=Y(v);g+=`<line x1="${P}" x2="${W-10}" y1="${y}" y2="${y}" stroke="#ffffff10"/><text x="4" y="${y+4}">${metric==='fp'?L(v):Math.round(v)}</text>`}
+ M.forEach((m,i)=>g+=`<text x="${X(i)-12}" y="${H-14}" ${i>cur()?'opacity=".35"':''}>${m}</text>`);
+ const cp=pts.slice(0,cur()+1);
+ svg.innerHTML=`<defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6b04b" stop-opacity=".4"/><stop offset="1" stop-color="#e6b04b" stop-opacity="0"/></linearGradient></defs>${g}
+ <path d="${d} L${X(11)} ${H-P} L${X(0)} ${H-P}Z" fill="url(#gr)" opacity=".5"/>
+ <path class="line" d="${d}" fill="none" stroke="#e6b04b" stroke-width="3" stroke-linecap="round"/>
+ ${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${i===cur()?8:4}" fill="${i<=cur()?'#b8e04a':'#444'}"><animate attributeName="r" values="${i===cur()?'8;12;8':'4;4'}" dur="2s" repeatCount="indefinite"/></circle>`).join('')}`}
+function tabs(){const t=[['fp','Footprint (₹)'],['sup','People supported'],['com','Commissions']];
+ document.getElementById('tabs').innerHTML=t.map(x=>`<button class="${metric===x[0]?'on':''}" data-m="${x[0]}">${x[1]}</button>`).join('');
+ document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{metric=b.dataset.m;tabs();chart()})}
+function bars(el,rows,cls){el.innerHTML=rows.map(r=>`<div class="bar"><span>${r[0]}</span><div class="track"><div class="fill ${cls||''}" data-w="${r[2]}"></div></div><b>${r[1]}</b></div>`).join('');
+ requestAnimationFrame(()=>setTimeout(()=>el.querySelectorAll('.fill').forEach(f=>f.style.width=f.dataset.w+'%'),50))}
+function side(){const tot=art.reduce((x,a)=>x+ytd(a),0);
+ bars(document.getElementById('brk'),CAT.map((c,i)=>[c,'₹'+L(tot*SH[i]),SH[i]*100/.36*100/100*0.9]));
+ const v=art.reduce((x,a)=>x+a.ver,0)/art.length*100;sv.style.width=v+'%';sp.style.width=(100-v)+'%';
+ vptxt.innerHTML=`<span class="up">${v.toFixed(0)}% verified historical</span> · <span style="color:var(--amb)">${(100-v).toFixed(0)}% projected</span>`;
+ const tm=T.map(t=>[t,art.filter(a=>a.team===t).reduce((x,a)=>x+fp(a),0)]).sort((a,b)=>b[1]-a[1]);
+ bars(teams,tm.map(x=>[x[0],'₹'+L(x[1]),x[1]/tm[0][1]*100]),'g');
+ const cl={};art.forEach(a=>cl[a.cr]=(cl[a.cr]||0)+fp(a));const cs=Object.entries(cl).sort((a,b)=>b[1]-a[1]);
+ bars(clusters,cs.map(x=>[x[0],'₹'+L(x[1]),x[1]/cs[0][1]*100]))}
+const COLS=[['n','Artisan'],['team','Team'],['fp','Footprint'],['g','3-yr growth'],['sup','Supported'],['ap','Apprentices'],['avg','Avg sale'],['com','Commissions'],['intl','Intl demand'],['ver','Verified']];
+function table(){th.innerHTML='<th>#</th>'+COLS.map(c=>`<th data-k="${c[0]}">${c[1]}${sortK===c[0]?(dir>0?' ▲':' ▼'):''}</th>`).join('');
+ th.querySelectorAll('th[data-k]').forEach(h=>h.onclick=()=>{const k=h.dataset.k;dir=sortK===k?-dir:-1;sortK=k;table()});
+ const val=(a,k)=>k==='fp'?fp(a):a[k];
+ const rows=[...art].sort((a,b)=>{const x=val(a,sortK),y=val(b,sortK);return(typeof x==='string'?x.localeCompare(y):x-y)*dir});
+ tb.innerHTML=rows.map((a,i)=>`<tr style="animation:slide .5s ${i*.05}s both"><td class="rk">${i+1}</td><td><b>${a.n}</b><br><span class="d" style="color:var(--mut)">${a.c} · ${a.cr}</span></td><td>${a.team}</td><td>₹${L(fp(a))}</td><td class="up">▲ ${(a.g*100).toFixed(1)}%</td><td>${a.sup}</td><td>${a.ap}</td><td>₹${a.avg.toFixed(2)} L</td><td>${a.com}</td><td><span class="pill">${a.intl}</span></td><td>${(a.ver*100).toFixed(0)}%</td></tr>`).join('')}
+const EV=["commission signed","new apprentice enrolled","exhibition invite received","international enquiry","workshop sold out","verified sale recorded","licensing deal closed"];
+function ev(){const a=art[Math.floor(Math.random()*art.length)],e=EV[Math.floor(Math.random()*EV.length)];
+ const li=document.createElement('li');li.innerHTML=`<b>${a.n}</b> · ${e}<small>${a.c} · ${a.team} · just now</small>`;feed.prepend(li);if(feed.children.length>7)feed.lastChild.remove()}
+function all(){mlab.textContent=M[cur()]+' 2026';kpis();chart();side();table()}
+mo.oninput=all;tabs();all();for(let i=0;i<4;i++)ev();setInterval(ev,3200);
+</script>
+</body>
+</html>

@@ -1,6 +1,11 @@
-OCT26 MON
+NOV09
+https://www.mathcha.io/editor
+https://www.geogebra.org/geometry
+https://link.outskill.com/ai-accelerator-oct26
+https://payments.outskill.com/pay/8d298093-050f-4c51-879d-fe152a5e83cc/INR
 
 
+==
 OCT25 SUN
 https://www.8090.ai/blog/what-is-a-software-factory-
 

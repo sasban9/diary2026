@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WealthAI / Technical Architecture Blueprint</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Inter & JetBrains Mono Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        navy: {
+                            950: '#070a11',
+                            900: '#0a0e17',
+                            850: '#0d1322',
+                            800: '#141d2b',
+                            700: '#1e293b',
+                            600: '#334155'
+                        },
+                        blueprint: {
+                            accent: '#38bdf8',
+                            cyan: '#06b6d4',
+                            glow: 'rgba(56, 189, 248, 0.15)',
+                            gap: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Exact Infographic Visual Theme */
+        body {
+            background-color: #070a11;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.04) 0%, transparent 70%),
+                linear-gradient(to right, rgba(30, 41, 59, 0.25) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 41, 59, 0.25) 1px, transparent 1px);
+            background-size: 100% 100%, 28px 28px, 28px 28px;
+            color: #94a3b8;
+        }
+
+        .layer-box {
+            background: linear-gradient(180deg, rgba(13, 19, 34, 0.95) 0%, rgba(10, 14, 23, 0.98) 100%);
+            border: 1px solid rgba(51, 65, 85, 0.7);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+            transition: all 0.25s ease-in-out;
+        }
+
+        .layer-box:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        .component-card {
+            background-color: rgba(20, 29, 43, 0.75);
+            border: 1px solid rgba(51, 65, 85, 0.6);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .component-card:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            background-color: rgba(20, 29, 43, 0.95);
+            transform: translateY(-1px);
+        }
+
+        .sidebar-card {
+            background-color: rgba(13, 19, 34, 0.85);
+            border: 1px solid rgba(51, 65, 85, 0.6);
+        }
+
+        .flow-banner {
+            background-color: #070a11;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.1);
+        }
+
+        .integration-gap-badge {
+            border: 1px dashed #f59e0b;
+            background-color: rgba(245, 158, 11, 0.08);
+            color: #fbbf24;
+        }
+
+        /* Flow Animation */
+        @keyframes flowPulse {
+            0%, 100% { opacity: 0.5; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(2px); }
+        }
+        .flow-arrow {
+            animation: flowPulse 2s infinite ease-in-out;
+        }
+
+        /* Mode: Highlight Integration Gaps */
+        body.mode-gaps .gap-target {
+            border-color: #f59e0b !important;
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.3) !important;
+            background-color: rgba(245, 158, 11, 0.12) !important;
+        }
+        body.mode-gaps .non-gap {
+            opacity: 0.35;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #070a11; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+    </style>
+</head>
+<body class="font-sans antialiased text-slate-300 min-h-screen p-3 md:p-6 lg:p-8 flex flex-col justify-between">
+
+    <div class="max-w-[1750px] mx-auto w-full">
+
+        <!-- CONTROLS & UTILITY BAR -->
+        <div class="mb-4 flex flex-wrap justify-between items-center text-xs font-mono text-slate-400 gap-3 border-b border-slate-800/80 pb-3">
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+                <span class="text-slate-200 font-bold">WealthAI / REFERENCE ARCHITECTURE</span>
+                <span class="text-slate-600">|</span>
+                <span>STATUS: <span class="text-emerald-400">SPECIFICATION COMPLETE</span></span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-slate-400 mr-1">VIEW MODE:</span>
+                <button id="btn-mode-full" onclick="setMode('full')" class="bg-sky-500/20 text-sky-300 border border-sky-500/50 px-3 py-1 rounded transition text-[11px] font-bold">
+                    Full Architecture
+                </button>
+                <button id="btn-mode-gaps" onclick="setMode('gaps')" class="bg-slate-900 text-amber-400 border border-amber-500/40 hover:bg-amber-500/10 px-3 py-1 rounded transition text-[11px]">
+                    Highlight Integration Gaps
+                </button>
+                <button onclick="window.print()" class="bg-slate-800 text-slate-300 hover:text-white px-2.5 py-1 rounded transition text-[11px] ml-2">
+                    Print / PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- HEADER SECTION -->
+        <header class="mb-6 border-b border-slate-800/80 pb-5">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <div class="text-xs font-mono text-sky-400 tracking-widest uppercase mb-1">
+                        WealthAI / TECHNICAL ARCHITECTURE
+                    </div>
+                    <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight text-white font-sans">
+                        Four layers. Two experiences. One workflow platform.
+                    </h1>
+                    <p class="text-slate-400 text-xs md:text-sm mt-1 font-mono">
+                        Source-grounded reference view | AWS application + AI services | Oracle data integration
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN GRID LAYOUT -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- LEFT STACK: THE 4 MAIN ARCHITECTURAL LAYERS (9 Cols) -->
+            <main class="lg:col-span-9 flex flex-col gap-6">
+
+                <!-- 01 EXPERIENCE & API -->
+                <section class="layer-box rounded-xl p-4 md:p-5 relative non-gap" id="layer-01">
+                    <!-- Layer Header -->
+                    <div class="flex flex-wrap items-center justify-between mb-4 pb-2 border-b border-slate-800 gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/30">01</span>
+                            <h2 class="text-sm font-bold tracking-wider text-white uppercase font-mono">EXPERIENCE & API</h2>
+                        </div>
+                        <span class="text-xs text-slate-400 font-mono">User interfaces, authenticated requests, human review, and application endpoints</span>
+                    </div>
+
+                    <!-- Components Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                        
+                        <!-- RM Workbench | Client Portal -->
+                        <div class="md:col-span-7 component-card rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <h3 class="font-bold text-white text-sm">RM Workbench | Client Portal</h3>
+                                <span class="font-mono text-[10px] text-sky-400 bg-sky-950/60 border border-sky-800 px-2 py-0.5 rounded">React + Vite / S3 static hosting</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-3">
+                                Chat, journey workspaces, approvals, voice
+                            </p>
+                            <div class="text-[11px] font-mono text-slate-400 space-y-1 bg-navy-950/80 p-2.5 rounded border border-slate-800">
+                                <div><strong class="text-slate-300">Voice and messaging adapters:</strong> browser speech recognition · Amazon Polly · Amazon SES</div>
+                                <div><strong class="text-slate-300">Direct API paths:</strong> call Bedrock, Oracle Lambda adapters, DynamoDB, and Redis.</div>
+                            </div>
+                        </div>
+
+                        <!-- HTTPS Connector -->
+                        <div class="hidden md:flex md:col-span-1 items-center justify-center font-mono text-xs text-sky-400">
+                            <span class="bg-navy-950 px-1 py-0.5 border border-slate-800 rounded text-[10px]">HTTPS</span>
+                        </div>
+
+                        <!-- FastAPI / ECS Fargate -->
+                        <div class="md:col-span-4 component-card rounded-lg p-4">
+                            <div class="font-bold text-white text-sm mb-1">FastAPI / ECS Fargate</div>
+                            <div class="text-[11px] font-mono text-sky-400 mb-2">CloudFront → WAF → ALB → /api/*</div>
+                            <p class="text-xs text-slate-400">
+                                JWT validation, API access checks, workflow routes
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Flow Arrow to Layer 02 -->
+                    <div class="flex justify-center -mb-7 mt-4 relative z-10">
+                        <div class="flow-banner text-sky-300 text-[11px] font-mono px-4 py-1 rounded-full flex items-center gap-2 flow-arrow">
+                            <span>invoke_agent_runtime / JSON payload</span>
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 02 AGENT ORCHESTRATION & MODELS -->
+                <section class="layer-box rounded-xl p-4 md:p-5 relative" id="layer-02">
+                    <!-- Layer Header -->
+                    <div class="flex flex-wrap items-center justify-between mb-4 pb-2 border-b border-slate-800 gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/30">02</span>
+                            <h2 class="text-sm font-bold tracking-wider text-white uppercase font-mono">AGENT ORCHESTRATION & MODELS</h2>
+                        </div>
+                        <span class="text-xs text-slate-400 font-mono">Amazon Bedrock AgentCore Runtime / Strands / shared container with role-based startup</span>
+                    </div>
+
+                    <!-- Supervisors Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        
+                        <!-- RM Supervisor -->
+                        <div class="component-card rounded-lg p-3.5 non-gap">
+                            <div class="text-center mb-2">
+                                <h3 class="font-bold text-white text-sm">RM Supervisor</h3>
+                                <div class="text-[11px] text-slate-400">Delegates to four specialist runtimes</div>
+                            </div>
+                            <div class="grid grid-cols-4 gap-1.5 mb-2 text-center font-mono text-[11px]">
+                                <div class="bg-navy-950 p-1.5 rounded border border-slate-800 text-slate-200">Client Intel</div>
+                                <div class="bg-navy-950 p-1.5 rounded border border-slate-800 text-slate-200">Advisory</div>
+                                <div class="bg-navy-950 p-1.5 rounded border border-slate-800 text-slate-200">Compliance</div>
+                                <div class="bg-navy-950 p-1.5 rounded border border-slate-800 text-slate-200">Operations</div>
+                            </div>
+                            <div class="text-[10px] font-mono text-sky-400 text-right">5 role definitions / 4 delegation tools</div>
+                        </div>
+
+                        <!-- Client Supervisor -->
+                        <div class="component-card rounded-lg p-3.5 gap-target">
+                            <div class="text-center mb-2">
+                                <h3 class="font-bold text-white text-sm">Client Supervisor</h3>
+                                <div class="text-[11px] text-slate-400">Delegates to three client specialist roles</div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 mb-2 text-center font-mono text-[11px]">
+                                <div class="bg-navy-950 p-1.5 rounded border border-slate-800 text-slate-200">My Portfolio</div>
+                                <div class="bg-navy-950 p-1.5 rounded border border-slate-800 text-slate-200">My Status</div>
+                                <div class="bg-navy-950 p-1.5 rounded border border-slate-800 text-slate-200">My RM</div>
+                            </div>
+                            <div class="text-[10px] font-mono text-amber-400 text-right font-medium">
+                                4 role definitions; client tool mappings incomplete
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Bedrock Models & Steering Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-3">
+                        <!-- Amazon Bedrock -->
+                        <div class="md:col-span-6 bg-navy-950/90 rounded-lg p-3 border border-slate-800 non-gap">
+                            <div class="font-bold text-white text-xs font-mono mb-1">Amazon Bedrock</div>
+                            <div class="text-xs font-mono space-y-1 text-slate-300">
+                                <div><strong class="text-sky-400">Haiku:</strong> routing and most agent roles</div>
+                                <div><strong class="text-sky-400">Sonnet:</strong> advisory + direct API reasoning paths</div>
+                            </div>
+                        </div>
+
+                        <!-- Steering, prompts & memory -->
+                        <div class="md:col-span-6 bg-navy-950/90 rounded-lg p-3 border border-slate-800 non-gap">
+                            <div class="font-bold text-white text-xs font-mono mb-1">Steering, prompts & memory</div>
+                            <div class="text-xs font-mono text-slate-300 space-y-0.5">
+                                <div>Python hooks / Langfuse + YAML prompts</div>
+                                <div>AgentCore Memory helper: shared namespace</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Callout Text Footer inside Layer 02 -->
+                    <div class="text-[11px] font-mono text-slate-400 pt-2 border-t border-slate-800/80 flex flex-wrap justify-between gap-2 gap-target">
+                        <span>Inter-agent invocation uses HTTP runtime calls; the A2A module is not the active path.</span>
+                        <span class="text-amber-400">Defined budgets and hooks require integration tests; they do not establish hard guarantees.</span>
+                    </div>
+
+                    <!-- Flow Arrow to Layer 03 -->
+                    <div class="flex justify-center -mb-7 mt-4 relative z-10">
+                        <div class="flow-banner text-sky-300 text-[11px] font-mono px-4 py-1 rounded-full flex items-center gap-2 flow-arrow">
+                            <span>Specialist tool discovery + calls via MCP</span>
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 03 BUSINESS TOOLS & INTEGRATION -->
+                <section class="layer-box rounded-xl p-4 md:p-5 relative" id="layer-03">
+                    <!-- Layer Header -->
+                    <div class="flex flex-wrap items-center justify-between mb-4 pb-2 border-b border-slate-800 gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/30">03</span>
+                            <h2 class="text-sm font-bold tracking-wider text-white uppercase font-mono">BUSINESS TOOLS & INTEGRATION</h2>
+                        </div>
+                        <span class="text-xs text-slate-400 font-mono">Business operations, deterministic rules, parameterized queries, and service adapters</span>
+                    </div>
+
+                    <!-- Gateway Bar -->
+                    <div class="bg-navy-950 border border-slate-700/80 rounded-lg p-3 mb-4 text-center gap-target">
+                        <div class="font-mono text-xs font-bold text-white">AgentCore Gateway / MCP streamable HTTP / nine Lambda targets</div>
+                        <div class="text-[11px] text-amber-400 font-mono mt-0.5">
+                            Tool discovery and role-name filtering; actual authorization requires verified identity + policy wiring.
+                        </div>
+                    </div>
+
+                    <!-- 9 Modules Grid (3x3) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-3 font-mono">
+                        
+                        <div class="component-card rounded p-2.5 non-gap">
+                            <div class="font-bold text-xs text-white">CRM</div>
+                            <div class="text-[11px] text-slate-400">Client profiles and summaries</div>
+                        </div>
+
+                        <div class="component-card rounded p-2.5 non-gap">
+                            <div class="font-bold text-xs text-white">Interactions</div>
+                            <div class="text-[11px] text-slate-400">History, notes, and messages</div>
+                        </div>
+
+                        <div class="component-card rounded p-2.5 non-gap">
+                            <div class="font-bold text-xs text-white">Portfolio - Oracle</div>
+                            <div class="text-[11px] text-slate-400">Holdings, goals, and proposals</div>
+                        </div>
+
+                        <div class="component-card rounded p-2.5 non-gap">
+                            <div class="font-bold text-xs text-white">Compliance - Oracle</div>
+                            <div class="text-[11px] text-slate-400">Suitability rules and compliance</div>
+                        </div>
+
+                        <div class="component-card rounded p-2.5 non-gap">
+                            <div class="font-bold text-xs text-white">Sanctions</div>
+                            <div class="text-[11px] text-slate-400">Screening against Aurora records</div>
+                        </div>
+
+                        <div class="component-card rounded p-2.5 non-gap">
+                            <div class="font-bold text-xs text-white">ESG</div>
+                            <div class="text-[11px] text-slate-400">Bundled CSV enrichment</div>
+                        </div>
+
+                        <div class="component-card rounded p-2.5 non-gap">
+                            <div class="font-bold text-xs text-white">Regulatory</div>
+                            <div class="text-[11px] text-slate-400">Vector retrieval and citations</div>
+                        </div>
+
+                        <div class="component-card rounded p-2.5 non-gap">
+                            <div class="font-bold text-xs text-white">Operational</div>
+                            <div class="text-[11px] text-slate-400">Journeys, tasks, and stage state</div>
+                        </div>
+
+                        <div class="component-card rounded p-2.5 non-gap">
+                            <div class="font-bold text-xs text-white">Compliance / Triggers</div>
+                            <div class="text-[11px] text-slate-400">Redis-backed trigger queries</div>
+                        </div>
+
+                    </div>
+
+                    <div class="text-[11px] font-mono text-slate-400 text-center pt-1 border-t border-slate-800/60 non-gap">
+                        Oracle tool adapters connect from AWS Lambda to OCI using the thin driver and wallet-based mTLS.
+                    </div>
+
+                    <!-- Flow Arrow to Layer 04 -->
+                    <div class="flex justify-center -mb-7 mt-4 relative z-10">
+                        <div class="flow-banner text-sky-300 text-[11px] font-mono px-4 py-1 rounded-full flex items-center gap-2 flow-arrow">
+                            <span>Parameterized SQL / AWS SDK calls / TLS</span>
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 04 DATA & KNOWLEDGE -->
+                <section class="layer-box rounded-xl p-4 md:p-5 relative non-gap" id="layer-04">
+                    <!-- Layer Header -->
+                    <div class="flex flex-wrap items-center justify-between mb-4 pb-2 border-b border-slate-800 gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/30">04</span>
+                            <h2 class="text-sm font-bold tracking-wider text-white uppercase font-mono">DATA & KNOWLEDGE</h2>
+                        </div>
+                        <span class="text-xs text-slate-400 font-mono">Operational state, financial records, knowledge retrieval, and supporting datasets</span>
+                    </div>
+
+                    <!-- Storage Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 font-mono">
+                        
+                        <div class="component-card rounded p-3">
+                            <div class="font-bold text-xs text-white mb-1">DynamoDB</div>
+                            <div class="text-[11px] text-slate-400">
+                                Clients, interactions, journey state<br>
+                                Approvals, workspaces, tasks, KYC state
+                            </div>
+                        </div>
+
+                        <div class="component-card rounded p-3">
+                            <div class="font-bold text-xs text-white mb-1">Aurora PostgreSQL</div>
+                            <div class="text-[11px] text-slate-400">
+                                Sanctions records<br>
+                                Fuzzy name-matching queries
+                            </div>
+                        </div>
+
+                        <div class="component-card rounded p-3">
+                            <div class="font-bold text-xs text-white mb-1">Oracle Autonomous DB / OCI</div>
+                            <div class="text-[11px] text-slate-400">
+                                Portfolios, goals, constraints, proposals<br>
+                                Compliance, family, and advisors
+                            </div>
+                        </div>
+
+                        <div class="component-card rounded p-3">
+                            <div class="font-bold text-xs text-white mb-1">ElastiCache Redis</div>
+                            <div class="text-[11px] text-slate-400">
+                                Market triggers, rate limits<br>
+                                Caching
+                            </div>
+                        </div>
+
+                        <div class="component-card rounded p-3">
+                            <div class="font-bold text-xs text-white mb-1">OpenSearch Serverless</div>
+                            <div class="text-[11px] text-slate-400">
+                                Regulatory passage retrieval<br>
+                                Embeddings and citation metadata
+                            </div>
+                        </div>
+
+                        <div class="component-card rounded p-3">
+                            <div class="font-bold text-xs text-white mb-1">Amazon S3</div>
+                            <div class="text-[11px] text-slate-400">
+                                Ingestion snapshots and artifacts<br>
+                                Seed data and deployment assets
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- RIGHT COLUMN: CROSS-CUTTING CONCERNS (3 Cols) -->
+            <aside class="lg:col-span-3 flex flex-col gap-4 font-mono">
+                
+                <div class="sidebar-card rounded-xl p-3 text-center border-slate-700/80">
+                    <span class="font-bold text-xs text-white tracking-widest uppercase block">CROSS-CUTTING</span>
+                    <span class="text-[10px] text-slate-400">Across all four layers</span>
+                </div>
+
+                <!-- 1. Security & Identity -->
+                <div class="sidebar-card rounded-xl p-3.5 space-y-2 non-gap">
+                    <div class="font-bold text-xs text-white tracking-wider border-b border-slate-800 pb-1">
+                        SECURITY & IDENTITY
+                    </div>
+                    <div class="text-[11px] text-slate-300 space-y-1">
+                        <div>Cognito: RM + client authentication pools</div>
+                        <div>API roles + client scope</div>
+                        <div>IAM / KMS / secrets</div>
+                        <div>Cedar policy definitions</div>
+                    </div>
+                    <div class="text-[10px] text-sky-400 pt-1 border-t border-slate-800/80">
+                        Verify policy attachment, tool-level authorization, and memory isolation.
+                    </div>
+                </div>
+
+                <!-- 2. Observability -->
+                <div class="sidebar-card rounded-xl p-3.5 space-y-2 gap-target">
+                    <div class="font-bold text-xs text-white tracking-wider border-b border-slate-800 pb-1">
+                        OBSERVABILITY
+                    </div>
+                    <div class="text-[11px] text-slate-300 space-y-1">
+                        <div>CloudWatch metrics</div>
+                        <div>Langfuse API traces</div>
+                        <div>Audit event helpers</div>
+                        <div>Correlation IDs</div>
+                    </div>
+                    <div class="text-[10px] text-amber-400 pt-1 border-t border-slate-800/80 font-medium">
+                        Full coverage and active prompt lineage require validation.
+                    </div>
+                </div>
+
+                <!-- 3. Delivery / Defined -->
+                <div class="sidebar-card rounded-xl p-3.5 space-y-2 gap-target">
+                    <div class="font-bold text-xs text-white tracking-wider border-b border-slate-800 pb-1">
+                        DELIVERY / DEFINED
+                    </div>
+                    <div class="text-[11px] text-slate-300 space-y-1">
+                        <div>CloudFormation templates</div>
+                        <div>CodePipeline + CodeBuild</div>
+                        <div>ECR container images</div>
+                        <div>Git / Docker exclusions</div>
+                        <div>Release-pattern scan</div>
+                    </div>
+                    <div class="text-[10px] text-amber-400 pt-1 border-t border-slate-800/80 font-medium">
+                        Deployment not validated.
+                    </div>
+                </div>
+
+                <!-- 4. Evaluation Assets -->
+                <div class="sidebar-card rounded-xl p-3.5 space-y-2 gap-target">
+                    <div class="font-bold text-xs text-white tracking-wider border-b border-slate-800 pb-1">
+                        EVALUATION ASSETS
+                    </div>
+                    <div class="text-[11px] text-slate-300 space-y-1">
+                        <div>85 reference test cases</div>
+                        <div>Configured quality targets</div>
+                        <div>DynamoDB results table</div>
+                    </div>
+                    <div class="text-[10px] text-amber-400 pt-1 border-t border-slate-800/80 font-medium">
+                        Evaluator execution and rollback remain unproven.
+                    </div>
+                </div>
+
+                <!-- 5. Data Ingestion -->
+                <div class="sidebar-card rounded-xl p-3.5 space-y-2 non-gap">
+                    <div class="font-bold text-xs text-white tracking-wider border-b border-slate-800 pb-1">
+                        DATA INGESTION
+                    </div>
+                    <div class="text-[11px] text-slate-300 space-y-1">
+                        <div>EventBridge Scheduler</div>
+                        <div>Step Functions orchestration</div>
+                        <div>Lambda processing steps: Download / parse / diff, Load / notify</div>
+                        <div>S3 snapshots → Aurora</div>
+                        <div>SNS notifications</div>
+                    </div>
+                </div>
+
+                <!-- 6. Source Status -->
+                <div class="sidebar-card rounded-xl p-3.5 space-y-1 border-slate-700/90 bg-navy-950/90 gap-target">
+                    <div class="font-bold text-xs text-slate-200 tracking-wider mb-1">
+                        SOURCE STATUS
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        Boxes show code and configuration present. They do not certify a production deployment.
+                    </p>
+                </div>
+
+            </aside>
+        </div>
+
+        <!-- FOOTER / READING THE DIAGRAM -->
+        <footer class="mt-8 pt-4 border-t border-slate-800 text-xs font-mono text-slate-400">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+                <div>
+                    <strong class="text-white">READING THE DIAGRAM</strong>
+                    <p class="text-[11px] text-slate-400 mt-0.5">
+                        Main arrows summarize the agent path. Direct API adapters also reach models, tools, and data.<br>
+                        <span class="text-amber-400">Integration gaps: client tools · tool authorization + memory · suitability inputs · evaluation execution.</span>
+                    </p>
+                </div>
+                <div class="text-[10px] text-slate-400 whitespace-nowrap">
+                    WealthAI Architecture Reference Blueprint
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Interactive script to switch modes -->
+    <script>
+        lucide.createIcons();
+
+        function setMode(mode) {
+            const btnFull = document.getElementById('btn-mode-full');
+            const btnGaps = document.getElementById('btn-mode-gaps');
+
+            if (mode === 'gaps') {
+                document.body.classList.add('mode-gaps');
+                btnGaps.className = 'bg-amber-500/20 text-amber-300 border border-amber-500/60 px-3 py-1 rounded transition text-[11px] font-bold';
+                btnFull.className = 'bg-slate-900 text-slate-400 border border-slate-700 hover:text-white px-3 py-1 rounded transition text-[11px]';
+            } else {
+                document.body.classList.remove('mode-gaps');
+                btnFull.className = 'bg-sky-500/20 text-sky-300 border border-sky-500/50 px-3 py-1 rounded transition text-[11px] font-bold';
+                btnGaps.className = 'bg-slate-900 text-amber-400 border border-amber-500/40 hover:bg-amber-500/10 px-3 py-1 rounded transition text-[11px]';
+            }
+        }
+    </script>
+</body>
+</html>
