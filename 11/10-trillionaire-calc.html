@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Trillionaire Calculator</title>
+<style>
+:root{
+  --bg:#f6f5f1;--card:#ffffff;--text:#1a1a1a;--muted:#5d5d58;--line:#dcdad2;--accent:#1d6b4f;--accent-soft:#e3f1ea;--warm:#9a4b12;--warm-soft:#fbeadb;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#141513;--card:#1e201d;--text:#f0efe9;--muted:#a6a59d;--line:#34362f;--accent:#5fd1a0;--accent-soft:#1f3329;--warm:#f0a56b;--warm-soft:#38281b}
+}
+:root[data-theme="dark"]{--bg:#141513;--card:#1e201d;--text:#f0efe9;--muted:#a6a59d;--line:#34362f;--accent:#5fd1a0;--accent-soft:#1f3329;--warm:#f0a56b;--warm-soft:#38281b}
+html{height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5;padding:24px 16px}
+.wrap{max-width:1100px;margin:0 auto}
+.grid{display:grid;grid-template-columns:1fr;gap:28px}
+@media (min-width:900px){.grid{grid-template-columns:1fr 1fr;gap:32px;align-items:start}}
+h2{font-size:20px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 16px}
+.top{text-align:center;padding:12px 0 20px}
+.top small{display:block;color:var(--muted);font-size:16px}
+.top h1{margin:4px 0 0;font-size:clamp(44px,10vw,72px);line-height:1.05;letter-spacing:-0.02em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}
+.row label{font-weight:600}
+.row output{font-size:22px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.hint{color:var(--muted);font-size:16px;margin:8px 0 0}
+input[type=range]{width:100%;height:32px;accent-color:var(--accent);cursor:pointer}
+.scale{display:flex;justify-content:space-between;color:var(--muted);font-size:16px}
+.result{background:var(--accent-soft);border-color:var(--accent);text-align:center}
+.result small{display:block;color:var(--muted);font-size:16px}
+.result .big{font-size:clamp(34px,8vw,52px);font-weight:800;line-height:1.1;margin:6px 0;font-variant-numeric:tabular-nums;color:var(--accent)}
+.warm{background:var(--warm-soft);border-color:var(--warm)}
+.warm .big{color:var(--warm)}
+.split{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:14px 0 6px;background:var(--line)}
+.split i{display:block;background:var(--accent);transition:width .2s}
+.chain{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.chain b{font-size:22px;font-variant-numeric:tabular-nums}
+.arrow{text-align:center;color:var(--muted);margin:-4px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <small>Net worth</small>
+    <h1>$1 Trillion</h1>
+  </div>
+
+  <div class="grid">
+    <!-- Calculator 1 -->
+    <section>
+      <h2>1. The cash</h2>
+      <p class="sub">How many employees does it take to produce the cash?</p>
+
+      <div class="card">
+        <div class="row"><label for="cash">Cash he holds</label><output id="cashOut"></output></div>
+        <input id="cash" type="range" min="1" max="10" step="0.5" value="1">
+        <div class="scale"><span>$1B</span><span>$10B</span></div>
+        <div class="split"><i id="bar" style="width:0.1%"></i></div>
+        <p class="hint" id="stockNote"></p>
+      </div>
+
+      <div class="card">
+        <div class="row"><label for="surplus">Surplus per employee (lifetime)</label><output id="surOut"></output></div>
+        <input id="surplus" type="range" min="100" max="10000" step="100" value="1000">
+        <div class="scale"><span>$100</span><span>$10,000</span></div>
+      </div>
+
+      <div class="card result">
+        <small>Employees needed to generate that cash</small>
+        <div class="big" id="emp"></div>
+        <small id="eq"></small>
+      </div>
+    </section>
+
+    <!-- Calculator 2 -->
+    <section>
+      <h2>2. The stock</h2>
+      <p class="sub">How those same workers build the company’s value, and his share of it.</p>
+
+      <div class="card">
+        <div class="chain"><span>Workers (from calculator 1)</span><b id="wk"></b></div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="card">
+        <div class="row"><label for="profit">Profit each worker builds, per year</label><output id="profitOut"></output></div>
+        <input id="profit" type="range" min="10000" max="500000" step="5000" value="100000">
+        <div class="scale"><span>$10K</span><span>$500K</span></div>
+      </div>
+
+      <div class="card">
+        <div class="row"><label for="mult">Market valuation multiple (× annual profit)</label><output id="multOut"></output></div>
+        <input id="mult" type="range" min="10" max="60" step="1" value="30">
+        <div class="scale"><span>10×</span><span>60×</span></div>
+      </div>
+
+      <div class="card result">
+        <small>Company market cap</small>
+        <div class="big" id="mcap"></div>
+        <small id="mcapEq"></small>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="card">
+        <div class="row"><label for="own">His ownership share</label><output id="ownOut"></output></div>
+        <input id="own" type="range" min="1" max="50" step="1" value="33">
+        <div class="scale"><span>1%</span><span>50%</span></div>
+      </div>
+
+      <div class="card result warm">
+        <small>His stake in the market cap</small>
+        <div class="big" id="stake"></div>
+        <small id="vs"></small>
+      </div>
+    </section>
+  </div>
+</div>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var fmt=function(n){return n.toLocaleString('en-US')};
+  function money(n){
+    if(n>=1e12)return '$'+(n/1e12).toLocaleString('en-US',{maximumFractionDigits:2})+' T';
+    if(n>=1e9)return '$'+(n/1e9).toLocaleString('en-US',{maximumFractionDigits:1})+' B';
+    if(n>=1e6)return '$'+(n/1e6).toLocaleString('en-US',{maximumFractionDigits:1})+' M';
+    return '$'+fmt(Math.round(n));
+  }
+  function update(){
+    var cashB=parseFloat($('cash').value),c=cashB*1e9,s=parseFloat($('surplus').value);
+    var emp=Math.round(c/s);
+    $('cashOut').textContent='$'+cashB+'B';
+    $('surOut').textContent='$'+fmt(s);
+    $('emp').textContent=fmt(emp);
+    $('eq').textContent='$'+cashB+'B ÷ $'+fmt(s)+' per employee';
+    var pct=c/1e12*100;
+    $('bar').style.width=pct+'%';
+    $('stockNote').textContent=pct.toFixed(1)+'% cash, '+(100-pct).toFixed(1)+'% stock.';
+
+    var p=parseFloat($('profit').value),m=parseFloat($('mult').value),o=parseFloat($('own').value);
+    var profit=emp*p,mcap=profit*m,stake=mcap*o/100;
+    $('wk').textContent=fmt(emp);
+    $('profitOut').textContent='$'+fmt(p);
+    $('multOut').textContent=m+'×';
+    $('ownOut').textContent=o+'%';
+    $('mcap').textContent=money(mcap);
+    $('mcapEq').textContent=fmt(emp)+' workers × $'+fmt(p)+' = '+money(profit)+' profit/yr, × '+m;
+    $('stake').textContent=money(stake);
+    var r=stake/1e12*100;
+    $('vs').textContent=o+'% of '+money(mcap)+' = '+r.toFixed(0)+'% of the $1T headline';
+  }
+  ['cash','surplus','profit','mult','own'].forEach(function(id){$(id).addEventListener('input',update)});
+  update();
+})();
+</script>
+</body>
+</html>
