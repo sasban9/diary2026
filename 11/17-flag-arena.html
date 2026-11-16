@@ -48,11 +48,13 @@ label{display:flex;gap:6px;align-items:center;color:var(--mut);cursor:pointer}
 .lh{font-weight:800;color:var(--acc);margin-bottom:4px}
 .lr.nw{border-radius:6px;animation:glw 1.1s ease-in-out infinite alternate}
 @keyframes glw{to{background:rgba(255,204,51,.28)}}
-.lr{display:flex;align-items:center;gap:6px;padding:0;line-height:1.25}
+.lr{display:flex;flex-wrap:wrap;align-items:center;gap:0 6px;padding:0;line-height:1.25}
 .lr span{color:var(--mut);width:2ch;text-align:right}
 .lr img{width:24px;height:16px;border-radius:2px}
 .lr em{font-style:normal;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lr b{color:var(--acc)}
+.cd{flex-basis:100%;font-size:inherit;color:#ffb36b;padding-left:32px;white-space:nowrap}
+.cd.hot{color:#ff6b6b;font-weight:700;animation:glw .6s ease-in-out infinite alternate}
 #lb a{display:block;text-align:right;color:var(--mut);cursor:pointer;text-decoration:underline;margin-top:2px}
 @media (max-width:767px){html,body{font-size:14px}h1{font-size:16px}#info,#feed div,.chip,#msg,label,#lb{font-size:14px}#lb{left:10px;right:10px;top:auto;bottom:10px;width:auto;max-height:none;font-size:13px}#lb .lg{display:grid;grid-template-columns:1fr 1fr;column-gap:12px}}
 #bar{display:none!important}
@@ -169,12 +171,13 @@ const small=()=>innerWidth<768;
 let wins={},recent={},topName=null,topAge=0;try{wins=JSON.parse(localStorage.getItem('fa_wins')||'{}');recent=JSON.parse(localStorage.getItem('fa_recent')||'{}');const tp=JSON.parse(localStorage.getItem('fa_top')||'null');if(tp){topName=tp[0];topAge=tp[1]}}catch(e){}
 const saveW=()=>{try{localStorage.setItem('fa_wins',JSON.stringify(wins));localStorage.setItem('fa_recent',JSON.stringify(recent));localStorage.setItem('fa_top',JSON.stringify([topName,topAge]))}catch(e){}};
 const IC={};const icon=n=>IC[n]||(IC[n]=mk(n).toDataURL());
+function cdTag(){const n=Math.max(1,10-topAge);return '<div class="cd'+(n<=5?' hot':'')+'">⏳ reset in '+n+' match'+(n==1?'':'es')+'</div>'}
 function ranked(){return Object.entries(wins).filter(e=>FL[e[0]]).sort((a,b)=>b[1]-a[1]||(recent[b[0]]||0)-(recent[a[0]]||0)||a[0].localeCompare(b[0]))}
 function checkReign(){const L=ranked()[0];if(!L)return;if(L[0]!==topName){topName=L[0];topAge=0;return}topAge++;
- if(topAge>=30){const d=topName;delete wins[d];delete recent[d];topName=null;topAge=0;const nl=ranked()[0];if(nl)topName=nl[0];setTimeout(()=>feed('👑 '+d+' held #1 for 30 matches – wins reset to 0!'),1200)}}
+ if(topAge>=10){const d=topName;delete wins[d];delete recent[d];topName=null;topAge=0;const nl=ranked()[0];if(nl)topName=nl[0];setTimeout(()=>feed('👑 '+d+' held #1 for 10 matches – wins reset to 0!'),1200)}}
 function resetW(){wins={};recent={};topName=null;topAge=0;saveW();renderLB()}
 function renderLB(){const latest=Object.keys(recent).sort((a,b)=>recent[b]-recent[a])[0];const top=Object.entries(wins).filter(e=>FL[e[0]]).sort((a,b)=>b[1]-a[1]||(recent[b[0]]||0)-(recent[a[0]]||0)||a[0].localeCompare(b[0])).slice(0,20);
- $('lb').innerHTML='<div class="lh">🏆 Top 20 wins</div>'+(top.length?'<div class="lg">'+top.map((e,i)=>'<div class="lr'+(e[0]==latest?' nw':'')+'"><span>'+(i+1)+'</span><img src="'+icon(e[0])+'" alt=""><em>'+e[0]+'</em><b>'+e[1]+'</b></div>').join('')+'</div>':'<div class="dim">No winners yet</div>')}
+ $('lb').innerHTML='<div class="lh">🏆 Top 20 wins</div>'+(top.length?'<div class="lg">'+top.map((e,i)=>'<div class="lr'+(e[0]==latest?' nw':'')+'"><span>'+(i+1)+'</span><img src="'+icon(e[0])+'" alt=""><em>'+e[0]+'</em><b>'+e[1]+'</b>'+(i==0&&e[0]==topName?cdTag():'')+'</div>').join('')+'</div>':'<div class="dim">No winners yet</div>')}
 const fsz=()=>small()?14:16;
 function rs(){const r=$('stage').getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);Wd=r.width;Hd=r.height;cv.width=Wd*dpr;cv.height=Hd*dpr;const lw=small()?0:230,lh=small()?250:0;cx=(Wd-lw)/2;cy=(Hd-lh)/2+14;A0=Math.min(Wd-lw,Hd-lh)*.46;ARC=A0;R=Math.max(26,Math.min(50,A0*.17));if(st=='lobby'||st=='count')layout()}
 function beep(f,d,ty,v){if(mute||!AX)return;const o=AX.createOscillator(),g=AX.createGain();o.type=ty||'sine';o.frequency.value=f;g.gain.value=v||.06;g.gain.exponentialRampToValueAtTime(.0001,AX.currentTime+d);o.connect(g);g.connect(AX.destination);o.start();o.stop(AX.currentTime+d)}
