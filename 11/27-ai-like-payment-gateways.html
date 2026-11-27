@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI Tokens: The Payment Infrastructure of the Digital Economy</title>
+<meta name="description" content="Placeholder description for the AI token economy video.">
+<meta property="og:title" content="AI Tokens: The Payment Infrastructure of the Digital Economy">
+<meta property="og:description" content="Placeholder description.">
+<meta property="og:image" content="https://example.com/og.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Tokens: The Payment Infrastructure of the Digital Economy">
+<meta name="twitter:description" content="Placeholder description.">
+<meta name="twitter:image" content="https://example.com/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700;800&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--fg:#f3efe6;--mut:#a9a396;--gold:#e8b84a;--acid:#c6f432;--line:#2a2823;
+--b:clamp(16px,1.9vw,30px);--s:clamp(16px,1.15vw,20px);--h:clamp(30px,5vw,84px);--serif:"Cormorant Garamond",Georgia,serif;--sans:"Bricolage Grotesque",system-ui,sans-serif;color-scheme:dark}
+@media(max-width:640px){:root{--b:16px;--s:14px;--h:clamp(28px,8vw,40px)}}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--bg);color:var(--fg);font:var(--b)/1.55 var(--sans);overflow:hidden}
+canvas{position:fixed;inset:0;width:100%;height:100%}
+.orb{position:fixed;width:50vmax;height:50vmax;border-radius:50%;filter:blur(90px);opacity:.16;animation:fl 18s ease-in-out infinite alternate}
+.o1{background:var(--gold);top:-20vmax;left:-15vmax}.o2{background:var(--acid);bottom:-25vmax;right:-15vmax;animation-delay:-9s;opacity:.09}
+@keyframes fl{to{transform:translate(12vw,9vh) scale(1.2)}}
+.slide{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;padding:calc(6vh + env(safe-area-inset-top,0px)) 8vw calc(6vh + env(safe-area-inset-bottom,0px));opacity:0;visibility:hidden;transform:scale(1.04);filter:blur(10px);transition:opacity .6s,transform .6s,filter .6s,visibility .6s;overflow-y:auto}
+.slide.on{opacity:1;visibility:visible;transform:none;filter:none}
+.a{opacity:0}
+.on .a{animation:up .85s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.14s)}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.k{font-size:var(--s);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2em}
+h1,h2{font-weight:800;line-height:1.05;font-size:var(--h);letter-spacing:-.02em}
+h2{max-width:18em;margin-bottom:.5em}
+p{max-width:34em;margin-bottom:.9em;color:#d9d4c7}
+b{color:var(--gold);font-weight:700}
+.sub{color:var(--mut);margin-top:1.2em}
+.cover{text-align:center;align-items:center}.cover h1{max-width:14em;background:linear-gradient(100deg,var(--fg) 30%,var(--gold) 50%,var(--fg) 70%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 6s linear infinite}
+@keyframes sh{to{background-position:-250% 0}}
+.sec{align-items:flex-start}.sec .n{font-size:clamp(120px,26vw,420px);font-weight:800;line-height:.8;color:transparent;-webkit-text-stroke:2px var(--gold);opacity:.9}
+.sec h2{margin-top:.3em}
+.q{justify-content:center;text-align:center;align-items:center}
+.q .big{font:italic 700 clamp(30px,4.6vw,78px)/1.15 var(--serif);max-width:20em}
+.big span{display:inline-block;opacity:0}
+.on .big span{animation:up .6s both;animation-delay:calc(var(--w)*.07s + .2s)}
+.q p{margin-top:1.4em;text-align:center}
+.crux::after{content:"";position:fixed;left:50%;top:50%;width:10vmax;height:10vmax;margin:-5vmax;border:2px solid var(--gold);border-radius:50%;opacity:0;pointer-events:none}
+.crux.on::after{animation:rip 1.8s ease-out .3s 2}
+@keyframes rip{from{opacity:.9;transform:scale(.2)}to{opacity:0;transform:scale(9)}}
+.crux.on .big{animation:glow 2.6s ease-in-out 1.2s infinite alternate}
+@keyframes glow{to{text-shadow:0 0 28px rgba(232,184,74,.55)}}
+.split{display:grid;grid-template-columns:1fr 1.2fr;gap:5vw;align-items:center}
+@media(max-width:800px){.split{grid-template-columns:1fr}}
+ul,ol{list-style:none;padding:0;counter-reset:c}
+li{counter-increment:c;display:flex;gap:.9em;padding:.55em 0;border-bottom:1px solid var(--line);color:#e6e1d3}
+li::before{content:counter(c,decimal-leading-zero);color:var(--gold);font-size:var(--s);padding-top:.25em;min-width:2em}
+ul.dot li::before{content:"";width:.5em;height:.5em;border-radius:50%;background:var(--acid);margin-top:.55em;min-width:.5em;box-shadow:0 0 0 0 var(--acid);animation:pu 2.4s infinite}
+@keyframes pu{70%{box-shadow:0 0 0 .6em transparent}}
+.stats{display:flex;flex-wrap:wrap;gap:4vw 5vw;margin-top:2vh}
+.stat .v{font:800 clamp(44px,8vw,130px)/1 var(--sans);color:var(--acid);letter-spacing:-.03em}
+.stat .l{color:var(--mut);font-size:var(--s);max-width:14em;margin-top:.4em}
+.bars{display:flex;align-items:flex-end;gap:3vw;height:42vh;margin:3vh 0 1vh;border-bottom:1px solid var(--mut)}
+.bar{flex:1;max-width:14vw;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}
+.bar i{display:block;width:100%;height:0;background:linear-gradient(var(--gold),#8a6414);border-radius:6px 6px 0 0;transition:height 1.6s cubic-bezier(.2,.8,.2,1) calc(var(--i)*.25s + .6s)}
+.on .bar i{height:var(--h)}
+.bar em{font-style:normal;font-weight:700;margin-bottom:.4em}
+.lbl{display:flex;gap:3vw;color:var(--mut)}.lbl span{flex:1;max-width:14vw;text-align:center;font-size:var(--s)}
+.note{font-size:var(--s);color:var(--mut);max-width:44em;margin-top:1.4em}
+table{border-collapse:collapse;width:100%;max-width:46em}
+td,th{text-align:left;padding:.6em .8em;border-bottom:1px solid var(--line)}
+th{color:var(--gold);font-size:var(--s);letter-spacing:.15em;text-transform:uppercase}
+tr.a td:first-child{color:var(--acid);font-weight:700}
+.tl{position:relative;padding-left:2em;max-width:40em}
+.tl::before{content:"";position:absolute;left:.4em;top:0;bottom:0;width:2px;background:var(--gold);transform-origin:top;transform:scaleY(0)}
+.on .tl::before{animation:gr 1.8s .3s forwards}@keyframes gr{to{transform:none}}
+.tl div{margin-bottom:1.1em;position:relative}.tl div::before{content:"";position:absolute;left:-1.85em;top:.55em;width:.7em;height:.7em;border-radius:50%;background:var(--bg);border:2px solid var(--gold)}
+.tl b{display:block;font-size:var(--h);line-height:1.1;color:var(--fg);font-size:clamp(24px,3vw,44px)}
+.ly{border:1px solid var(--line);border-left:4px solid var(--gold);padding:.9em 1.3em;margin-bottom:.8em;background:rgba(255,255,255,.03);max-width:44em;border-radius:4px}
+.ly small{display:block;font-size:var(--s);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.ly strong{font-size:1.25em}.ly span{display:block;color:var(--mut)}
+.ly.hi{border-left-color:var(--acid)}.on .ly.hi{animation:up .85s both,glow2 2.4s ease-in-out 1.6s infinite alternate}
+@keyframes glow2{to{box-shadow:0 0 34px rgba(198,244,50,.28)}}
+.fw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17em),1fr));gap:.8em;max-width:60em}.fw .ly{margin:0;max-width:none}
+.fw small{animation:cy 7s infinite;animation-delay:calc(var(--k)*1s)}
+@keyframes cy{0%,14%{color:var(--acid);text-shadow:0 0 14px var(--acid)}20%,100%{color:var(--gold);text-shadow:none}}
+#bar{position:fixed;left:0;bottom:0;height:3px;background:var(--gold);width:0;transition:width .5s;z-index:5}
+#ct{position:fixed;right:max(14px,2vw);bottom:max(10px,1.5vh);font-size:var(--s);color:var(--mut);z-index:5}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas><div class="orb o1"></div><div class="orb o2"></div>
+<main id="m"></main><div id="bar"></div><div id="ct"></div>
+<script>
+const W=t=>t.split(" ").map((w,i)=>`<span style="--w:${i}">${w}</span>`).join(" ");
+const P=a=>a.map(x=>`<p class="a">${x}</p>`).join("");
+const L=(a,c="")=>`<${c?"ul":"ol"} class="${c}">${a.map(x=>`<li class="a">${x}</li>`).join("")}</${c?"ul":"ol"}>`;
+const K=k=>`<p class="k a">${k}</p>`;
+const R={
+cover:s=>`<div class="cover slide">${K(s.k)}<h1 class="a">${s.h}</h1><p class="sub a">${s.s}</p></div>`,
+sec:s=>`<div class="sec slide"><div class="n a">${s.n}</div>${K("Section "+s.n)}<h2 class="a">${s.h}</h2></div>`,
+tx:s=>`<div class="slide">${K(s.k)}${s.h?`<h2 class="a">${s.h}</h2>`:""}${P(s.p)}</div>`,
+q:s=>`<div class="q slide ${s.c?"crux":""}">${K(s.k||"")}<div class="big">${W(s.h)}</div>${s.p?P(s.p):""}</div>`,
+li:s=>`<div class="slide"><div class="split"><div>${K(s.k)}<h2 class="a">${s.h}</h2>${s.p?P(s.p):""}</div><div>${L(s.i,s.d)}${s.n?`<p class="note a">${s.n}</p>`:""}</div></div></div>`,
+st:s=>`<div class="slide">${K(s.k)}<h2 class="a">${s.h}</h2><div class="stats">${s.v.map(v=>`<div class="stat a"><div class="v" data-n="${v[0]}" data-d="${v[3]||0}" data-p="${v[2]||""}" data-s="${v[4]||""}">0</div><div class="l">${v[1]}</div></div>`).join("")}</div>${s.p?`<p class="note a">${s.p}</p>`:""}</div>`,
+bar:s=>`<div class="slide">${K(s.k)}<h2 class="a">${s.h}</h2><div class="bars a">${s.v.map((v,i)=>`<div class="bar" style="--i:${i}"><em>${v[2]}</em><i style="--h:${v[1]/s.m*100}%"></i></div>`).join("")}</div><div class="lbl a">${s.v.map(v=>`<span>${v[0]}</span>`).join("")}</div><p class="note a">${s.p}</p></div>`,
+tb:s=>`<div class="slide">${K(s.k)}<h2 class="a">${s.h}</h2><table><tr class="a">${s.th.map(x=>`<th>${x}</th>`).join("")}</tr>${s.r.map(r=>`<tr class="a">${r.map(x=>`<td>${x}</td>`).join("")}</tr>`).join("")}</table>${s.p?`<p class="note a">${s.p}</p>`:""}</div>`,
+tl:s=>`<div class="slide">${K(s.k)}<h2 class="a">${s.h}</h2><div class="tl">${s.r.map(r=>`<div class="a"><b>${r[0]}</b>${r[1]}</div>`).join("")}</div></div>`
+};
+R.ly=s=>`<div class="slide">${K(s.k)}<h2 class="a">${s.h}</h2>${s.l.map((l,i)=>`<div class="ly a ${i==1&&s.hi?"hi":""}"><small>${l[0]}</small><strong>${l[1]}</strong><span>${l[2]}</span></div>`).join("")}</div>`;
+R.fw=s=>`<div class="slide">${K(s.k)}<h2 class="a">${s.h}</h2><div class="fw">${s.l.map((l,i)=>`<div class="ly a" style="--k:${i}"><small>Step ${i+1}</small><strong>${l[0]}</strong><span>${l[1]}</span></div>`).join("")}</div></div>`;
+const S=[
+{t:"cover",k:"A video on the intelligence economy",h:"AI tokens could become the payment infrastructure of the digital economy",s:"Visa, Mastercard and the next network"},
+{t:"tx",k:"The starting point",h:"An analogy worth examining seriously",p:["Your analogy between AI tokens and payment gateways is worth examining seriously.","It points towards a potentially important economic model:"]},
+{t:"q",c:1,k:"The model",h:"AI companies may eventually earn recurring infrastructure revenue from a tiny charge on an enormous volume of economic activity, rather than depending primarily on selling subscriptions."},
+{t:"tx",k:"The interesting part",p:["The interesting part is that the model companies don’t necessarily need to own every application, business, or customer relationship.","They need to become <b>deeply embedded in the infrastructure</b> through which those applications operate."]},
+{t:"tx",k:"The parallel",h:"Visa and Mastercard",p:["There is a strong parallel with Visa and Mastercard, but also an important distinction: Visa and Mastercard don’t actually process money in the same way that banks do.","They operate the <b>networks, standards, security systems and transaction infrastructure</b> that connect participants."]},
+{t:"q",k:"The hypothesis",h:"AI model providers could occupy a comparable position in the intelligence economy."},
+{t:"li",k:"Roadmap",h:"Five dimensions",p:["Let’s examine this through five dimensions:"],i:["Payment economics","Historical growth","AI token economics","Infrastructure lock-in","The potential competitive landscape"]},
+{t:"sec",n:"1",h:"The Visa model: make money whenever the ecosystem moves"},
+{t:"li",k:"Section 1 · The Visa model",h:"A ₹1,000 purchase",p:["Consider what happens when somebody buys a ₹1,000 product using a Visa card.","Several parties participate:"],i:["The customer uses a card.","The issuing bank provides the payment instrument.","The merchant’s acquiring bank processes the merchant’s transaction.","Visa routes the transaction, applies network rules, facilitates authorization and settlement, and provides related services."]},
+{t:"tx",k:"Section 1 · The fee",p:["The merchant pays a fee, but that fee is distributed among several participants."]},
+{t:"q",c:1,k:"Section 1 · The fee",h:"Visa doesn’t collect the entire merchant transaction fee.",p:["Its revenue comes from several sources, including service fees, data-processing fees and international transaction fees. The issuer, acquirer and network have different economic roles."]},
+{t:"q",k:"Section 1 · The real asset",h:"The real asset isn’t the percentage charged. It is the network that everybody needs to access."},
+{t:"st",k:"Section 1 · Scale",h:"Imagine a payment network processing:",v:[[1,"transactions daily","","","&nbsp;million"],[100,"transactions daily","","","&nbsp;million"],[1,"transactions daily","","","&nbsp;billion"]],p:"Even if the revenue earned per transaction is tiny, the economics become substantial."},
+{t:"li",k:"Section 1 · The AI equivalent",h:"The AI equivalent could be:",d:"dot",i:["Every chatbot response.","Every AI-generated document.","Every automated customer-service interaction.","Every software development task.","Every agent-to-agent communication.","Every AI-driven business decision.","Every autonomous transaction initiated by an AI agent."]},
+{t:"q",k:"Section 1 · The takeaway",h:"The number of economically useful AI interactions could become enormous."},
+{t:"sec",n:"2",h:"What Visa actually earned during its early public-company years"},
+{t:"tl",k:"Section 2 · A historical complication",h:"There is an important historical complication.",r:[["1958","Visa’s origins date to 1958, when Bank of America launched BankAmericard."],["1976","The Visa brand emerged."],["2007","Visa Inc. was created through a corporate restructuring."],["March 19, 2008","Visa Inc. went public."]]},
+{t:"tx",k:"Section 2 · What we can compare",p:["Consequently, there is no directly comparable, consolidated Visa Inc. revenue series covering its entire first 30–40 years. The historical association and regional entities had different ownership and reporting structures.","But we do have some useful financial records immediately preceding the IPO."]},
+{t:"bar",k:"Section 2 · Visa operating revenue, USD billions",h:"Visa operating revenue",m:6.5,v:[["2004",2.43,"$2.43B"],["2006",2.95,"$2.95B"],["2007*",5.19,"$5.19B"],["2008",6.26,"$6.26B"]],p:"*2007 uses the pro-forma consolidated figure, which is more comparable with the reorganized 2008 business. 2004–06 are historical reported figures. Source: Visa SEC filings and IPO disclosures."},
+{t:"li",k:"Section 2 · Observations",h:"A few important observations:",d:"dot",i:["In 2004, revenue was approximately $2.43 billion.","In 2006, it was approximately $2.95 billion.","In 2007, pro-forma revenue reached approximately $5.19 billion.","In 2008, revenue was approximately $6.26 billion."]},
+{t:"st",k:"Section 2 · Visa by 2008",h:"By 2008, Visa was processing:",v:[[37,"transactions annually on its network","","","&nbsp;billion"],[2.7,"in payments volume for the twelve months ended June 2008","$",1,"&nbsp;trillion"]],p:"This is what decades of infrastructure building had produced."},
+{t:"sec",n:"2b",h:"What about Mastercard?"},
+{t:"tb",k:"Section 2 · Mastercard has a particularly interesting history",h:"Mastercard timeline",th:["Year","Development"],r:[["1966","Founded as Interbank Card Association"],["1969","Master Charge acquired"],["1979","Renamed Mastercard"],["1988","Acquired interest in Cirrus ATM network"],["1991","Launched Maestro debit network"],["2002","Became a private share corporation"],["2006","Went public"]]},
+{t:"st",k:"Section 2 · Mastercard 2006",h:"Mastercard’s 2006 financial results provide a useful milestone:",v:[[3.3,"Annual net revenue","$",1,"&nbsp;billion"],[13.2,"Revenue growth vs 2005","",1,"%"],[16.1,"Transactions processed","",1,"&nbsp;billion"],[2,"Gross dollar volume","~$","","&nbsp;trillion"]],p:"Source: Mastercard 2006 SEC annual filing and financial results."},
+{t:"q",c:1,k:"Section 2 · The timing",h:"Mastercard was already generating billions in revenue before becoming publicly listed.",p:["The IPO wasn’t the beginning of its economic power. It was a consequence of decades of building the network."]},
+{t:"sec",n:"3",h:"What happened after the infrastructure became indispensable?"},
+{t:"st",k:"Section 3 · FY2025 net revenue",h:"Approximate, reported annual revenue",v:[[40,"Visa · FY2025 net revenue · 329 billion branded transactions","$","","B"],[32.8,"Mastercard · FY2025 net revenue","$",1,"B"]],p:"Visa’s FY2025 figures include $17 trillion in payments and cash volume, 329 billion branded transactions and nearly five billion payment credentials. Mastercard’s 2025 annual reporting provides its corresponding financial and operating disclosures."},
+{t:"q",c:1,k:"Section 3 · The lesson",h:"The important lesson: neither company needed to manufacture the goods being purchased, own the shops, employ the customers or provide all the credit.",p:["They became infrastructure connecting the participants. That is the strategic analogy worth exploring for AI."]},
+{t:"sec",n:"4",h:"The AI equivalent: every token becomes an economic event"},
+{t:"tx",k:"Section 4 · A future workforce",p:["Imagine a future in which an AI agent is doing the work currently performed by a human employee."]},
+{t:"li",k:"Section 4 · An AI operations department",h:"For example, an e-commerce business:",d:"dot",i:["One agent monitors customer queries.","Another checks inventory.","Another negotiates with suppliers.","Another creates purchase orders.","Another handles refunds.","Another analyzes customer behaviour.","Another manages marketing."]},
+{t:"tx",k:"Section 4 · Cost of work",p:["Every activity requires some combination of <b>inference, tool calls, data retrieval and execution</b>.","The business might not care whether these activities consume 100,000 tokens or 100 million tokens. It cares about the cost of getting the work done.","This creates a potentially enormous consumption market."]},
+{t:"tx",k:"Section 4 · An illustrative token-revenue model",h:"$1 per million billable tokens",p:["Let’s assume an AI infrastructure provider earns an average of $1 per million billable tokens. This is an illustrative blended rate, not a prediction of market pricing."]},
+{t:"st",k:"Section 4 · Monthly token economics",h:"Monthly consumption: 100 trillion tokens",v:[[100,"Monthly consumption (range: 1 trillion to 1,000 trillion)","","","&nbsp;trillion"],[1,"Revenue per million tokens","$",2,""],[1200,"Annualised gross revenue","$","","M"]],p:"Before compute, infrastructure, research, sales and other expenses."},
+{t:"li",k:"Section 4 · Scaling the math",h:"At $1 per million tokens",d:"dot",i:["At one trillion tokens monthly, the provider earns $1 million monthly.","At 100 trillion tokens, it earns $100 million monthly.","At one quadrillion tokens, it earns $1 billion monthly."]},
+{t:"tx",k:"Section 4 · The really interesting possibility",p:["The really interesting possibility is that <b>token consumption can grow much faster than the number of human users</b>."]},
+{t:"li",k:"Section 4 · Multiplying demand",h:"Why consumption outruns users",i:["One person may use an AI agent that performs thousands of internal operations.","One business may deploy hundreds of agents.","One agent may call several models, invoke tools, evaluate its own output, retry failed tasks and communicate with other agents."]},
+{t:"q",c:1,k:"Section 4 · The unit of consumption",h:"The economic unit of AI consumption may eventually be the completed task, not the human prompt."},
+{t:"tx",k:"Section 4 · Jevons paradox",h:"Why cheaper tokens could increase total revenue",p:["This is where an economic concept called the <b>Jevons paradox</b> becomes relevant.","When something becomes dramatically cheaper and more efficient, people often consume much more of it."]},
+{t:"li",k:"Section 4 · Jevons paradox",h:"Consider electricity:",d:"dot",i:["Cheaper electricity enabled more appliances.","More appliances created more electricity demand.","More demand justified additional infrastructure."]},
+{t:"li",k:"Section 4 · Jevons paradox",h:"AI could follow a similar pattern:",d:"dot",i:["Cheaper inference makes AI customer support economical.","Cheaper inference makes AI personal assistants economical.","Cheaper inference makes autonomous software development economical.","Cheaper inference makes AI agents economical for small businesses.","Cheaper inference makes millions of previously uneconomical applications viable."],n:"The result could be an expanding market despite falling prices."},
+{t:"st",k:"Section 4 · Emerging evidence",h:"There is emerging evidence of this pattern",v:[[1,"trillion tokens daily, January 2024","","","&nbsp;trillion"],[300,"hundreds of trillions daily by mid-2026 (illustrative: “hundreds”)","","","+&nbsp;trillion"]],p:"A recent JPMorgan asset-management analysis estimates global AI token consumption grew from roughly one trillion tokens daily in January 2024 to hundreds of trillions daily by mid-2026. These are market estimates, not audited industry-wide billing figures."},
+{t:"q",c:1,k:"Section 4 · The equation",h:"Revenue = Price per token × Billable token volume",p:["If volume grows faster than price declines, total revenue increases."]},
+{t:"sec",n:"5",h:"The most important distinction: the model company may not become the Visa"},
+{t:"tx",k:"Section 5 · One step further",p:["This is where I would take your hypothesis one step further.","Visa owns an important payment network, but it does not own every payment processor, bank, POS terminal or merchant.","Similarly, the company owning the most powerful AI model <b>may not necessarily own the infrastructure</b> through which most AI economic activity flows."]},
+{t:"ly",k:"Section 5 · Three possible layers",h:"Consider three possible layers:",hi:1,l:[["Layer 1","Intelligence providers","Foundation models, inference, reasoning and multimodal intelligence."],["Layer 2","AI transaction infrastructure","Model routing, authentication, metering, billing, observability, security, policy enforcement and orchestration."],["Layer 3","AI applications and economic participants","Businesses, developers, consumers, autonomous agents and industry-specific applications."]]},
+{t:"tx",k:"Section 5 · A note on the layers",p:["These are conceptual layers, not mutually exclusive categories. A company can operate in several simultaneously."]},
+{t:"q",c:1,k:"Section 5 · The strategic possibility",h:"The strategic possibility is that Layer 2 becomes the equivalent of payment-network infrastructure."},
+{t:"li",k:"Section 5 · The business view",h:"Imagine a business deploying an AI agent.",p:["It doesn’t want to manage:"],d:"dot",i:["Ten different model APIs.","Ten different billing systems.","Different authentication mechanisms.","Different rate limits.","Different security requirements.","Different logging systems.","Different performance benchmarks."]},
+{t:"tx",k:"Section 5 · One interface",p:["It wants <b>one interface</b>.","That interface chooses the right model, negotiates cost, tracks consumption, handles retries, enforces policies and records the result."]},
+{t:"q",k:"Section 5 · Defensibility",h:"This is potentially a much more defensible infrastructure business than a simple AI wrapper."},
+{t:"tb",k:"Section 5 · Network effects",h:"What could the AI equivalent of Visa’s network effects look like?",th:["Payment ecosystem","Potential AI equivalent"],r:[["Card acceptance","Model/API compatibility"],["Payment routing","Model routing"],["Transaction authorization","Agent permissions"],["Fraud detection","AI security and abuse detection"],["Settlement","Usage metering and billing"],["Network rules","AI policy and governance"],["Payment history","Agent reputation and execution history"],["Global acceptance","Universal agent interoperability"]]},
+{t:"q",c:1,k:"Section 5 · The strongest opportunity",h:"The strongest opportunity may not be to build another model. It may be to build the infrastructure that makes all models usable together."},
+{t:"tx",k:"Section 5 · The Future of Work thesis",p:["This also connects directly with the Future of Work thesis in your project: moving from individual prompts to <b>persistent workflows and systems that coordinate multiple agents</b>."]},
+{t:"sec",n:"6",h:"Why Visa and Mastercard became so difficult to replace"},
+{t:"tx",k:"Section 6 · The real advantage",p:["The interesting thing about Visa and Mastercard is that their competitive advantage is not simply their technology.","It is the <b>accumulated infrastructure around the technology</b>."]},
+{t:"li",k:"Section 6 · What a competitor must replicate",h:"Consider what a new competitor would need to replicate:",i:["Millions of merchants accepting the payment network.","Thousands of financial institutions connected to it.","Relationships with regulators across countries.","Fraud detection and risk management infrastructure.","International settlement arrangements.","Consumer and merchant trust.","Years of transaction history.","Standards and operating procedures accepted by the ecosystem."]},
+{t:"tx",k:"Section 6 · The ecosystem problem",p:["A startup cannot simply build a better payment-processing algorithm and replace Visa.","The replacement needs to convince an <b>entire ecosystem</b> to move."]},
+{t:"q",k:"Section 6 · The moat",h:"This is a classic network-effect moat."},
+{t:"tx",k:"Section 6 · Could the same thing happen with AI?",h:"Potentially, but there is a major difference.",p:["Replacing Visa is difficult because of the physical, institutional and regulatory relationships accumulated around payments."]},
+{t:"q",c:1,k:"Section 6 · The major difference",h:"Replacing an AI model is comparatively easier.",p:["A developer can switch from one model API to another.","Open-weight models can be deployed independently.","Businesses can operate multiple models simultaneously."]},
+{t:"li",k:"Section 6 · Creating switching costs",h:"The AI infrastructure layer needs to create additional switching costs through:",d:"dot",i:["Persistent business memory.","Workflow portability and execution history.","Model-independent integrations.","Security and compliance certifications.","Agent identities and permissions.","Proprietary evaluation and reliability data.","Financial reconciliation and billing.","Connections to thousands of business applications."]},
+{t:"q",k:"Section 6 · The takeaway",h:"The more of these functions a platform handles, the harder it becomes to remove."},
+{t:"sec",n:"7",h:"The potential flywheel: revenue funds better infrastructure"},
+{t:"tx",k:"Section 7 · The flywheel",p:["Here is the flywheel I think is particularly interesting:"]},
+{t:"fw",k:"Section 7 · The flywheel",h:"Six steps, then the cycle starts again",l:[["More AI applications","Businesses, consumers and developers discover new use cases."],["More token consumption","Agents generate continuous inference demand."],["More infrastructure revenue","Model providers and infrastructure companies earn from usage."],["More investment","Capital goes into GPUs, data centres, research, networking and model development."],["Better intelligence at lower cost","Improved models and infrastructure expand the range of economically viable applications."],["More applications become viable","The cycle starts again."]]},
+{t:"tx",k:"Section 7 · An important qualification",p:["There is one important qualification: <b>higher revenue does not automatically produce better models</b>.","Competition, research talent, access to compute, capital allocation and the economics of inference all matter.","But the underlying feedback loop is plausible."]},
+{t:"q",c:1,k:"Section 7 · The tension",h:"Consumption can increase enormously while revenue earned per token falls.",p:["The emerging token economy research also identifies this tension. Providers must therefore keep reducing the cost of delivering intelligence."]},
+{t:"sec",n:"8",h:"Three possible winners in the AI payment economy"},
+{t:"tx",k:"Section 8 · Business models",p:["I would distinguish <b>three different business models</b>."]},
+{t:"tb",k:"Section 8 · Three business models",h:"How each one earns",th:["Business model","How it earns"],r:[["Model infrastructure","Charges for inference and intelligence"],["AI transaction infrastructure","Charges for routing, metering, security and orchestration"],["AI economic infrastructure","Charges for completed tasks, transactions or economic outcomes"]]},
+{t:"tx",k:"Section 8 · The third category",p:["The third category is particularly interesting.","Imagine an AI agent purchasing inventory worth <b>₹100,000</b>."]},
+{t:"li",k:"Section 8 · One purchase, many fees",h:"The infrastructure could potentially earn through:",d:"dot",i:["Model inference charges.","Agent execution fees.","Transaction verification.","Fraud protection.","Payment processing.","Supplier discovery and matching."]},
+{t:"tx",k:"Section 8 · The complete ecosystem",p:["One business activity could generate revenue for several infrastructure participants.","This is closer to the <b>complete payment ecosystem</b> than simply selling tokens."]},
+{t:"tb",k:"Section 8 · A hypothetical AI infrastructure company",h:"Suppose a platform eventually handles:",th:["Metric","Annual volume"],r:[["Businesses connected","1 million"],["AI agents per business","20"],["Tasks per agent daily","100"],["Average platform revenue per task","$0.001"]]},
+{t:"st",k:"Section 8 · The math",h:"1M × 20 × 100 × 365",v:[[730,"tasks annually","","","&nbsp;billion"],[0.001,"revenue per task","$",3,""],[730,"Illustrative annual gross revenue","$","","&nbsp;million"]],p:"Illustrative annual gross revenue, not a market forecast."},
+{t:"q",c:1,k:"Section 8 · The distinction",h:"The platform doesn’t necessarily need to own the models executing those tasks.",p:["This is the distinction between owning intelligence production and owning the infrastructure through which intelligence is consumed."]},
+{t:"sec",n:"9",h:"The biggest threats to this thesis"},
+{t:"tx",k:"Section 9 · Threats",p:["There are several reasons the AI market might not replicate the Visa model exactly."]},
+{t:"tb",k:"Section 9 · Threats",h:"What could go differently",th:["Threat","What could happen"],r:[["Open-source models","Intelligence becomes commoditized"],["Model switching","Customers avoid platform lock-in"],["Hyperscaler integration","AWS, Google and Microsoft bundle infrastructure"],["Falling inference costs","Revenue per token collapses"],["Regulation","Governments impose restrictions on pricing, data and interoperability"],["Agent standards","Open protocols reduce the value of proprietary networks"],["Vertical integration","Model companies build their own orchestration and billing layers"]]},
+{t:"tx",k:"Section 9 · A fundamental difference",h:"Payments versus tokens",p:["There is also a fundamental difference between payment transactions and AI tokens.","A ₹1,000 card payment represents an economic transaction of ₹1,000. A million tokens don’t necessarily represent a million units of economic value."]},
+{t:"q",c:1,k:"Section 9 · Wasted tokens",h:"A poorly designed agent can consume billions of tokens without producing anything useful."},
+{t:"q",k:"Section 9 · The pricing shift",h:"Therefore, the eventual winning pricing model might shift from charging for raw token consumption towards charging for verified outcomes.",p:["That is worth watching closely."]},
+{t:"sec",n:"10",h:"My central thesis: the next Visa might not be an AI model company"},
+{t:"tx",k:"Section 10 · The hypothesis",p:["I would formulate the investment and entrepreneurial hypothesis this way:"]},
+{t:"q",c:1,k:"Section 10 · The thesis",h:"The AI industry could develop its own equivalent of the global payment infrastructure, where intelligence providers supply the underlying capability while a separate infrastructure layer coordinates, authenticates, routes, meters and monetizes intelligence consumption."},
+{t:"tx",k:"Section 10 · Embedded in business",p:["The companies that control these interfaces could become <b>deeply embedded in global business operations</b>.","Some research directions worth investigating:"]},
+{t:"ly",k:"Section 10 · Research directions",h:"Three research priorities",l:[["Research priority 1","AI API gateway infrastructure","Study OpenRouter and its model aggregation and routing approach. Could it evolve into a neutral transaction network for AI intelligence?"],["Research priority 2","Agent identity and payment infrastructure","How will autonomous agents authenticate, establish trust, receive spending authority and pay for services?"],["Research priority 3","Universal AI orchestration","Could a model-independent operating layer become the default interface between businesses and intelligence providers?"]]},
+{t:"sec",n:"11",h:"The question I would build an entire research project around"},
+{t:"tx",k:"Section 11 · Two ways, then a third",p:["There are two fundamentally different ways to capture the AI economy:"]},
+{t:"ly",k:"Section 11 · Capturing the AI economy",h:"Sell, tax, or own",hi:1,l:[["Way 1","Sell intelligence","Earn whenever someone uses your model."],["Way 2","Tax intelligence consumption","Earn whenever someone uses the infrastructure that connects intelligence to economic activity."],["A third possibility","Own the economic transaction","Earn whenever an AI agent successfully completes a commercially valuable task."]]},
+{t:"tx",k:"Section 11 · Defensibility",p:["The second could potentially be more defensible over decades, provided the infrastructure achieves <b>genuine network effects</b>."]},
+{t:"tx",k:"Section 11 · The research question",p:["My proposed research question:"]},
+{t:"q",c:1,k:"The question",h:"Who will become the Visa, Mastercard and SWIFT of the autonomous AI economy?"},
+{t:"tx",k:"Section 11 · How to investigate",p:["I would investigate this as a separate business opportunity, mapping the companies building each infrastructure layer, their <b>pricing models, network effects, transaction volumes, revenue potential and barriers to entry</b>."]},
+{t:"q",c:1,k:"The closing thought",h:"It could become a particularly important extension of your Future of Work thesis: not merely building AI systems that do work, but identifying who will own and monetize the infrastructure through which all that work gets done."}
+];
+const m=document.getElementById("m");
+m.innerHTML=S.map(s=>R[s.t](s)).join("");
+const E=[...m.children];
+E.forEach(e=>e.querySelectorAll(".a").forEach((a,i)=>a.style.setProperty("--i",i)));
+let cur=-1;
+function cnt(e){const n=+e.dataset.n,d=+e.dataset.d,t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1500),v=n*(1-Math.pow(1-p,3));e.innerHTML=e.dataset.p+v.toFixed(d)+e.dataset.s;if(p<1)requestAnimationFrame(f)})(t0)}
+function go(i){i=Math.max(0,Math.min(E.length-1,i));if(i===cur)return;if(cur>=0)E[cur].classList.remove("on");cur=i;const e=E[i];e.scrollTop=0;void e.offsetWidth;e.classList.add("on");e.querySelectorAll("[data-n]").forEach(cnt);bar.style.width=(i+1)/E.length*100+"%";ct.textContent=(i+1)+" / "+E.length;history.replaceState(null,"","#"+(i+1))}
+addEventListener("keydown",e=>{const k=e.key;if(["ArrowRight","ArrowDown"," ","PageDown"].includes(k)){e.preventDefault();go(cur+1)}else if(["ArrowLeft","ArrowUp","PageUp"].includes(k)){e.preventDefault();go(cur-1)}else if(k==="Home")go(0);else if(k==="End")go(E.length-1)});
+let tx0=null;addEventListener("touchstart",e=>tx0=e.touches[0].clientX,{passive:true});
+addEventListener("touchend",e=>{if(tx0===null)return;const d=e.changedTouches[0].clientX-tx0;if(Math.abs(d)>50)go(cur+(d<0?1:-1));tx0=null});
+addEventListener("hashchange",()=>go((+location.hash.slice(1)||1)-1));
+go((+location.hash.slice(1)||1)-1);
+const c=document.getElementById("cv"),x=c.getContext("2d");let pts=[],w,h;
+function rs(){w=c.width=innerWidth;h=c.height=innerHeight;pts=Array.from({length:Math.round(w*h/26000)},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}))}
+addEventListener("resize",rs);rs();
+(function d(){x.clearRect(0,0,w,h);pts.forEach((p,i)=>{p.x=(p.x+p.vx+w)%w;p.y=(p.y+p.vy+h)%h;x.fillStyle="rgba(232,184,74,.5)";x.fillRect(p.x,p.y,2,2);for(let j=i+1;j<pts.length;j++){const q=pts[j],dx=p.x-q.x,dy=p.y-q.y,r=dx*dx+dy*dy;if(r<18000){x.strokeStyle=`rgba(232,184,74,${.14*(1-r/18000)})`;x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);x.stroke()}}});requestAnimationFrame(d)})();
+</script>
+</body>
+</html>

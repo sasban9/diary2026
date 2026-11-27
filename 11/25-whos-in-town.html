@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Who's in Town</title>
+<meta name="description" content="See which friends are coming to town in the next few days and plan meetups.">
+<meta property="og:title" content="Who's in Town">
+<meta property="og:description" content="See which friends are coming to town and plan meetups.">
+<meta property="og:image" content="https://example.com/og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Who's in Town">
+<meta name="twitter:description" content="See which friends are coming to town and plan meetups.">
+<meta name="twitter:image" content="https://example.com/og.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#0c0d0b;--card:#161813;--line:#2a2d25;--tx:#f1efe6;--mu:#9a9a8b;--ac:#c8f542;--gold:#f0b44c;--s:14px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(min-width:768px){:root{--s:16px}}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#0c0d0b}}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--tx);font:400 16px/1.5 'Bricolage Grotesque',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:-20%;background:radial-gradient(40% 30% at 80% 0%,rgba(200,245,66,.12),transparent),radial-gradient(35% 30% at 0% 100%,rgba(240,180,76,.1),transparent);animation:drift 14s ease-in-out infinite alternate;pointer-events:none;z-index:-1}
+@keyframes drift{to{transform:translate(4%,3%) scale(1.08)}}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 18px 60px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.eyebrow{color:var(--ac);font-size:var(--s);letter-spacing:.14em;text-transform:uppercase}
+h1{font-size:clamp(34px,7vw,64px);line-height:1;font-weight:800;letter-spacing:-.03em;margin-top:6px}
+h1 em{font-style:normal;color:var(--ac)}
+.city{border:1px solid var(--line);border-radius:99px;padding:8px 16px;font-size:var(--s);color:var(--mu);display:flex;gap:8px;align-items:center}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ac);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(200,245,66,.6)}100%{box-shadow:0 0 0 12px transparent}}
+.days{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 14px;scrollbar-width:none}
+.day{flex:0 0 auto;min-width:76px;background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:16px;padding:10px 12px;text-align:center;cursor:pointer;font:inherit;transition:.25s;position:relative}
+.day:hover{transform:translateY(-3px);border-color:var(--ac)}
+.day small{display:block;font-size:var(--s);color:var(--mu)}
+.day b{font-size:22px;font-weight:800;display:block}
+.day i{position:absolute;top:-7px;right:-5px;background:var(--gold);color:#111;font-style:normal;font-weight:800;font-size:14px;min-width:24px;height:24px;border-radius:12px;display:grid;place-items:center;padding:0 6px}
+.day.on{background:var(--ac);color:#111;border-color:var(--ac);transform:translateY(-3px)}
+.day.on small{color:#333}
+.grid{display:grid;gap:22px;grid-template-columns:1fr}
+@media(min-width:900px){.grid{grid-template-columns:1.7fr 1fr}}
+.list{display:grid;gap:12px}
+.f{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;opacity:0;transform:translateY(24px);animation:in .6s cubic-bezier(.2,.8,.2,1) forwards;transition:border-color .25s,transform .25s}
+.f:hover{border-color:var(--ac);transform:translateX(5px)}
+@keyframes in{to{opacity:1;transform:none}}
+.av{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;font-weight:800;font-size:20px;color:#111;transform:rotate(-4deg);transition:.3s}
+.f:hover .av{transform:rotate(4deg) scale(1.08)}
+.nm{font-weight:800;font-size:18px}
+.mt{color:var(--mu);font-size:var(--s)}
+.tag{display:inline-block;margin-top:4px;font-size:var(--s);padding:1px 10px;border-radius:99px;border:1px solid var(--line);color:var(--gold)}
+.tag.here{color:var(--ac)}
+.btn{background:var(--ac);color:#111;border:0;border-radius:14px;padding:10px 16px;font:800 var(--s) inherit;cursor:pointer;transition:.2s}
+.btn:hover{transform:scale(1.07) rotate(-1deg)}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--line)}
+.btn.done{background:var(--gold)}
+aside{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;align-self:start}
+aside h2{font-size:22px;margin-bottom:12px}
+.plan{border-left:3px solid var(--ac);padding:6px 0 6px 12px;margin-bottom:12px;animation:in .5s forwards;opacity:0;transform:translateX(20px)}
+.empty{color:var(--mu);font-size:var(--s)}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;z-index:9}
+.ov.open{display:flex}
+@media(min-width:768px){.ov{align-items:center}}
+.sheet{background:#14160f;border:1px solid var(--line);border-radius:26px 26px 0 0;width:min(520px,100%);padding:22px;animation:up .45s cubic-bezier(.2,.9,.2,1);max-height:92vh;overflow:auto}
+@media(min-width:768px){.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(60px) scale(.96);opacity:0}}
+.sheet h3{font-size:26px;margin-bottom:4px}
+.lbl{margin:16px 0 8px;font-size:var(--s);color:var(--mu);text-transform:uppercase;letter-spacing:.1em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:transparent;color:var(--tx);border:1px solid var(--line);border-radius:99px;padding:8px 14px;font:inherit;font-size:var(--s);cursor:pointer;transition:.2s}
+.chip:hover{border-color:var(--ac)}
+.chip.on{background:var(--ac);color:#111;border-color:var(--ac);font-weight:800}
+.row{display:flex;gap:10px;margin-top:22px;justify-content:flex-end}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,120px);background:var(--ac);color:#111;font-weight:800;padding:12px 20px;border-radius:99px;transition:.5s cubic-bezier(.2,.9,.2,1);z-index:10;font-size:var(--s)}
+.toast.show{transform:translate(-50%,0)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;padding:4px;gap:4px;margin-bottom:14px}
+.seg button{background:transparent;color:var(--mu);border:0;border-radius:99px;padding:8px 18px;font:inherit;font-size:var(--s);cursor:pointer;transition:.25s}
+.seg button.on{background:var(--ac);color:#111;font-weight:800}
+.dh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:18px 2px 8px;opacity:0;animation:in .5s forwards}
+.dh b{font-size:24px;font-weight:800}
+.dh span{color:var(--mu);font-size:var(--s)}
+.wf{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px}
+.wfi{min-width:720px}
+.wfr{display:grid;grid-template-columns:150px repeat(8,1fr);align-items:center;border-top:1px solid var(--line);min-height:62px;opacity:0;animation:in .5s var(--d,0ms) forwards;transition:opacity .3s}
+.wfr.dim{opacity:.28!important}
+.wfh{border-top:0;min-height:0;animation-delay:0ms}
+.wfc{background:transparent;border:0;border-left:1px solid var(--line);color:var(--tx);font:inherit;padding:8px 4px;cursor:pointer;text-align:center;transition:.2s}
+.wfc small{display:block;color:var(--mu);font-size:var(--s)}
+.wfc b{font-size:20px;font-weight:800;display:block}
+.wfc em{font-style:normal;font-size:var(--s);color:var(--ac)}
+.wfc:hover,.wfc.sel{outline:2px solid var(--ac);outline-offset:-2px}
+.wfx{grid-row:1;align-self:stretch;border-left:1px solid var(--line)}
+.wfx.sel{box-shadow:inset 0 0 0 2px var(--ac)}
+.wfn{grid-column:1;grid-row:1;font-weight:800;font-size:16px;padding:8px 8px 8px 2px;line-height:1.2}
+.wfn span{display:block;font-weight:400;color:var(--mu);font-size:var(--s)}
+.wfb{grid-row:1;z-index:2;align-self:center;height:36px;margin:0 4px;border:0;border-radius:12px;color:#111;font:800 var(--s) inherit;text-align:left;padding:0 12px;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;transform-origin:left;animation:grow .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0ms) + 200ms);transition:filter .2s,box-shadow .2s}
+.wfb:hover{filter:brightness(1.12);box-shadow:0 6px 18px rgba(0,0,0,.5)}
+@keyframes grow{from{transform:scaleX(0)}}
+.wfp{grid-row:1;z-index:3;justify-self:center;align-self:center;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #111}
+.wfs{margin:14px 4px 2px;font-size:var(--s);color:var(--mu)}
+.wfs b{color:var(--tx)}
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.bar .seg{margin-bottom:0}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
+@media(max-width:480px){.f{grid-template-columns:48px 1fr;}.f .btn{grid-column:1/-1}.av{width:48px;height:48px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><div class="eyebrow">Your circle, in motion</div><h1>Who's in <em>town</em></h1></div>
+    <div class="city"><span class="dot"></span><span>Home base: Kolkata</span></div>
+  </header>
+  <div class="bar"><div class="seg" id="seg"><button class="on" data-m="day">By day</button><button data-m="all">Full schedule</button><button data-m="wf">Waterfall</button></div><button class="btn" id="grp">+ Group meet</button></div>
+  <div class="days" id="days"></div>
+  <div class="grid">
+    <main class="list" id="list"></main>
+    <aside><h2>Your plans</h2><div id="plans"><p class="empty">Nothing planned yet. Pick a friend and set a meetup.</p></div></aside>
+  </div>
+</div>
+
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DAY=864e5, today=new Date(); today.setHours(0,0,0,0);
+const fmt=(d,o)=>d.toLocaleDateString('en-US',o);
+const dateAt=n=>new Date(+today+n*DAY);
+const cols=['#c8f542','#f0b44c','#7fd6c2','#ff8e72','#b9a4ff','#f58fc0'];
+// start/end are day offsets from today
+const friends=[
+ {n:'Riya Sen',from:'Bengaluru',s:0,e:2,why:'Work trip',tags:['Coffee','Food']},
+ {n:'Arjun Mehta',from:'Mumbai',s:1,e:1,why:'Wedding',tags:['Dinner','Drinks']},
+ {n:'Tanvi Rao',from:'Singapore',s:1,e:4,why:'Visiting family',tags:['Brunch','Walk']},
+ {n:'Dev Kapoor',from:'Delhi',s:2,e:3,why:'Conference',tags:['Coffee','Dinner']},
+ {n:'Meera Iyer',from:'London',s:3,e:6,why:'Holiday',tags:['Brunch','Dinner']},
+ {n:'Kabir Das',from:'Pune',s:4,e:5,why:'Weekend off',tags:['Drinks','Walk']},
+ {n:'Sana Khan',from:'Dubai',s:5,e:7,why:'Visiting family',tags:['Brunch','Dinner']}
+];
+const spots={Coffee:['Cafe on Park Street','Quiet corner cafe'],Food:['Bhojohori Manna','Street food walk'],Dinner:['Rooftop dinner','Home-style Bengali thali'],Drinks:['Quiet bar in Ballygunge','Sunset terrace'],Brunch:['Weekend brunch spot','Garden cafe'],Walk:['Walk by the Maidan','Evening at Victoria Memorial']};
+const plans=[];let sel=0,mode='day',wfDay=null;
+friends.forEach((f,i)=>f.c=cols[i%cols.length]);
+const ini=n=>n.split(' ').map(x=>x[0]).join('');
+const present=(f,d)=>d>=f.s&&d<=f.e;
+
+function renderDays(){
+ const el=document.getElementById('days');el.innerHTML='';
+ for(let i=0;i<8;i++){
+  const c=friends.filter(f=>present(f,i)).length;
+  const b=document.createElement('button');b.className='day'+(i===sel?' on':'');
+  b.innerHTML=`<small>${i===0?'Today':fmt(dateAt(i),{weekday:'short'})}</small><b>${dateAt(i).getDate()}</b>${c?`<i>${c}</i>`:''}`;
+  b.onclick=()=>{sel=i;renderDays();renderList()};
+  el.appendChild(b);
+ }
+}
+function renderWaterfall(){
+ const el=document.getElementById('list'),N=8;
+ const cnt=[];for(let i=0;i<N;i++)cnt.push(friends.filter(f=>present(f,i)).length);
+ const mx=Math.max(...cnt),best=cnt.indexOf(mx);
+ const heat=i=>`rgba(200,245,66,${(cnt[i]/mx*.2).toFixed(2)})`;
+ const dl=i=>i===0?'Today':fmt(dateAt(i),{weekday:'short'});
+ let h='<div class="wfi"><div class="wfr wfh"><div></div>';
+ for(let i=0;i<N;i++)h+=`<button class="wfc${wfDay===i?' sel':''}" data-d="${i}" style="background:${heat(i)}"><small>${dl(i)}</small><b>${dateAt(i).getDate()}</b><em>${cnt[i]} in town</em></button>`;
+ h+='</div>';
+ friends.forEach((f,r)=>{
+  const dim=wfDay!==null&&!present(f,wfDay),e=Math.min(f.e,N-1);
+  h+=`<div class="wfr${dim?' dim':''}" style="--d:${r*80}ms"><div class="wfn">${f.n}<span>${f.from}</span></div>`;
+  for(let i=0;i<N;i++)h+=`<div class="wfx${wfDay===i?' sel':''}" style="grid-column:${i+2};background:${heat(i)}"></div>`;
+  h+=`<button class="wfb" data-f="${r}" style="grid-column:${f.s+2}/${e+3};background:${f.c}">${f.why}</button>`;
+  plans.filter(p=>(p.fs||[p.f]).includes(f.n)).forEach(p=>{h+=`<i class="wfp" style="grid-column:${p.d+2}"></i>`});
+  h+='</div>';
+ });
+ h+='</div>';
+ const who=wfDay===null?'':friends.filter(f=>present(f,wfDay)).map(f=>f.n.split(' ')[0]).join(', ');
+ const note=wfDay===null?`Busiest day: <b>${fmt(dateAt(best),{weekday:'long',month:'short',day:'numeric'})}</b> with ${mx} friends in town. Tap a day to see who overlaps.`:`<b>${fmt(dateAt(wfDay),{weekday:'long',month:'short',day:'numeric'})}</b>: ${who}. Tap the day again to clear.${friends.filter(f=>present(f,wfDay)).length>1?' <button class="btn" id="wfg">Plan group meet</button>':''}`;
+ const w=document.createElement('div');w.className='wf';
+ w.innerHTML=h+`<p class="wfs">${note}</p>`;
+ const g=w.querySelector('#wfg');if(g)g.onclick=()=>openGroup(friends.filter(f=>present(f,wfDay)).map(f=>f.n),wfDay);
+ w.querySelectorAll('.wfc').forEach(b=>b.onclick=()=>{const d=+b.dataset.d;wfDay=wfDay===d?null:d;renderList()});
+ w.querySelectorAll('.wfb').forEach(b=>b.onclick=()=>{const f=friends[+b.dataset.f];sel=wfDay!==null&&present(f,wfDay)?wfDay:f.s;openSheet(f)});
+ el.appendChild(w);
+}
+function renderSchedule(){
+ const el=document.getElementById('list');let k=0;
+ for(let i=0;i<8;i++){
+  const here=friends.filter(f=>present(f,i));
+  const h=document.createElement('div');h.className='dh';h.style.animationDelay=(k++*45)+'ms';
+  h.innerHTML=`<b>${i===0?'Today':fmt(dateAt(i),{weekday:'long'})}</b><span>${fmt(dateAt(i),{month:'short',day:'numeric'})} · ${here.length?here.length+' in town':'quiet day'}</span>`;
+  el.appendChild(h);
+  here.forEach(f=>{
+   const planned=plans.some(p=>(p.fs||[p.f]).includes(f.n)&&p.d===i);
+   const arriving=f.s===i,leaving=f.e===i;
+   const d=document.createElement('div');d.className='f';d.style.animationDelay=(k++*45)+'ms';
+   d.innerHTML=`<div class="av" style="background:${f.c}">${ini(f.n)}</div><div><div class="nm">${f.n}</div><div class="mt">From ${f.from} · ${f.why}</div><span class="tag ${arriving?'':'here'}">${arriving?'Arrives':leaving?'Last day':'In town'}</span></div><button class="btn ${planned?'done':''}">${planned?'Planned':'Plan meet'}</button>`;
+   d.querySelector('.btn').onclick=()=>{sel=i;openSheet(f)};
+   el.appendChild(d);
+  });
+ }
+}
+function renderList(){
+ const el=document.getElementById('list');el.innerHTML='';
+ if(mode==='all')return renderSchedule();
+ if(mode==='wf')return renderWaterfall();
+ const here=friends.filter(f=>present(f,sel));
+ if(!here.length){el.innerHTML='<p class="empty">Nobody is visiting this day. Try another date.</p>';return}
+ here.forEach((f,i)=>{
+  const planned=plans.some(p=>(p.fs||[p.f]).includes(f.n)&&p.d===sel);
+  const d=document.createElement('div');d.className='f';d.style.animationDelay=i*90+'ms';
+  const arriving=f.s===sel,leaving=f.e===sel;
+  d.innerHTML=`<div class="av" style="background:${f.c}">${ini(f.n)}</div>
+  <div><div class="nm">${f.n}</div><div class="mt">From ${f.from} · ${f.why}</div>
+  <span class="tag ${arriving?'':'here'}">${arriving?'Arrives':leaving?'Last day':'In town'} · until ${fmt(dateAt(f.e),{weekday:'short',day:'numeric'})}</span></div>
+  <button class="btn ${planned?'done':''}">${planned?'Planned':'Plan meet'}</button>`;
+  d.querySelector('.btn').onclick=()=>openSheet(f);
+  el.appendChild(d);
+ });
+}
+function renderPlans(){
+ const el=document.getElementById('plans');
+ if(!plans.length){el.innerHTML='<p class="empty">Nothing planned yet. Pick a friend and set a meetup.</p>';return}
+ el.innerHTML=plans.map((p,i)=>`<div class="plan" style="animation-delay:${i*60}ms"><b>${p.f}</b><div class="mt">${p.dl} · ${p.t}</div><div class="mt">${p.a}: ${p.sp}</div></div>`).join('');
+}
+function openSheet(f){
+ let st={d:Math.max(sel,f.s),t:'Evening',a:f.tags[0],sp:null};
+ const sh=document.getElementById('sheet');
+ const draw=()=>{
+  const days=[];for(let i=f.s;i<=f.e&&i<8;i++)days.push(i);
+  st.sp=st.sp&&spots[st.a].includes(st.sp)?st.sp:spots[st.a][0];
+  sh.innerHTML=`<h3>Meet ${f.n.split(' ')[0]}</h3><div class="mt">Here ${fmt(dateAt(f.s),{month:'short',day:'numeric'})} to ${fmt(dateAt(f.e),{month:'short',day:'numeric'})}</div>
+  <div class="lbl">Day</div><div class="chips">${days.map(i=>`<button class="chip ${st.d===i?'on':''}" data-k="d" data-v="${i}">${i===0?'Today':fmt(dateAt(i),{weekday:'short',day:'numeric'})}</button>`).join('')}</div>
+  <div class="lbl">Time</div><div class="chips">${['Morning','Lunch','Evening','Late'].map(t=>`<button class="chip ${st.t===t?'on':''}" data-k="t" data-v="${t}">${t}</button>`).join('')}</div>
+  <div class="lbl">What</div><div class="chips">${Object.keys(spots).map(a=>`<button class="chip ${st.a===a?'on':''}" data-k="a" data-v="${a}">${a}</button>`).join('')}</div>
+  <div class="lbl">Where</div><div class="chips">${spots[st.a].map(s=>`<button class="chip ${st.sp===s?'on':''}" data-k="sp" data-v="${s}">${s}</button>`).join('')}</div>
+  <div class="row"><button class="btn ghost" id="x">Cancel</button><button class="btn" id="ok">Send invite</button></div>`;
+  sh.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{const k=c.dataset.k;st[k]=k==='d'?+c.dataset.v:c.dataset.v;draw()});
+  sh.querySelector('#x').onclick=close;
+  sh.querySelector('#ok').onclick=()=>{
+   plans.push({f:f.n,d:st.d,dl:st.d===0?'Today':fmt(dateAt(st.d),{weekday:'long',month:'short',day:'numeric'}),t:st.t,a:st.a,sp:st.sp});
+   close();renderPlans();renderList();toast('Invite sent to '+f.n.split(' ')[0]);
+  };
+ };
+ draw();document.getElementById('ov').classList.add('open');
+}
+function openGroup(ids,day){
+ const st={ids:new Set(ids),d:day,t:'Evening',a:'Dinner',sp:null};
+ const sh=document.getElementById('sheet');
+ const common=()=>{const r=[];for(let i=0;i<8;i++)if(st.ids.size&&[...st.ids].every(n=>present(friends.find(f=>f.n===n),i)))r.push(i);return r};
+ const draw=()=>{
+  const cd=common();
+  if(!cd.includes(st.d))st.d=cd.length?cd[0]:null;
+  st.sp=spots[st.a].includes(st.sp)?st.sp:spots[st.a][0];
+  const ok=st.ids.size>=2&&st.d!==null;
+  const dayBlock=st.ids.size<2?'<p class="mt">Pick at least two friends.</p>':cd.length?`<div class="chips">${cd.map(i=>`<button class="chip ${st.d===i?'on':''}" data-k="d" data-v="${i}">${i===0?'Today':fmt(dateAt(i),{weekday:'short',day:'numeric'})}</button>`).join('')}</div>`:'<p class="mt">These friends are never in town on the same day. Try another mix.</p>';
+  sh.innerHTML=`<h3>Group meet</h3><div class="mt">One spot, everyone together</div>
+  <div class="lbl">Who</div><div class="chips">${friends.map(f=>`<button class="chip ${st.ids.has(f.n)?'on':''}" data-k="w" data-v="${f.n}">${f.n.split(' ')[0]}</button>`).join('')}</div>
+  <div class="lbl">Days everyone is in town</div>${dayBlock}
+  <div class="lbl">Time</div><div class="chips">${['Morning','Lunch','Evening','Late'].map(t=>`<button class="chip ${st.t===t?'on':''}" data-k="t" data-v="${t}">${t}</button>`).join('')}</div>
+  <div class="lbl">What</div><div class="chips">${Object.keys(spots).map(a=>`<button class="chip ${st.a===a?'on':''}" data-k="a" data-v="${a}">${a}</button>`).join('')}</div>
+  <div class="lbl">Where</div><div class="chips">${spots[st.a].map(s=>`<button class="chip ${st.sp===s?'on':''}" data-k="sp" data-v="${s}">${s}</button>`).join('')}</div>
+  <div class="row"><button class="btn ghost" id="x">Cancel</button><button class="btn" id="ok" ${ok?'':'disabled'}>Send to ${st.ids.size} friends</button></div>`;
+  sh.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
+   const k=c.dataset.k,v=c.dataset.v;
+   if(k==='w')st.ids.has(v)?st.ids.delete(v):st.ids.add(v);
+   else st[k]=k==='d'?+v:v;
+   draw();
+  });
+  sh.querySelector('#x').onclick=close;
+  sh.querySelector('#ok').onclick=()=>{
+   if(!ok)return;
+   const fs=[...st.ids],fn=fs.map(n=>n.split(' ')[0]);
+   const label=fn.length>3?fn.slice(0,3).join(', ')+' +'+(fn.length-3):fn.join(', ');
+   plans.push({f:'Group: '+label,fs,d:st.d,dl:st.d===0?'Today':fmt(dateAt(st.d),{weekday:'long',month:'short',day:'numeric'}),t:st.t,a:st.a,sp:st.sp});
+   close();renderPlans();renderList();toast('Group invite sent to '+fs.length+' friends');
+  };
+ };
+ draw();document.getElementById('ov').classList.add('open');
+}
+document.getElementById('grp').onclick=()=>{
+ const base=mode==='day'?sel:(wfDay??0);
+ const ids=friends.filter(f=>present(f,base)).map(f=>f.n);
+ openGroup(ids.length>1?ids:[],base);
+};
+function close(){document.getElementById('ov').classList.remove('open')}
+document.getElementById('ov').onclick=e=>{if(e.target.id==='ov')close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{
+ mode=b.dataset.m;
+ document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x===b));
+ document.getElementById('days').style.display=mode==='day'?'flex':'none';
+ renderList();
+});
+renderDays();renderList();
+</script>
+</body>
+</html>

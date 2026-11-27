@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YouTube Video Collector</title>
+<meta property="og:title" content="YouTube Video Collector">
+<meta property="og:description" content="Placeholder description">
+<meta property="og:image" content="https://example.com/placeholder.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="YouTube Video Collector">
+<style>
+:root{--bg:#0d0b0a;--card:#171412;--line:#2a2522;--text:#f1e9df;--mute:#a79c90;--gold:#e0a64a;--bad:#e5736a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:40px 20px 80px}
+h1{font:600 clamp(1.8rem,5vw,2.8rem)/1.1 Georgia,serif;margin:0 0 6px}
+h1 em{color:var(--gold)}
+p.sub{color:var(--mute);margin:0 0 24px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
+label{display:block;font-weight:600;margin:0 0 6px}
+small{color:var(--mute);font-size:15px}
+input,textarea,select{width:100%;background:#0d0b0a;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font:inherit}
+textarea{min-height:190px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);border-color:transparent}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:14px}
+.chk{display:flex;gap:8px;align-items:center;font-weight:400;margin:0}
+.chk input{width:18px;height:18px;accent-color:var(--gold)}
+button{font:600 16px system-ui;border:0;border-radius:999px;padding:11px 22px;cursor:pointer;background:var(--gold);color:#0d0b0a}
+button.alt{background:transparent;color:var(--text);border:1px solid var(--line)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.track{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:14px 0 8px}
+.track i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s}
+#log{color:var(--mute);font-size:15px;max-height:140px;overflow:auto;white-space:pre-wrap}
+#log .e{color:var(--bad)}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:16px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--gold);font-weight:600;white-space:nowrap}
+td a{color:var(--text);text-decoration:none}td a:hover{color:var(--gold);text-decoration:underline}
+td.n{color:var(--mute)}
+details summary{cursor:pointer;color:var(--gold);font-weight:600}
+ol{color:var(--mute);padding-left:20px}
+code{background:#0d0b0a;padding:1px 6px;border-radius:5px}
+@media(max-width:640px){body,table,small,#log{font-size:14px}th,td{padding:8px 6px}}
+</style>
+</head>
+<body>
+<!-- AIzaSyCmpDCOn8k8ecRZfw4W1EIxZdZ92zCTNPg -->
+<div class="wrap">
+  <h1>YouTube <em>Video</em> Collector</h1>
+  <p class="sub">Runs in your browser. Searches many queries, removes duplicates, sorts newest first and exports your list.</p>
+
+  <div class="panel">
+    <details>
+      <summary>How to get a free API key (2 minutes)</summary>
+      <ol>
+        <li>Open <code>console.cloud.google.com</code> and create a project.</li>
+        <li>Go to APIs &amp; Services, Library, search <b>YouTube Data API v3</b>, click Enable.</li>
+        <li>Go to Credentials, Create credentials, API key. Paste it below.</li>
+      </ol>
+      <small>Free quota is 10,000 units per day. Each search page costs 100 units (50 results), so roughly 100 pages a day. The key stays in your browser and is sent only to Google.</small>
+    </details>
+  </div>
+
+  <div class="panel">
+    <label for="key">API key</label>
+    <input id="key" type="password" autocomplete="off" placeholder="AIza...">
+    <div style="margin-top:16px">
+      <label for="qs">Search queries <small>(one per line)</small></label>
+      <textarea id="qs">birth complications story
+traumatic birth story
+preeclampsia birth story
+HELLP syndrome birth story
+postpartum hemorrhage story
+emergency c-section birth story
+shoulder dystocia birth story
+placental abruption story
+cord prolapse emergency birth story
+uterine rupture birth story
+birth injury story mom
+NICU after complicated birth story
+amniotic fluid embolism survivor story
+stillbirth story</textarea>
+    </div>
+    <div class="row">
+      <div><label for="target">Target videos</label><input id="target" type="number" value="1000" min="10"></div>
+      <div><label for="pages">Pages per query / window</label><input id="pages" type="number" value="3" min="1" max="10"></div>
+      <div><label for="dur">Duration</label>
+        <select id="dur"><option value="any">Any</option><option value="medium">4 to 20 min</option><option value="long" selected>Over 20 min</option></select></div>
+      <div><label for="lang">Language</label><input id="lang" value="en" maxlength="5"></div>
+    </div>
+    <div class="row">
+      <label class="chk"><input id="split" type="checkbox"> Split each query by year (more results, more quota)</label>
+      <div><label for="y0">From year</label><input id="y0" type="number" value="2015"></div>
+    </div>
+    <small id="est" style="display:block;margin-top:12px"></small>
+    <div class="btns">
+      <button id="go">Collect videos</button>
+      <button id="stop" class="alt" disabled>Stop</button>
+    </div>
+    <div class="track"><i id="fill"></i></div>
+    <div id="status"><b id="cnt">0</b> unique videos · <span id="used">0</span> quota units used</div>
+    <div id="log"></div>
+  </div>
+
+  <div class="panel">
+    <div class="btns" style="margin:0 0 14px">
+      <button class="alt" data-x="csv">Download CSV</button>
+      <button class="alt" data-x="md">Download in your list format</button>
+      <button class="alt" data-x="urls">Copy URLs</button>
+    </div>
+    <div class="tbl"><table><thead><tr><th>#</th><th>Date</th><th>Title</th><th>Channel</th><th>Views</th><th>Length</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const MON=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+const API="https://www.googleapis.com/youtube/v3/";
+const vids=new Map();let used=0,stopFlag=false,running=false,renderT=null;
+try{$("key").value=localStorage.getItem("ytkey")||""}catch(e){}
+
+function windows(){
+  if(!$("split").checked)return[[null,null]];
+  const out=[],y1=new Date().getFullYear();
+  for(let y=+$("y0").value;y<=y1;y++)out.push([y+"-01-01T00:00:00Z",(y+1)+"-01-01T00:00:00Z"]);
+  return out;
+}
+function queries(){return $("qs").value.split("\n").map(s=>s.trim()).filter(Boolean)}
+function estimate(){
+  const calls=queries().length*windows().length*(+$("pages").value||1);
+  $("est").textContent="Worst case: "+calls+" search pages, about "+(calls*100).toLocaleString()+" quota units"+(calls*100>10000?" (over the free daily 10,000, so it will stop when quota runs out and keep what it found).":".");
+}
+["qs","pages","split","y0"].forEach(i=>$(i).addEventListener("input",estimate));estimate();
+
+function log(m,err){const d=document.createElement("div");if(err)d.className="e";d.textContent=m;$("log").appendChild(d);$("log").scrollTop=1e9}
+function progress(){
+  const t=+$("target").value||1000;
+  $("cnt").textContent=vids.size;$("used").textContent=used.toLocaleString();
+  $("fill").style.width=Math.min(100,vids.size/t*100)+"%";
+  if(!renderT)renderT=setTimeout(()=>{renderT=null;render()},400);
+}
+function dur(iso){
+  const m=/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(iso||"");if(!m)return"";
+  const h=+m[1]||0,mi=+m[2]||0,s=+m[3]||0;
+  return h?h+":"+String(mi).padStart(2,"0")+":"+String(s).padStart(2,"0"):mi+":"+String(s).padStart(2,"0");
+}
+function sorted(){return[...vids.values()].sort((a,b)=>b.date.localeCompare(a.date))}
+function render(){
+  const tb=$("rows");tb.textContent="";
+  sorted().forEach((v,i)=>{
+    const tr=document.createElement("tr");
+    const c=[String(i+1),v.date.slice(0,10),null,v.channel,v.views!=null?(+v.views).toLocaleString():"",dur(v.dur)];
+    c.forEach((t,k)=>{
+      const td=document.createElement("td");if(k===0)td.className="n";
+      if(k===2){const a=document.createElement("a");a.href="https://www.youtube.com/watch?v="+v.id;a.target="_blank";a.rel="noopener noreferrer";a.textContent=v.title;td.appendChild(a)}
+      else td.textContent=t;
+      tr.appendChild(td);
+    });
+    tb.appendChild(tr);
+  });
+}
+
+async function call(path,params){
+  const u=new URL(API+path);
+  Object.entries(params).forEach(([k,v])=>{if(v!=null&&v!=="")u.searchParams.set(k,v)});
+  u.searchParams.set("key",$("key").value.trim());
+  const r=await fetch(u);
+  const j=await r.json();
+  if(!r.ok){
+    const reason=j.error&&j.error.errors&&j.error.errors[0]?j.error.errors[0].reason:"error";
+    const e=new Error((j.error&&j.error.message)||r.statusText);e.reason=reason;throw e;
+  }
+  return j;
+}
+async function details(ids){
+  for(let i=0;i<ids.length;i+=50){
+    try{
+      const j=await call("videos",{part:"contentDetails,statistics",id:ids.slice(i,i+50).join(",")});used+=1;
+      j.items.forEach(it=>{const v=vids.get(it.id);if(v){v.dur=it.contentDetails.duration;v.views=it.statistics.viewCount}});
+    }catch(e){log("Details lookup failed: "+e.message,true)}
+  }
+}
+async function run(){
+  if(running)return;
+  if(!$("key").value.trim()){log("Paste your API key first.",true);return}
+  try{localStorage.setItem("ytkey",$("key").value.trim())}catch(e){}
+  running=true;stopFlag=false;$("go").disabled=true;$("stop").disabled=false;
+  const target=+$("target").value||1000,maxPages=+$("pages").value||1;
+  outer:
+  for(const q of queries()){
+    for(const [after,before] of windows()){
+      let token=null;
+      for(let p=0;p<maxPages;p++){
+        if(stopFlag||vids.size>=target)break outer;
+        try{
+          const j=await call("search",{part:"snippet",type:"video",maxResults:50,q,order:"relevance",
+            videoDuration:$("dur").value==="any"?null:$("dur").value,
+            relevanceLanguage:$("lang").value.trim()||null,publishedAfter:after,publishedBefore:before,pageToken:token});
+          used+=100;
+          const fresh=[];
+          j.items.forEach(it=>{
+            const id=it.id&&it.id.videoId;
+            if(id&&!vids.has(id)){
+              vids.set(id,{id,title:it.snippet.title,channel:it.snippet.channelTitle,date:it.snippet.publishedAt});
+              fresh.push(id);
+            }
+          });
+          await details(fresh);
+          log(q+(after?" ["+after.slice(0,4)+"]":"")+" page "+(p+1)+": +"+fresh.length+" new");
+          progress();
+          token=j.nextPageToken;if(!token)break;
+        }catch(e){
+          if(e.reason==="quotaExceeded"||e.reason==="dailyLimitExceeded"){log("Daily quota used up. Kept everything found so far. Try again tomorrow.",true);break outer}
+          log("Error on \""+q+"\": "+e.message,true);
+          if(e.reason==="keyInvalid"||e.reason==="forbidden"||e.reason==="accessNotConfigured")break outer;
+          break;
+        }
+      }
+    }
+  }
+  running=false;$("go").disabled=false;$("stop").disabled=true;
+  log("Done: "+vids.size+" unique videos.");progress();render();
+}
+$("go").onclick=run;
+$("stop").onclick=()=>{stopFlag=true;log("Stopping after current request...")};
+
+function dl(name,text,type){
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();
+}
+document.querySelectorAll("[data-x]").forEach(b=>b.onclick=async()=>{
+  const list=sorted();if(!list.length)return;
+  const x=b.dataset.x;
+  if(x==="csv"){
+    const q=s=>'"'+String(s==null?"":s).replace(/"/g,'""')+'"';
+    dl("videos.csv","\ufeffurl,title,channel,published,views,duration\n"+list.map(v=>[ "https://www.youtube.com/watch?v="+v.id,v.title,v.channel,v.date.slice(0,10),v.views,dur(v.dur)].map(q).join(",")).join("\n"),"text/csv");
+  }else if(x==="md"){
+    dl("videos.md",list.map(v=>{const d=new Date(v.date);return "https://www.youtube.com/watch?v="+v.id+"\n"+v.title+"\n"+v.channel+" ["+d.getUTCFullYear()+MON[d.getUTCMonth()]+"]"}).join("\n"),"text/markdown");
+  }else{
+    const t=list.map(v=>"https://www.youtube.com/watch?v="+v.id).join("\n");
+    try{await navigator.clipboard.writeText(t);log("Copied "+list.length+" URLs.")}catch(e){dl("urls.txt",t,"text/plain")}
+  }
+});
+</script>
+</body>
+</html>
